@@ -11,7 +11,7 @@
     "js": ["scripts/jquery.js", "scripts/popup.js"],
     "matches": ["http://*/*", "https://*/*"]
   }],
-  "content_security_policy": "script-src 'self' http://myffcs.in:8080/campus/vellore/login; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/; object-src 'self'",
   "default_locale": "en",
   "background": {
     "scripts": [
@@ -19,7 +19,7 @@
       "scripts/background.js"
     ]
   },
-  "permissions": ["http://myffcs.in:8080/campus/vellore/login","<all_urls>"],
+  "permissions": ["https://myffcs.in:10443/campus/vellore/","<all_urls>"],
   "browser_action": {
     "default_icon": {
       "19": "images/icon-19.png",
