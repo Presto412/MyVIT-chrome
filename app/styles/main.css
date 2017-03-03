@@ -1,0 +1,54 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+html,body{
+  height: 300px;
+  width: 400px;
+}
+#header{
+  height: 20px;
+}
+h1{
+  font-size: 20pt;
+}
+.loading_wrapper,.login_wrapper {
+  position: relative;
+  margin-top: 35px;
+}
+#graph{
+  margin-top:10px ;
+}
+#login{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#loading{
+  margin-top: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,50%);
+}
+#status{
+  font-size: x-large;
+  margin-top: 70px;
+}
+#spinner{
+  position: relative;
+}
+.preload{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#lbutton{
+  font-size: 15px;
+}
+#fab{
+  position: fixed;
+  top: 10px;
+  right: 5px;
+  height: 40px;
+}
