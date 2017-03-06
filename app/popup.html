@@ -7,24 +7,25 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css styles/main.css -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <link rel="stylesheet" href="styles/materialize.css">
     <link href="styles/main.css" rel="stylesheet">
     <!-- endbuild -->
   </head>
   <body>
-    <div id="header">
-      <h1 class="center-align">My VIT - Login</h1>
+    <div id="header" class="">
+      <h1 id="heading" class="center-align">My VIT - Login</h1>
     </div>
     <!--<small class="right-align">Alpha</small>-->
     <div class="login_wrapper center-align">
       <div id="login" style="width: 80%;">
+        <p class="left-align" id="formStatus"></p>
         <div class="input-field" >
-          <input id="regno" type="text">
+          <input required id="regno" type="text">
           <label for="regno">Registration number</label>
         </div>
         <div class="input-field">
-          <input id="pass" type="password">
+          <input required id="pass" type="password">
           <label for="pass">Password</label>
         </div>
         <button class="btn waves-effect waves-light" id="lbutton">Login
@@ -88,14 +89,18 @@
         </a>
         <ul style="margin-top: -12px;margin-right: -15px;">
           <!--<li><a class="btn-floating yellow darken-1"><i class="material-icons"></i></a></li>-->
-          <li><a class="btn-floating tooltipped blue" data-position="bottom" data-delay="50" data-tooltip="Logout"><i class="material-icons">input</i></a></li>
-          <li><a class="btn-floating tooltipped green" data-position="bottom" data-delay="50" data-tooltip="Refresh"><i class="material-icons">refresh</i></a></li>
+          <li><a id="logout" class="btn-floating tooltipped blue" data-position="bottom" data-delay="50" data-tooltip="Logout"><i class="material-icons">input</i></a></li>
+          <li><a id="refresh" class="btn-floating tooltipped green" data-position="bottom" data-delay="50" data-tooltip="Refresh"><i class="material-icons">refresh</i></a></li>
 
         </ul>
       </div>
       <canvas id="myChart"></canvas>
-      <p class="center-align"><i class="material-icons">remove_circle_outline</i>If you miss x class<i class="material-icons">add_circle_outline</i></p>
-      <p class="center-align"><i class="material-icons">remove_circle_outline</i>If you attend x class<i class="material-icons">add_circle_outline</i></p>
+      <div id="manip" class="disabledDiv">
+        <p class="center-align"><b>Selected Subject is :</b><i id="manipHead"></i><i class="material-icons">clear_all</i></p>
+        <p class="center-align">If you miss<input min="0" id="miss" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number">classes</p>
+        <p class="center-align">If you attend<input min="0" id="attend" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number"> classes</p>
+      </div>
+
     </div>
 
     <script src="scripts/jquery.js"></script>
