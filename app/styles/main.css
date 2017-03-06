@@ -1,3 +1,37 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(MaterialIcons-Regular.woff2)format('woff2')
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
 *{
   margin: 0px;
   padding: 0px;
@@ -14,6 +48,8 @@ h1{
 }
 .loading_wrapper,.login_wrapper {
   position: relative;
+}
+.login_wrapper{
   margin-top: 35px;
 }
 #graph{
@@ -25,7 +61,7 @@ h1{
   transform: translateX(-50%);
 }
 #loading{
-  margin-top: 15px;
+  margin-top: 5px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -51,4 +87,17 @@ h1{
   top: 10px;
   right: 5px;
   height: 40px;
+}
+#formStatus{
+  color:#b71c1c;
+}
+#manip{
+  font-size: 15px;
+}
+.disabledDiv {
+  pointer-events: none;
+  opacity: 0.4;
+}
+.disabledGraph {
+  pointer-events: none;
 }
