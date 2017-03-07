@@ -101,3 +101,32 @@ h1{
 .disabledGraph {
   pointer-events: none;
 }
+#manipDoneWrapper{
+  position: fixed;
+  bottom: 10px;
+  right: 5px;
+}
+#manipHead{
+  color: #ab47bc;
+}
+.controls{
+  cursor: pointer;
+  position: absolute;
+  color: #263238;
+}
+#addAttend{
+  bottom: 1px;
+  left: 75px;
+}
+#addMiss{
+  bottom: 26px;
+  left:75px;
+}
+#subAttend{
+  bottom: 1px;
+  right: 75px;
+}
+#subMiss{
+  bottom: 26px;
+  right:75px;
+}

@@ -72,7 +72,7 @@ var rqst=function (ch,reg,pass) {
                 Data.push(reg);
                 Data.push(pass);
             }
-            console.log("err--"+type[ch]+ XMLHttpRequest.status + " -- " + XMLHttpRequest.statusText);
+            //console.log("err--"+type[ch]+ XMLHttpRequest.status + " -- " + XMLHttpRequest.statusText);
         }
     });
 };  // Function to fetch data from API

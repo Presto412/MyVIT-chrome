@@ -1,5 +1,6 @@
 'use strict';
 var myChart;
+var manipulate;
 var port = chrome.runtime.connect({name: "MyVIT"});
 port.onMessage.addListener(function(msg) {
     var processFormStatus=function(d,type){
@@ -22,6 +23,10 @@ port.onMessage.addListener(function(msg) {
         $('.loading_wrapper').addClass('hide');
         if(msg.reason!='logout'&&msg.reason!=undefined)
             Materialize.toast(processFormStatus(msg.reason,msg.type), 2000,'center-align');
+        else if(msg.Reg!=undefined&&msg.Pwd!=undefined){
+            document.getElementById('regno').value=msg.Reg;
+            document.getElementById('pass').value=msg.Pwd;
+        }
         $('.login_wrapper').removeClass('hide');
         $('#heading').text("My VIT - Login");
         $('#status').text("Logging In");
@@ -35,39 +40,49 @@ var initAttend=function (x) {
     var ctx = document.getElementById("myChart").getContext('2d');
     var courses=[],manipI,manipDI;
     var ethbg=[],elabg=[];
-    var eth=[],eth_orig=[];
-    var ela=[],ela_orig=[];
+    var eth=[],eth_orig;
+    var ela=[],ela_orig;
     for(var i=0;i<x.length;i++)
     {
         courses[i]=x[i].code;
         eth[i]=x[i].theory.percentage;
         ela[i]=x[i].lab.percentage;
     }
-    courses[courses.length]='debarred';
+   /* courses[courses.length]='debarred';
     eth[eth.length]=80;
-    ela[ela.length]=60;
+    ela[ela.length]=60;*/
     var clickHandle= function(evt){
+        /*ela_orig=ela_orig.concat(ela);
+        eth_orig=eth_orig.concat(eth);
+        elabg_orig=elabg_orig.concat(elabg);
+        ethbg_orig=ethbg_orig.concat(ethbg);*/
+        var ctype=["Theory","Lab"];
         var activePoints = myChart.getElementAtEvent(evt);
-        var orig;
+        var per;
         console.log(activePoints[0]);
         manipI=activePoints[0]._index;
         manipDI=activePoints[0]._datasetIndex;
-        $("#manipHead").text(courses[manipI]);
+        $('#myChart').addClass('disabledGraph');
+        $("#manipHead").text(courses[manipI]+' - '+ctype[manipDI]);
         $("#manip").removeClass('disabledDiv');
+        $("#manipDoneWrapper").removeClass('scale-out');
         if(manipDI)
         {
             elabg[manipI]='#ab47bc';
+            per=ela[manipI];
+            ela_orig=ela[manipI];
         }
         else
         {
             ethbg[manipI]='#ab47bc';
+            per=eth[manipI];
+            eth_orig=eth[manipI];
         }
+        $('#percentage').text(per+'%');
         myChart.update();
     };
-    var manipulate=function(){
+        manipulate=function(){
         var total,attended;
-        eth_orig=eth;
-        ela_orig=ela;
         var spiners=[],manipVal;
         spiners.push(document.getElementById('miss').value);
         spiners.push(document.getElementById('attend').value);
@@ -75,7 +90,7 @@ var initAttend=function (x) {
         {
             attended=x[manipI].lab.attended;
             total=x[manipI].lab.total;
-            manipVal=(((attended+spiners[1])/(total+spiners[0]+spiners[1]))*100);
+            manipVal=(((+attended+ (+spiners[1])*2)/(+total+ (+spiners[0])*2+ (+spiners[1])*2))*100);
             console.log(manipVal,total,attended);
             manipVal=Math.floor(manipVal);
             // console.log(manipVal);
@@ -95,6 +110,26 @@ var initAttend=function (x) {
             // console.log(manipVal);
             eth[manipI]=manipVal;
         }
+        $('#percentage').text(manipVal+'%');
+        myChart.update();
+    };
+    var manipdone=function () {
+        if(manipDI)
+        {
+            elabg[manipI]='#ffb74d';
+            ela[manipI]=ela_orig;
+        }
+        else
+        {
+            ethbg[manipI]='#4db6ac';
+            eth[manipI]=eth_orig;
+        }
+        $("#manipHead").text('');
+        document.getElementById('miss').value=0;
+        document.getElementById('attend').value=0;
+        $("#manip").addClass('disabledDiv');
+        $("#manipDoneWrapper").addClass('scale-out');
+        $('#myChart').removeClass('disabledGraph');
         myChart.update();
     };
     $('#miss').on('input', function() {
@@ -107,13 +142,21 @@ var initAttend=function (x) {
             $(this).val(0);
         manipulate();
     });
+    $('#manipDone').click(function () {
+        manipdone();
+    });
+    /*var open=function () {
+        $("#manipDone").trigger("mouseenter.tooltip");
+        setTimeout(function(){$("#manipDone").trigger("mouseleave.tooltip");}, 2000);
+    };
+    $('#myChart').mouseenter(open());*/
     for(var k=0;k<eth.length;k++)
     {
-        if(eth[k]<75)
+        if(eth[k]<75&&eth[k]!=null)
             ethbg.push('#ef5350');
         else
             ethbg.push('#4db6ac');
-        if(ela[k]<75)
+        if(ela[k]<75&&eth[k]!=null)
             elabg.push('#ef5350');
         else
             elabg.push('#ffb74d');
@@ -155,7 +198,9 @@ var initAttend=function (x) {
         }
     });
 };
-
+$("#manipDone").flip({
+    trigger: 'hover'
+});
 $('#lbutton').click(function () {
     var reg=document.getElementById('regno').value;
     var pass=document.getElementById('pass').value;
@@ -179,4 +224,44 @@ $('#logout').click(function () {
     $('.loading_wrapper').removeClass('hide');
     port.postMessage({req:'logout'});
     myChart.destroy();
+});
+$('#addAttend').click(function () {
+   var t;
+   t=document.getElementById('attend').value;
+   t=+t;
+   t++;
+   document.getElementById('attend').value=t;
+    if( +($('#attend').val())<0)
+        $('#attend').val(0);
+    manipulate();
+});
+$('#addMiss').click(function () {
+    var t;
+    t=document.getElementById('miss').value;
+    t=+t;
+    t++;
+    document.getElementById('miss').value=t;
+    if( +($('#miss').val())<0)
+        $('#miss').val(0);
+    manipulate();
+});
+$('#subMiss').click(function () {
+    var t;
+    t=document.getElementById('miss').value;
+    t=+t;
+    t--;
+    document.getElementById('miss').value=t;
+    if( +($('#miss').val())<0)
+        $('#miss').val(0);
+    manipulate();
+});
+$('#subAttend').click(function () {
+    var t;
+    t=document.getElementById('attend').value;
+    t=+t;
+    t--;
+    document.getElementById('attend').value=t;
+    if( +($('#attend').val())<0)
+        $('#attend').val(0);
+    manipulate();
 });

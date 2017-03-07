@@ -96,9 +96,20 @@
       </div>
       <canvas id="myChart"></canvas>
       <div id="manip" class="disabledDiv">
-        <p class="center-align"><b>Selected Subject is :</b><i id="manipHead"></i><i class="material-icons">clear_all</i></p>
-        <p class="center-align">If you miss<input min="0" id="miss" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number">classes</p>
-        <p class="center-align">If you attend<input min="0" id="attend" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number"> classes</p>
+        <p class="center-align"><b>Selected Subject is :</b><i id="manipHead"></i>
+        <p class="center-align"><a href="#"><i id="addMiss" class="material-icons controls">add_circle_outline</i></a>If you miss<input min="0" id="miss" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number">classes<a href="#"><i id="subMiss" class="material-icons controls">remove_circle_outline</i></a></p>
+        <p class="center-align"><a href="#"><i id="addAttend" class="material-icons controls">add_circle_outline</i></a>If you attend<input min="0" id="attend" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number"> classes<a href="#"><i id="subAttend" class="material-icons controls">remove_circle_outline</i></a></p>
+        <div id="manipDoneWrapper" class="scale-transition scale-out">
+          <a id="manipDone" class="btn-floating waves-effect waves-light purple lighten-1 tooltipped" data-position="left" data-delay="50" data-tooltip="Done" style="position: absolute;">
+            <div class="front">
+              <p id="percentage" class="center-align" style="font-size: 14px;">100%</p>
+            </div>
+            <div class="back">
+              <i class="material-icons">done_all</i>
+            </div>
+          </a>
+        </div>
+
       </div>
 
     </div>
@@ -112,6 +123,7 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/popup.js -->
+    <script src="scripts/jquery.flip.min.js"></script>
     <script src="scripts/popup.js"></script>
     <!-- endbuild -->
   </body>
