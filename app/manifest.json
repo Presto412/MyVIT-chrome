@@ -1,22 +1,19 @@
 {
   "name": "My VIT",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "Minimalistic port of the My VIT app for the web",
   "icons": {
     "16": "images/icon-16.png",
     "128": "images/icon-128.png"
   },
-  "content_scripts": [{
-    "js": ["scripts/jquery.js", "scripts/popup.js"],
-    "matches": ["http://*/*", "https://*/*"]
-  }],
   "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/; object-src 'self'",
   "default_locale": "en",
   "background": {
     "scripts": [
       "scripts/chromereload.js",
       "scripts/jquery.js",
+      "scripts/underscore-min.js",
       "scripts/background.js"
     ]
   },

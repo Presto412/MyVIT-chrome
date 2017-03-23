@@ -24,6 +24,7 @@ port.onMessage.addListener(function(msg) {
         if(msg.reason!='logout'&&msg.reason!=undefined)
             Materialize.toast(processFormStatus(msg.reason,msg.type), 2000,'center-align');
         else if(msg.Reg!=undefined&&msg.Pwd!=undefined){
+            alert(msg.Reg+"  "+msg.Pwd);
             document.getElementById('regno').value=msg.Reg;
             document.getElementById('pass').value=msg.Pwd;
         }
@@ -38,12 +39,13 @@ port.onMessage.addListener(function(msg) {
 });
 var initAttend=function (x) {
     var ctx = document.getElementById("myChart").getContext('2d');
-    var courses=[],manipI,manipDI;
+    var courses=[],manipI,manipDI,titles=[];
     var ethbg=[],elabg=[];
     var eth=[],eth_orig;
     var ela=[],ela_orig;
     for(var i=0;i<x.length;i++)
     {
+        titles[i]=x[i].title;
         courses[i]=x[i].code;
         eth[i]=x[i].theory.percentage;
         ela[i]=x[i].lab.percentage;
@@ -56,6 +58,20 @@ var initAttend=function (x) {
         eth_orig=eth_orig.concat(eth);
         elabg_orig=elabg_orig.concat(elabg);
         ethbg_orig=ethbg_orig.concat(ethbg);*/
+        $('.chartWrap')
+            .mouseenter(function () {
+                // $(this).removeClass('disabledGraph');
+                $('#myChart').addClass('disabledDiv');
+                $('.LegendWrap').addClass('disabledDiv');
+                $('#manipDoneWrapper').addClass('animated bounce infinite');
+            })
+            .mouseleave(function () {
+                console.log('mouseleave');
+                // $(this).addClass('disabledGraph');
+                $('#myChart').removeClass('disabledDiv');
+                $('.LegendWrap').removeClass('disabledDiv');
+                $('#manipDoneWrapper').removeClass('animated bounce infinite');
+            });
         var ctype=["Theory","Lab"];
         var activePoints = myChart.getElementAtEvent(evt);
         var per;
@@ -63,7 +79,8 @@ var initAttend=function (x) {
         manipI=activePoints[0]._index;
         manipDI=activePoints[0]._datasetIndex;
         $('#myChart').addClass('disabledGraph');
-        $("#manipHead").text(courses[manipI]+' - '+ctype[manipDI]);
+        $('#manipAlt').addClass('hide');
+        $("#manipHead").text(titles[manipI]+' - '+ctype[manipDI]);
         $("#manip").removeClass('disabledDiv');
         $("#manipDoneWrapper").removeClass('scale-out');
         if(manipDI)
@@ -91,23 +108,16 @@ var initAttend=function (x) {
             attended=x[manipI].lab.attended;
             total=x[manipI].lab.total;
             manipVal=(((+attended+ (+spiners[1])*2)/(+total+ (+spiners[0])*2+ (+spiners[1])*2))*100);
-            console.log(manipVal,total,attended);
-            manipVal=Math.floor(manipVal);
-            // console.log(manipVal);
+            manipVal=Math.ceil(manipVal);
             ela[manipI]=manipVal;
         }
         else
         {
             attended=x[manipI].theory.attended;
             total=x[manipI].theory.total;
-            console.log('attended :',attended);
-            console.log('total :',total);
-            console.log('miss spinner:',spiners[0]);
-            console.log('attended spinner:',spiners[1]);
             manipVal=(((+attended+ +spiners[1])/(+total+ +spiners[0]+ +spiners[1]))*100);
-            console.log(+manipVal,+attended+ +spiners[1],+total+ +spiners[0]+ +spiners[1]);
-            manipVal=Math.floor(manipVal);
             // console.log(manipVal);
+            manipVal=Math.ceil(manipVal);
             eth[manipI]=manipVal;
         }
         $('#percentage').text(manipVal+'%');
@@ -116,14 +126,21 @@ var initAttend=function (x) {
     var manipdone=function () {
         if(manipDI)
         {
-            elabg[manipI]='#ffb74d';
             ela[manipI]=ela_orig;
+            if(ela_orig<75)
+                elabg[manipI]='#ef5350';
+            else
+                elabg[manipI]='#ffb74d';
         }
         else
         {
-            ethbg[manipI]='#4db6ac';
             eth[manipI]=eth_orig;
+            if(eth_orig<75)
+                ethbg[manipI]='#ef5350';
+            else
+                ethbg[manipI]='#4db6ac';
         }
+        $('#manipAlt').removeClass('hide');
         $("#manipHead").text('');
         document.getElementById('miss').value=0;
         document.getElementById('attend').value=0;
@@ -143,6 +160,7 @@ var initAttend=function (x) {
         manipulate();
     });
     $('#manipDone').click(function () {
+        $('.chartWrap').off();
         manipdone();
     });
     /*var open=function () {
@@ -176,10 +194,8 @@ var initAttend=function (x) {
             }]
         },
         options: {
-            tooltip:{
-                callback:{
-
-                }
+            legend:{
+                display:false
             },
             scales: {
                 yAxes: [{
@@ -249,19 +265,21 @@ $('#subMiss').click(function () {
     var t;
     t=document.getElementById('miss').value;
     t=+t;
-    t--;
-    document.getElementById('miss').value=t;
-    if( +($('#miss').val())<0)
-        $('#miss').val(0);
-    manipulate();
+    if(t>0)
+    {
+        t--;
+        document.getElementById('miss').value=t;
+        manipulate();
+    }
 });
 $('#subAttend').click(function () {
     var t;
     t=document.getElementById('attend').value;
     t=+t;
-    t--;
-    document.getElementById('attend').value=t;
-    if( +($('#attend').val())<0)
-        $('#attend').val(0);
-    manipulate();
+    if(t>0)
+    {
+        t--;
+        document.getElementById('attend').value=t;
+        manipulate();
+    }
 });
