@@ -10,6 +10,7 @@
     <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <link rel="stylesheet" href="styles/materialize.css">
     <link href="styles/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/animate.css">
     <!-- endbuild -->
   </head>
   <body>
@@ -94,9 +95,12 @@
 
         </ul>
       </div>
-      <canvas id="myChart"></canvas>
+      <div class="chartWrap">
+        <div class="LegendWrap disabledGraph"><div class="legend"><span id="thWrap"><span id="theory" class="lgnd"></span> Theory</span> <span id="LabWrap"><span id="lab" class="lgnd"></span> Lab</span></div></div>
+        <canvas id="myChart"></canvas>
+      </div>
       <div id="manip" class="disabledDiv">
-        <p class="center-align"><b>Selected Subject is :</b><i id="manipHead"></i>
+        <p class="center-align"><b id="manipAlt">--- Select a subject ---</b><i id="manipHead"></i>
         <p class="center-align"><a href="#"><i id="addMiss" class="material-icons controls">add_circle_outline</i></a>If you miss<input min="0" id="miss" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number">classes<a href="#"><i id="subMiss" class="material-icons controls">remove_circle_outline</i></a></p>
         <p class="center-align"><a href="#"><i id="addAttend" class="material-icons controls">add_circle_outline</i></a>If you attend<input min="0" id="attend" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number"> classes<a href="#"><i id="subAttend" class="material-icons controls">remove_circle_outline</i></a></p>
         <div id="manipDoneWrapper" class="scale-transition scale-out">

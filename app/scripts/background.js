@@ -7,20 +7,10 @@ chrome.browserAction.setBadgeText({ text: 'MyVIT' });
 var isdata,Data;
 var getData=function () {
     chrome.storage.local.get(function(result){
-        console.log("Local Storage :" ,result);
-        // if(result[0])
-        // {
         isdata=!$.isEmptyObject(result);
         var reg=result.Reg;
         var pass=result.Pwd;
         if(isdata)rqst(0,reg,pass);
-        console.log("isData :",isdata);
-        console.log("Data :",Data);
-        // }
-        // else
-        // {
-        //     isdata=false;
-        // }
     });
 };
 var setData=function (r,p) {
@@ -44,7 +34,6 @@ var rqst=function (ch,reg,pass) {
         processData:false,
         data:'regNo='+reg+'&psswd='+pass,
         success:function (result) {
-            console.log(result);
             if(ch==0)
             {
                 if(result.status.message=="Invalid Credentials")
@@ -58,27 +47,24 @@ var rqst=function (ch,reg,pass) {
                     if(portStat)Port.postMessage({type:'Status-update',status:'Retrieving Data ...'});
                     rqst(1,reg,pass);
                 }
-  //              $('#status').text('Retrieving Data ...');
-                console.log("isData :",isdata);
-                console.log("Data :",Data);
             }
            else
                parse(result);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown){
+        error: function(){
             isdata=false;
             if(portStat)Port.postMessage({isData:false,reason:'No Internet or Server is Down',type:'warning'});
             else {
                 Data.push(reg);
                 Data.push(pass);
             }
-            //console.log("err--"+type[ch]+ XMLHttpRequest.status + " -- " + XMLHttpRequest.statusText);
         }
     });
 };  // Function to fetch data from API
 var parse=function (x) {
-    var course=function (c) {
+    var course=function (c,n) {
         return {
+            title:n,
             code:c,
             theory:{
                 total:null,
@@ -125,8 +111,8 @@ var parse=function (x) {
         else return 0;
     };
     var courses=x.courses;
-    var data=[],temp,isp,details=[],index;
     console.log(courses);
+    var data=[],temp,isp,details=[],index;
     for(var i=0;i<courses.length;i++)
     {
         details[0]=courses[i].attendance.total_classes;
@@ -135,7 +121,7 @@ var parse=function (x) {
         isp=ispresent(data,courses[i].course_code);
         if(isp==-1)
         {
-            temp=new course(courses[i].course_code);
+            temp=new course(courses[i].course_code,courses[i].course_title);
             data.push(temp);
             index=(data.length-1);
         }
@@ -144,8 +130,13 @@ var parse=function (x) {
         }
         update(data,details,islab(courses[i]),index);
     }
-    console.log(data);
-    Data=data;
+    var sort=function (d) {
+      var temp;
+      temp=_.sortBy(d,'code');
+      return temp;
+    };
+    Data=sort(data);
+    console.log(Data);
     if(portStat)Port.postMessage({isData:isdata,data:Data});
     //Send the data to display.
     // handleui(data);
@@ -156,19 +147,15 @@ chrome.runtime.onConnect.addListener(function(port) {
     {
         Port=port;
         portStat=true;
-        // port.postMessage({req:'Set-Reg-Pass',Reg:reg,Pwd:pass});
         port.postMessage({isData:isdata,data:Data});
         port.onMessage.addListener(function(msg) {
             if (msg.req=="Set-Reg-Pass")
             {
-                console.log("Reg no :",msg.Reg);
-                console.log("Password :",msg.Pwd);
                 setData(msg.Reg,msg.Pwd);
                 getData();
             }
             else if (msg.req == "refresh")
             {
-//                port.postMessage({question: "Madame who?"});
                 getData();
             }
             else if (msg.req == "logout")
@@ -176,7 +163,6 @@ chrome.runtime.onConnect.addListener(function(port) {
                clearData();
                port.postMessage({isData:false,reason:'logout'});
             }
-
         });
     }
 });
