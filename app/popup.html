@@ -2,22 +2,23 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <!-- build:css styles/popup-vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css styles/main.css -->
-    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+
+    <!--importing of stylesheets-->
     <link rel="stylesheet" href="styles/materialize.css">
     <link href="styles/main.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/animate.css">
-    <!-- endbuild -->
+    <!--end of stylesheets-->
+
   </head>
   <body>
+
+  <!--Header Section-->
     <div id="header" class="">
       <h1 id="heading" class="center-align">My VIT - Login</h1>
     </div>
-    <!--<small class="right-align">Alpha</small>-->
+  <!--End of Header Section-->
+
+  <!--Login Section-->
     <div class="login_wrapper center-align">
       <div id="login" style="width: 80%;">
         <p class="left-align" id="formStatus"></p>
@@ -34,6 +35,9 @@
         </button>
       </div>
     </div>
+  <!--End of login section-->
+
+  <!--Loading Screen Section-->
     <div class="hide loading_wrapper">
       <div id="loading">
         <div id="spinner">
@@ -83,16 +87,17 @@
         </div>
       </div>
     </div>
+  <!--End of Loading Screen Section-->
+
+  <!--Attendance display section  -->
     <div class="hide" id="graph">
       <div id="fab" class="fixed-action-btn horizontal">
         <a class="large btn-floating yellow darken-3">
           <i class="material-icons">settings</i>
         </a>
         <ul style="margin-top: -12px;margin-right: -15px;">
-          <!--<li><a class="btn-floating yellow darken-1"><i class="material-icons"></i></a></li>-->
           <li><a id="logout" class="btn-floating tooltipped blue" data-position="bottom" data-delay="50" data-tooltip="Logout"><i class="material-icons">input</i></a></li>
           <li><a id="refresh" class="btn-floating tooltipped green" data-position="bottom" data-delay="50" data-tooltip="Refresh"><i class="material-icons">refresh</i></a></li>
-
         </ul>
       </div>
       <div class="chartWrap">
@@ -113,22 +118,16 @@
             </div>
           </a>
         </div>
-
       </div>
-
     </div>
+  <!--End of Attendance display section  -->
 
+  <!--Importing of Javascript-->
     <script src="scripts/jquery.js"></script>
     <script src="scripts/materialize.min.js"></script>
     <script src="scripts/Chart.js"></script>
-    <!-- build:js scripts/popup-vendor.js -->
-    <!-- bower:js -->
-    <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- build:js scripts/popup.js -->
     <script src="scripts/jquery.flip.min.js"></script>
     <script src="scripts/popup.js"></script>
-    <!-- endbuild -->
+  <!--End of Javascript files-->
   </body>
 </html>
