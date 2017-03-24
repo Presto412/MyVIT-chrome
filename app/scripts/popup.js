@@ -10,7 +10,6 @@ port.onMessage.addListener(function(msg) {
     {
         $('.login_wrapper').addClass('hide');
         $('.loading_wrapper').addClass('hide');
-        // $('#header').addClass('hide');
         $('#heading').text("My VIT");
         $('#graph').removeClass('hide');
         $('#status').text("Logging In");
@@ -18,15 +17,14 @@ port.onMessage.addListener(function(msg) {
     }
     else if (msg.isData==false)
     {
-        console.log(msg.reason);
+        // console.log(msg.reason,msg.data);
         $('#graph').addClass('hide');
         $('.loading_wrapper').addClass('hide');
         if(msg.reason!='logout'&&msg.reason!=undefined)
             Materialize.toast(processFormStatus(msg.reason,msg.type), 2000,'center-align');
-        else if(msg.Reg!=undefined&&msg.Pwd!=undefined){
-            alert(msg.Reg+"  "+msg.Pwd);
-            document.getElementById('regno').value=msg.Reg;
-            document.getElementById('pass').value=msg.Pwd;
+        else if(msg.reason==undefined&&msg.data!=undefined){
+            document.getElementById('regno').value=msg.data[0];
+            document.getElementById('pass').value=msg.data[1];
         }
         $('.login_wrapper').removeClass('hide');
         $('#heading').text("My VIT - Login");
@@ -50,24 +48,15 @@ var initAttend=function (x) {
         eth[i]=x[i].theory.percentage;
         ela[i]=x[i].lab.percentage;
     }
-   /* courses[courses.length]='debarred';
-    eth[eth.length]=80;
-    ela[ela.length]=60;*/
     var clickHandle= function(evt){
-        /*ela_orig=ela_orig.concat(ela);
-        eth_orig=eth_orig.concat(eth);
-        elabg_orig=elabg_orig.concat(elabg);
-        ethbg_orig=ethbg_orig.concat(ethbg);*/
         $('.chartWrap')
             .mouseenter(function () {
-                // $(this).removeClass('disabledGraph');
                 $('#myChart').addClass('disabledDiv');
                 $('.LegendWrap').addClass('disabledDiv');
                 $('#manipDoneWrapper').addClass('animated bounce infinite');
             })
             .mouseleave(function () {
-                console.log('mouseleave');
-                // $(this).addClass('disabledGraph');
+                // console.log('mouseleave');
                 $('#myChart').removeClass('disabledDiv');
                 $('.LegendWrap').removeClass('disabledDiv');
                 $('#manipDoneWrapper').removeClass('animated bounce infinite');
@@ -75,7 +64,7 @@ var initAttend=function (x) {
         var ctype=["Theory","Lab"];
         var activePoints = myChart.getElementAtEvent(evt);
         var per;
-        console.log(activePoints[0]);
+        // console.log(activePoints[0]);
         manipI=activePoints[0]._index;
         manipDI=activePoints[0]._datasetIndex;
         $('#myChart').addClass('disabledGraph');
@@ -116,7 +105,6 @@ var initAttend=function (x) {
             attended=x[manipI].theory.attended;
             total=x[manipI].theory.total;
             manipVal=(((+attended+ +spiners[1])/(+total+ +spiners[0]+ +spiners[1]))*100);
-            // console.log(manipVal);
             manipVal=Math.ceil(manipVal);
             eth[manipI]=manipVal;
         }
@@ -163,11 +151,6 @@ var initAttend=function (x) {
         $('.chartWrap').off();
         manipdone();
     });
-    /*var open=function () {
-        $("#manipDone").trigger("mouseenter.tooltip");
-        setTimeout(function(){$("#manipDone").trigger("mouseleave.tooltip");}, 2000);
-    };
-    $('#myChart').mouseenter(open());*/
     for(var k=0;k<eth.length;k++)
     {
         if(eth[k]<75&&eth[k]!=null)

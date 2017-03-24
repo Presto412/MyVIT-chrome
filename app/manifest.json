@@ -1,6 +1,6 @@
 {
   "name": "My VIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description": "Minimalistic port of the My VIT app for the web",
   "icons": {
@@ -11,7 +11,6 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "scripts/chromereload.js",
       "scripts/jquery.js",
       "scripts/underscore-min.js",
       "scripts/background.js"

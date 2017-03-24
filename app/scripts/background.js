@@ -39,7 +39,7 @@ var rqst=function (ch,reg,pass) {
                 if(result.status.message=="Invalid Credentials")
                 {
                     isdata=false;
-                    console.log(result.status.message);
+                    // console.log(result.status.message);
                     if(portStat)Port.postMessage({isData:false,reason:result.status.message,type:'close'});
                 }
                 else
@@ -55,8 +55,7 @@ var rqst=function (ch,reg,pass) {
             isdata=false;
             if(portStat)Port.postMessage({isData:false,reason:'No Internet or Server is Down',type:'warning'});
             else {
-                Data.push(reg);
-                Data.push(pass);
+                Data=[reg,pass];
             }
         }
     });
@@ -111,7 +110,7 @@ var parse=function (x) {
         else return 0;
     };
     var courses=x.courses;
-    console.log(courses);
+    // console.log(courses);
     var data=[],temp,isp,details=[],index;
     for(var i=0;i<courses.length;i++)
     {
@@ -136,10 +135,8 @@ var parse=function (x) {
       return temp;
     };
     Data=sort(data);
-    console.log(Data);
-    if(portStat)Port.postMessage({isData:isdata,data:Data});
-    //Send the data to display.
-    // handleui(data);
+    // console.log(Data);
+    if(portStat)Port.postMessage({isData:isdata,data:Data}); //Send the data to display.
 };  // Function to filter out the required data.
 
 chrome.runtime.onConnect.addListener(function(port) {
