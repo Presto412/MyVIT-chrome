@@ -4,7 +4,7 @@ var portStat=false;
 var Port;
 chrome.browserAction.setBadgeText({ text: 'MyVIT' });
 
-var isdata,Data;
+var isdata,Data,History;
 var getData=function () {
     chrome.storage.local.get(function(result){
         isdata=!$.isEmptyObject(result);
@@ -87,6 +87,7 @@ var parse=function (x) {
         obj.total=det[0];
         obj.attended=det[1];
         obj.percentage=det[2];
+        obj.history=det[3];
     };
     var ispresent=function(data,ele){
         var f=-1;
@@ -110,13 +111,14 @@ var parse=function (x) {
         else return 0;
     };
     var courses=x.courses;
-    // console.log(courses);
+    console.log(courses);
     var data=[],temp,isp,details=[],index;
     for(var i=0;i<courses.length;i++)
     {
         details[0]=courses[i].attendance.total_classes;
         details[1]=courses[i].attendance.attended_classes;
         details[2]=courses[i].attendance.attendance_percentage;
+        details[3]=courses[i].attendance.details;
         isp=ispresent(data,courses[i].course_code);
         if(isp==-1)
         {

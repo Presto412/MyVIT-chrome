@@ -13,6 +13,7 @@ port.onMessage.addListener(function(msg) {
         $('#heading').text("My VIT");
         $('#graph').removeClass('hide');
         $('#status').text("Logging In");
+        console.log(msg.data);
         initAttend(msg.data);
     }
     else if (msg.isData==false)
@@ -69,7 +70,7 @@ var initAttend=function (x) {
         manipDI=activePoints[0]._datasetIndex;
         $('#myChart').addClass('disabledGraph');
         $('#manipAlt').addClass('hide');
-        $("#manipHead").text(titles[manipI]+' - '+ctype[manipDI]);
+        $(".manipHead").text(titles[manipI]+' - '+ctype[manipDI]);
         $("#manip").removeClass('disabledDiv');
         $("#manipDoneWrapper").removeClass('scale-out');
         if(manipDI)
@@ -86,6 +87,7 @@ var initAttend=function (x) {
         }
         $('#percentage').text(per+'%');
         myChart.update();
+        populateHistory();
     };
         manipulate=function(){
         var total,attended;
@@ -111,6 +113,24 @@ var initAttend=function (x) {
         $('#percentage').text(manipVal+'%');
         myChart.update();
     };
+    var populateHistory=function () {
+        var hiString="",hist;
+        if(manipDI)
+        {
+            hist=x[manipI].lab.history;
+        }
+        else
+        {
+            hist=x[manipI].theory.history;
+        }
+        for (let i=hist.length-1;i>=0;i--)
+        {
+            let t="";
+            t=`<div class="row hist"><div class="col s4">${moment(hist[i].date).format('MMM Do')}</div><div class="col s4 center-align">${moment(hist[i].date).format('dddd')}</div><div class="col s4 right-align ${hist[i].status}">${hist[i].status}</div></div>`;
+            hiString+=t;
+        }
+        document.getElementById('history').innerHTML=hiString;
+    };
     var manipdone=function () {
         if(manipDI)
         {
@@ -129,7 +149,7 @@ var initAttend=function (x) {
                 ethbg[manipI]='#4db6ac';
         }
         $('#manipAlt').removeClass('hide');
-        $("#manipHead").text('');
+        $(".manipHead").text('');
         document.getElementById('miss').value=0;
         document.getElementById('attend').value=0;
         $("#manip").addClass('disabledDiv');
@@ -265,4 +285,23 @@ $('#subAttend').click(function () {
         document.getElementById('attend').value=t;
         manipulate();
     }
+});
+// (function ($) {
+    // $(function () {
+
+        //initialize all modals
+        // $('.modal').modal();
+
+        //now you can open modal from code
+        // $('#modal1').modal('open');
+
+        //or by click on trigger
+        // $('.trigger-modal').modal();
+
+    // }); // end of document ready
+// })(jQuery); // end of jQuery name space
+$(function () {
+    $('.modal').modal();
+    var a=moment('2017-01-06').format('MMM Do dddd');
+    console.log(a);
 });
