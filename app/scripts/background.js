@@ -1,22 +1,22 @@
 'use strict';
 
-var portStat=false;
-var Port;
+let portStat=false;
+let Port;
 chrome.browserAction.setBadgeText({ text: 'MyVIT' });
 
-var isdata,Data,History;
-var getData=function () {
+let isdata,Data,History;
+let getData=function () {
     chrome.storage.local.get(function(result){
         isdata=!$.isEmptyObject(result);
-        var reg=result.Reg;
-        var pass=result.Pwd;
+        let reg=result.Reg;
+        let pass=result.Pwd;
         if(isdata)rqst(0,reg,pass);
     });
 };
-var setData=function (r,p) {
+let setData=function (r,p) {
     chrome.storage.local.set({'Reg':r,'Pwd':p});
 };
-var clearData=function() {
+let clearData=function() {
     chrome.storage.local.clear();
     Data=undefined;
     isdata=undefined;
@@ -26,8 +26,8 @@ $(function () {
     getData();
 });
 
-var rqst=function (ch,reg,pass) {
-    var type=['login','refresh'];
+let rqst=function (ch,reg,pass) {
+    let type=['login','refresh'];
     $.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
@@ -60,8 +60,8 @@ var rqst=function (ch,reg,pass) {
         }
     });
 };  // Function to fetch data from API
-var parse=function (x) {
-    var course=function (c,n) {
+let parse=function (x) {
+    let course=function (c,n) {
         return {
             title:n,
             code:c,
@@ -77,9 +77,9 @@ var parse=function (x) {
             }
         }
     };
-    var update=function(d,det,mode,i)
+    let update=function(d,det,mode,i)
     {
-        var obj;
+        let obj;
         if(mode)
             obj=d[i].lab;
         else
@@ -89,9 +89,9 @@ var parse=function (x) {
         obj.percentage=det[2];
         obj.history=det[3];
     };
-    var ispresent=function(data,ele){
-        var f=-1;
-        for(var i=0;i<data.length;i++)
+    let ispresent=function(data,ele){
+        let f=-1;
+        for(let i=0;i<data.length;i++)
         {
             if(data[i].code==ele)
             {
@@ -105,15 +105,15 @@ var parse=function (x) {
             return f;
         }
     };
-    var islab=function (course) {
+    let islab=function (course) {
         if(course.subject_type=='Embedded Lab'||course.subject_type=='Lab Only')
             return 1;
         else return 0;
     };
-    var courses=x.courses;
+    let courses=x.courses;
     console.log(courses);
-    var data=[],temp,isp,details=[],index;
-    for(var i=0;i<courses.length;i++)
+    let data=[],temp,isp,details=[],index;
+    for(let i=0;i<courses.length;i++)
     {
         details[0]=courses[i].attendance.total_classes;
         details[1]=courses[i].attendance.attended_classes;
@@ -131,8 +131,8 @@ var parse=function (x) {
         }
         update(data,details,islab(courses[i]),index);
     }
-    var sort=function (d) {
-      var temp;
+    let sort=function (d) {
+      let temp;
       temp=_.sortBy(d,'code');
       return temp;
     };

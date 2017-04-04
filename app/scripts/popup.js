@@ -1,9 +1,9 @@
 'use strict';
-var myChart;
-var manipulate;
-var port = chrome.runtime.connect({name: "MyVIT"});
+let myChart;
+let manipulate;
+let port = chrome.runtime.connect({name: "MyVIT"});
 port.onMessage.addListener(function(msg) {
-    var processFormStatus=function(d,type){
+    let processFormStatus=function(d,type){
         return $('<p style="line-height: 15px;font-size: 15px;" class="center-align"><i style="line-height: 15px;font-size:18px;" class="material-icons">'+type+'</i>'+d+'</p>');
     };
     if (msg.isData)
@@ -36,20 +36,20 @@ port.onMessage.addListener(function(msg) {
     }
 
 });
-var initAttend=function (x) {
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var courses=[],manipI,manipDI,titles=[];
-    var ethbg=[],elabg=[];
-    var eth=[],eth_orig;
-    var ela=[],ela_orig;
-    for(var i=0;i<x.length;i++)
+let initAttend=function (x) {
+    let ctx = document.getElementById("myChart").getContext('2d');
+    let courses=[],manipI,manipDI,titles=[];
+    let ethbg=[],elabg=[];
+    let eth=[],eth_orig;
+    let ela=[],ela_orig;
+    for(let i=0;i<x.length;i++)
     {
         titles[i]=x[i].title;
         courses[i]=x[i].code;
         eth[i]=x[i].theory.percentage;
         ela[i]=x[i].lab.percentage;
     }
-    var clickHandle= function(evt){
+    let clickHandle= function(evt){
         $('.chartWrap')
             .mouseenter(function () {
                 $('#myChart').addClass('disabledDiv');
@@ -62,9 +62,9 @@ var initAttend=function (x) {
                 $('.LegendWrap').removeClass('disabledDiv');
                 $('#manipDoneWrapper').removeClass('animated bounce infinite');
             });
-        var ctype=["Theory","Lab"];
-        var activePoints = myChart.getElementAtEvent(evt);
-        var per;
+        let ctype=["Theory","Lab"];
+        let activePoints = myChart.getElementAtEvent(evt);
+        let per;
         // console.log(activePoints[0]);
         manipI=activePoints[0]._index;
         manipDI=activePoints[0]._datasetIndex;
@@ -90,8 +90,8 @@ var initAttend=function (x) {
         populateHistory();
     };
         manipulate=function(){
-        var total,attended;
-        var spiners=[],manipVal;
+        let total,attended;
+        let spiners=[],manipVal;
         spiners.push(document.getElementById('miss').value);
         spiners.push(document.getElementById('attend').value);
         if(manipDI)
@@ -113,8 +113,8 @@ var initAttend=function (x) {
         $('#percentage').text(manipVal+'%');
         myChart.update();
     };
-    var populateHistory=function () {
-        var hiString="",hist;
+    let populateHistory=function () {
+        let hiString="",hist;
         if(manipDI)
         {
             hist=x[manipI].lab.history;
@@ -131,7 +131,7 @@ var initAttend=function (x) {
         }
         document.getElementById('history').innerHTML=hiString;
     };
-    var manipdone=function () {
+    let manipdone=function () {
         if(manipDI)
         {
             ela[manipI]=ela_orig;
@@ -171,7 +171,7 @@ var initAttend=function (x) {
         $('.chartWrap').off();
         manipdone();
     });
-    for(var k=0;k<eth.length;k++)
+    for(let k=0;k<eth.length;k++)
     {
         if(eth[k]<75&&eth[k]!=null)
             ethbg.push('#ef5350');
@@ -221,8 +221,8 @@ $("#manipDone").flip({
     trigger: 'hover'
 });
 $('#lbutton').click(function () {
-    var reg=document.getElementById('regno').value;
-    var pass=document.getElementById('pass').value;
+    let reg=document.getElementById('regno').value;
+    let pass=document.getElementById('pass').value;
     port.postMessage({req:'Set-Reg-Pass',Reg:reg,Pwd:pass});
     $('#heading').text("");
     $('.login_wrapper').addClass('hide');
@@ -245,7 +245,7 @@ $('#logout').click(function () {
     myChart.destroy();
 });
 $('#addAttend').click(function () {
-   var t;
+   let t;
    t=document.getElementById('attend').value;
    t=+t;
    t++;
@@ -255,7 +255,7 @@ $('#addAttend').click(function () {
     manipulate();
 });
 $('#addMiss').click(function () {
-    var t;
+    let t;
     t=document.getElementById('miss').value;
     t=+t;
     t++;
@@ -265,7 +265,7 @@ $('#addMiss').click(function () {
     manipulate();
 });
 $('#subMiss').click(function () {
-    var t;
+    let t;
     t=document.getElementById('miss').value;
     t=+t;
     if(t>0)
@@ -276,7 +276,7 @@ $('#subMiss').click(function () {
     }
 });
 $('#subAttend').click(function () {
-    var t;
+    let t;
     t=document.getElementById('attend').value;
     t=+t;
     if(t>0)
@@ -302,6 +302,4 @@ $('#subAttend').click(function () {
 // })(jQuery); // end of jQuery name space
 $(function () {
     $('.modal').modal();
-    var a=moment('2017-01-06').format('MMM Do dddd');
-    console.log(a);
 });
