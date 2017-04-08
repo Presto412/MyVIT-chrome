@@ -21,11 +21,9 @@ let clearData=function() {
     Data=undefined;
     isdata=undefined;
 };
-
 $(function () {
     getData();
 });
-
 let rqst=function (ch,reg,pass) {
     let type=['login','refresh'];
     $.ajax({
@@ -49,7 +47,10 @@ let rqst=function (ch,reg,pass) {
                 }
             }
            else
-               parse(result);
+            {
+
+                parse(result);
+            }
         },
         error: function(){
             isdata=false;
@@ -77,17 +78,97 @@ let parse=function (x) {
             }
         }
     };
-    let update=function(d,det,mode,i)
-    {
+    let cPage=function (c) {
+        return {
+            code:c,
+            theory:{
+                slot:null,
+                faculty:null
+            },
+            lab:{
+                slot:null,
+                faculty:null
+            }
+        }
+    };
+    let repFac=function (cp) {
+        let fac=[];
+        // console.log('executed');
+        let truncFac=function () {
+            for(let i=0;i<cp.length;i++)
+            {
+                let t=cp[i].theory.faculty;
+                if(t!=null)
+                {
+                    t=t.slice(0,t.lastIndexOf(' - '));
+                    cp[i].theory.faculty=t;
+                    // console.log(t+'<-');
+                }
+                t=cp[i].lab.faculty;
+                if(t!=null)
+                {
+                    t=t.slice(0,t.lastIndexOf(' - '));
+                    cp[i].lab.faculty=t;
+                    // console.log(t+'<-');
+                }
+            }
+            // console.log(cp);
+        };
+        let replace=function () {
+            for(let i=0;i<cp.length;i++)
+            {
+                let ft=false,fl=false;
+                for(let j=0;j<fac.length;j++)
+                {
+                    if(cp[i].theory.faculty==fac[j].Name)
+                    {
+                        // console.log(fac[j].Name);
+                        cp[i].theory.faculty=fac[j].FacID;
+                        ft=true;
+                    }
+                    if(cp[i].lab.faculty==fac[j].Name)
+                    {
+                        cp[i].lab.faculty=fac[j].FacID;
+                        fl=true;
+                    }
+                    if (ft&&fl)
+                        break;
+                }
+            }
+        };
+        $.ajax({
+            url:chrome.extension.getURL('/assets/fac.min.json'),
+            type: 'GET',
+            success:function (result) {
+                // console.log('executed ajax');
+                fac=JSON.parse(result);
+                truncFac();
+                replace();
+                chrome.storage.local.set({'cpMeta':cp});
+            },
+            error: function(){
+                console.log('Faculty info not found !');
+            }
+        });
+    };
+    let update=function(d,det,mode,i,cp) {
         let obj;
         if(mode)
             obj=d[i].lab;
         else
             obj=d[i].theory;
-        obj.total=det[0];
-        obj.attended=det[1];
-        obj.percentage=det[2];
-        obj.history=det[3];
+        if(cp)
+        {
+            obj.slot=det[0];
+            obj.faculty=det[1];
+        }
+        else
+        {
+            obj.total=det[0];
+            obj.attended=det[1];
+            obj.percentage=det[2];
+            obj.history=det[3];
+        }
     };
     let ispresent=function(data,ele){
         let f=-1;
@@ -111,25 +192,32 @@ let parse=function (x) {
         else return 0;
     };
     let courses=x.courses;
-    console.log(courses);
-    let data=[],temp,isp,details=[],index;
+    console.log(x);
+    let cPages=[],data=[],temp,isp,details=[],index,tempcp,cpDetails=[];
     for(let i=0;i<courses.length;i++)
     {
         details[0]=courses[i].attendance.total_classes;
         details[1]=courses[i].attendance.attended_classes;
         details[2]=courses[i].attendance.attendance_percentage;
         details[3]=courses[i].attendance.details;
+
+        cpDetails[0]=courses[i].slot;
+        cpDetails[1]=courses[i].faculty;
+
         isp=ispresent(data,courses[i].course_code);
         if(isp==-1)
         {
             temp=new course(courses[i].course_code,courses[i].course_title);
             data.push(temp);
+            tempcp=new cPage(courses[i].course_code);
+            cPages.push(tempcp);
             index=(data.length-1);
         }
         else {
             index=isp;
         }
-        update(data,details,islab(courses[i]),index);
+        update(data,details,islab(courses[i]),index,0);
+        update(cPages,cpDetails,islab(courses[i]),index,1);
     }
     let sort=function (d) {
       let temp;
@@ -137,7 +225,7 @@ let parse=function (x) {
       return temp;
     };
     Data=sort(data);
-    // console.log(Data);
+    repFac(sort(cPages));
     if(portStat)Port.postMessage({isData:isdata,data:Data}); //Send the data to display.
 };  // Function to filter out the required data.
 

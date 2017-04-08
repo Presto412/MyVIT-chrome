@@ -4,11 +4,10 @@
   "manifest_version": 2,
   "description": "Minimalistic port of the My VIT app for the web",
   "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
+    "16": "assets/images/icon-16.png",
+    "128": "assets/images/icon-128.png"
   },
   "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/; object-src 'self'",
-  "default_locale": "en",
   "background": {
     "scripts": [
       "scripts/jquery.js",
@@ -16,6 +15,13 @@
       "scripts/background.js"
     ]
   },
+  "content_scripts": [
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_view.asp*"],
+      "js": ["scripts/jquery.js","scripts/coursePage.js"]
+    }
+  ],
   "permissions": [
     "storage",
     "notifications",
@@ -24,8 +30,8 @@
   ],
   "browser_action": {
     "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
+      "19": "assets/images/icon-19.png",
+      "38": "assets/images/icon-38.png"
     },
     "default_title": "My VIT",
     "default_popup": "popup.html"
