@@ -252,4 +252,5 @@ chrome.runtime.onConnect.addListener(function(port) {
             }
         });
     }
+    else console.log(port.name,' is connected ');
 });

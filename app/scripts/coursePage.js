@@ -1,12 +1,30 @@
 $(function () {
-   $('body').append(`<div style="margin-top:-200px;max-width: 800px;">
-<iframe style="width:100%;" src="${chrome.extension.getURL ('course_page/index.html')}" frameborder="0"></iframe>
+   $('body').append(`<div style="max-width:800px;">
+<iframe id="cPage" style="width:100%;" src="${chrome.extension.getURL ('course_page/index.html')}" frameborder="0"></iframe>
 </div>`);
+    iFrameResize({log:false
+    }, '#cPage');
 });
+//min-height:60vh;max-width:800px;
+let Port=undefined;
+let portStat=undefined;
+
 let fetchCP=function () {
     chrome.storage.local.get(function(result){
         isdata=!$.isEmptyObject(result);
-        myCoursePage(result.Reg,result.Pwd,result.cpMeta);
+        $.ajax({
+            url:'https://myffcs.in:10443/campus/vellore/login',
+            type: 'POST',
+            processData:false,
+            data:'regNo='+result.Reg+'&psswd='+result.Pwd,
+            success:function (x) {
+                console.log('login success');
+                myCoursePage(result.Reg,result.Pwd,result.cpMeta);
+            },
+            error: function(){
+                console.log('unable to connect !')
+            }
+        });
     });
 }();
 let cPage=[],cPromise=[];
@@ -38,6 +56,8 @@ let myCoursePage=function(r,p,cpMeta) {
                    fac: cPage[i].theory.faculty
                },
                success:function (result) {
+                   if(result=='')
+                       result=null;
                    cPage[i].theory.data=result;
                    // console.log(result ,"code = ",cPage[i].code,'i =',i);
                }
@@ -63,6 +83,8 @@ let myCoursePage=function(r,p,cpMeta) {
                     fac: cPage[i].lab.faculty
                 },
                 success:function (result) {
+                    if(result=='')
+                        result=null;
                     cPage[i].lab.data=result;
                     // console.log(result,"code = ",cPage[i].code,'i =',i);
                 }
@@ -73,31 +95,19 @@ let myCoursePage=function(r,p,cpMeta) {
     $.when.apply(this,cPromise).then(function (x) {
         console.log('Course page retrieved');
         console.log(cPage);
+        if(portStat)
+            Port.postMessage({Course_page:cPage});
+        else
+            console.log("port not initialized");
     });
     // alert('wait !');
     // console.log(cPromise);
-};/*
-$.ajax({
-    "async": true,
-    "crossDomain": true,
-    "url": "https://myffcs.in:10443/campus/vellore/coursepage/data",
-    "method": "POST",
-    "headers": {
-        "content-type": "application/x-www-form-urlencoded",
-        "cache-control": "no-cache",
-        "postman-token": "7d1f5c79-a7cd-9bb7-5431-2837335dae7d"
-    },
-    "data": {
-        "regNo": "16BCE0584",
-        "psswd": "dummypassworD1$&",
-        "crs": "CSE1003",
-        "slt": "B2",
-        "fac": "11600"
-    },
-    success:function (result) {
-        console.log(result)
+};
+chrome.runtime.onConnect.addListener(function(port) {
+    console.log('Port connected !');
+    if(port.name == "MyVIT_coursePage")
+    {
+        Port=port;
+        portStat=true;
     }
-}).then(function () {
-    alert('ajax complete');
 });
-*/

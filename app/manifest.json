@@ -19,7 +19,14 @@
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_view.asp*"],
-      "js": ["scripts/jquery.js","scripts/coursePage.js"]
+      "css": ["styles/course_inject.css"],
+      "js": ["scripts/jquery.js","scripts/iframeResizer.min.js","scripts/coursePage.js"]
+
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/stud_menu.asp*"],
+      "js": ["scripts/jquery.js"]
     }
   ],
   "web_accessible_resources": ["course_page/index.html"],

@@ -1,0 +1,191 @@
+/*
+.cssload-container{
+    background:rgb(255,255,255);
+    width: 95%;
+}
+
+.cssload-container div {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    background-color: rgb(204,204,204);
+    top: 45%;
+    border-radius: 50%;
+}
+
+.cssload-container div:nth-child(1) {
+    background-color: rgb(255,84,96);
+    animation: cssload-move 2.3s infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -o-animation: cssload-move 2.3s infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -ms-animation: cssload-move 2.3s infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -webkit-animation: cssload-move 2.3s infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -moz-animation: cssload-move 2.3s infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+}
+
+.cssload-container div:nth-child(2) {
+    background-color: rgb(255,157,132);
+    animation: cssload-move 2.3s 172.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -o-animation: cssload-move 2.3s 172.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -ms-animation: cssload-move 2.3s 172.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -webkit-animation: cssload-move 2.3s 172.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -moz-animation: cssload-move 2.3s 172.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+}
+
+.cssload-container div:nth-child(3) {
+    background-color: rgb(240,231,151);
+    animation: cssload-move 2.3s 345ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -o-animation: cssload-move 2.3s 345ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -ms-animation: cssload-move 2.3s 345ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -webkit-animation: cssload-move 2.3s 345ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -moz-animation: cssload-move 2.3s 345ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+}
+
+.cssload-container div:nth-child(4) {
+    background-color: rgb(117,176,138);
+    animation: cssload-move 2.3s 517.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -o-animation: cssload-move 2.3s 517.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -ms-animation: cssload-move 2.3s 517.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -webkit-animation: cssload-move 2.3s 517.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+    -moz-animation: cssload-move 2.3s 517.5ms infinite cubic-bezier(0.2, 0.64, 0.81, 0.23);
+}
+
+
+
+@keyframes cssload-move {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@-o-keyframes cssload-move {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@-ms-keyframes cssload-move {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@-webkit-keyframes cssload-move {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@-moz-keyframes cssload-move {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}*/
+label{
+    color:black;
+}
+.cs-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.cs-loader-inner {
+    transform: translateY(-50%);
+    top: 50%;
+    position: absolute;
+    width: calc(100% - 200px);
+    color: #FFF;
+    padding: 0 100px;
+    text-align: center;
+}
+
+.cs-loader-inner label {
+    font-size: 20px;
+    opacity: 0;
+    display:inline-block;
+}
+
+@keyframes lol {
+    0% {
+        opacity: 0;
+        transform: translateX(-300px);
+    }
+    33% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+    66% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(300px);
+    }
+}
+
+@-webkit-keyframes lol {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-300px);
+    }
+    33% {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+    66% {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translateX(300px);
+    }
+}
+
+.cs-loader-inner label:nth-child(6) {
+    -webkit-animation: lol 3s infinite ease-in-out;
+    animation: lol 3s infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(5) {
+    -webkit-animation: lol 3s 100ms infinite ease-in-out;
+    animation: lol 3s 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(4) {
+    -webkit-animation: lol 3s 200ms infinite ease-in-out;
+    animation: lol 3s 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(3) {
+    -webkit-animation: lol 3s 300ms infinite ease-in-out;
+    animation: lol 3s 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(2) {
+    -webkit-animation: lol 3s 400ms infinite ease-in-out;
+    animation: lol 3s 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(1) {
+    -webkit-animation: lol 3s 500ms infinite ease-in-out;
+    animation: lol 3s 500ms infinite ease-in-out;
+}
