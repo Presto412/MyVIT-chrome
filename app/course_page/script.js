@@ -69,11 +69,11 @@ let populate=function (payLoad) {
             tT=`<div id="${payLoad[i].code}_T" class="col s12">`;
             for (let j=0;j<payLoad[i].theory.data.uploads.lecture.length;j++){
                 tR+=`<div class="row page">
-                            <div class="col s1">${j+1}</div>
-                            <div class="col s2">${payLoad[i].theory.data.uploads.lecture[j].date}</div>
-                            <div class="col s1">${payLoad[i].theory.data.uploads.lecture[j].day}</div>
-                            <div class="col s5">${payLoad[i].theory.data.uploads.lecture[j].topic}</div>
-                            <div class="col s3"><a href="${payLoad[i].theory.data.uploads.lecture[j].material.link}">${payLoad[i].theory.data.uploads.lecture[j].material.name}</a></div>
+                            <div class="col s1"><p class="cele">${j+1}</p></div>
+                            <div class="col s2"><p class="cele">${payLoad[i].theory.data.uploads.lecture[j].date}</p></div>
+                            <div class="col s1"><p class="cele">${payLoad[i].theory.data.uploads.lecture[j].day}</p></div>
+                            <div class="col s5"><p class="cele">${payLoad[i].theory.data.uploads.lecture[j].topic}</p></div>
+                            <div class="col s3"><p class="cele"><a href="${payLoad[i].theory.data.uploads.lecture[j].material.link}">${payLoad[i].theory.data.uploads.lecture[j].material.name}</a></p></div>
                         </div>`;
             }
             tT+=tR+'</div>';
@@ -85,11 +85,11 @@ let populate=function (payLoad) {
             tL=`<div id="${payLoad[i].code}_L" class="col s12">`;
             for (let j=0;j<payLoad[i].lab.data.uploads.lecture.length;j++){
                 tR+=`<div class="row page">
-                            <div class="col s1">${j+1}</div>
-                            <div class="col s2">${payLoad[i].lab.data.uploads.lecture[j].date}</div>
-                            <div class="col s1">${payLoad[i].lab.data.uploads.lecture[j].day}</div>
-                            <div class="col s5">${payLoad[i].lab.data.uploads.lecture[j].topic}</div>
-                            <div class="col s3"><a href="${payLoad[i].lab.data.uploads.lecture[j].material.link}">${payLoad[i].lab.data.uploads.lecture[j].material.name}</a></div>
+                            <div class="col s1"><p class="cele">${j+1}</p></div>
+                            <div class="col s2"><p class="cele">${payLoad[i].lab.data.uploads.lecture[j].date}</p></div>
+                            <div class="col s1"><p class="cele">${payLoad[i].lab.data.uploads.lecture[j].day}</p></div>
+                            <div class="col s5"><p class="cele">${payLoad[i].lab.data.uploads.lecture[j].topic}</p></div>
+                            <div class="col s3"><p class="cele"><a href="${payLoad[i].lab.data.uploads.lecture[j].material.link}">${payLoad[i].lab.data.uploads.lecture[j].material.name}</a></p></div>
                         </div>`;
             }
             tL+=tR+'</div>';
@@ -106,7 +106,6 @@ let handleui=function () {
     $('#preload').addClass('hide');
     $('#cpWrapper').removeClass('hide');
 };
-
 
 //
 // <div class="row hist">
