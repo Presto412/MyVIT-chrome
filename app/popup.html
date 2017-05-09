@@ -21,7 +21,6 @@
   <!--Login Section-->
     <div class="login_wrapper center-align">
       <div id="login" style="width: 80%;">
-        <p class="left-align" id="formStatus"></p>
         <div class="input-field" >
           <input required id="regno" type="text">
           <label for="regno">Registration number</label>
@@ -30,9 +29,10 @@
           <input required id="pass" type="password">
           <label for="pass">Password</label>
         </div>
-        <button class="btn waves-effect waves-light" id="lbutton">Login
+        <button type="submit" class="btn waves-effect waves-light" id="lbutton">Login
           <i class="material-icons right">send</i>
         </button>
+
       </div>
     </div>
   <!--End of login section-->
@@ -95,9 +95,9 @@
         <a class="large btn-floating yellow darken-3">
           <i class="material-icons">settings</i>
         </a>
-        <ul style="margin-top: -12px;margin-right: -15px;">
-          <li><a id="logout" class="btn-floating tooltipped blue" data-position="bottom" data-delay="50" data-tooltip="Logout"><i class="material-icons">input</i></a></li>
-          <li><a id="refresh" class="btn-floating tooltipped green" data-position="bottom" data-delay="50" data-tooltip="Refresh"><i class="material-icons">refresh</i></a></li>
+        <ul style="margin-right: -15px;">
+          <li style="margin-top: 0;"><a id="logout" class="btn-floating tooltipped blue" data-position="bottom" data-delay="50" data-tooltip="Logout"><i class="material-icons">input</i></a></li>
+          <li style="margin-top: 0;"><a id="refresh" class="btn-floating tooltipped green" data-position="bottom" data-delay="50" data-tooltip="Refresh"><i class="material-icons">refresh</i></a></li>
         </ul>
       </div>
       <div class="chartWrap">
@@ -105,10 +105,10 @@
         <canvas id="myChart"></canvas>
       </div>
       <div id="manip" class="disabledDiv">
-        <p class="center-align"><b id="manipAlt">--- Select a subject ---</b><i id="manipHead"></i>
+        <p class="center-align"><b id="manipAlt">--- Select a subject ---</b><i class="manipHead"></i>
         <p class="center-align"><a href="#"><i id="addMiss" class="material-icons controls">add_circle_outline</i></a>If you miss<input min="0" id="miss" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number">classes<a href="#"><i id="subMiss" class="material-icons controls">remove_circle_outline</i></a></p>
         <p class="center-align"><a href="#"><i id="addAttend" class="material-icons controls">add_circle_outline</i></a>If you attend<input min="0" id="attend" value="0" style="text-align:center;display:inline;width:35px;height:15px;margin: 0;" class="spin" type="number"> classes<a href="#"><i id="subAttend" class="material-icons controls">remove_circle_outline</i></a></p>
-        <div id="manipDoneWrapper" class="scale-transition scale-out">
+        <div id="manipDoneWrapper" class="fixed-action-btn scale-transition scale-out">
           <a id="manipDone" class="btn-floating waves-effect waves-light purple lighten-1 tooltipped" data-position="left" data-delay="50" data-tooltip="Done" style="position: absolute;">
             <div class="front">
               <p id="percentage" class="center-align" style="font-size: 14px;">100%</p>
@@ -117,9 +117,24 @@
               <i class="material-icons">done_all</i>
             </div>
           </a>
+          <ul style="margin-bottom: -25px;">
+            <li><a href="#modal1" class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="Info"><i class="material-icons">info_outline</i></a></li>
+          </ul>
         </div>
       </div>
     </div>
+  <div id="modal1" style="max-height: 70%" class="modal bottom-sheet modal-fixed-footer">
+    <div class="modal-content" style="padding-top: 0;padding-bottom: 0;">
+      <h4 class="center-align">Attendance History</h4>
+      <p class="manipHead center-align" style="font-size: 14px;"></p>
+      <div id="history" class="container">
+      </div>
+    </div>
+    <div class="modal-footer" style="padding: 0;height: auto;">
+      <a href="#" class="modal-action modal-close waves-effect waves-purple btn-flat">Done</a>
+    </div>
+  </div>
+
   <!--End of Attendance display section  -->
 
   <!--Importing of Javascript-->
@@ -127,6 +142,7 @@
     <script src="scripts/materialize.min.js"></script>
     <script src="scripts/Chart.js"></script>
     <script src="scripts/jquery.flip.min.js"></script>
+    <script src="scripts/moment.js"></script>
     <script src="scripts/popup.js"></script>
   <!--End of Javascript files-->
   </body>
