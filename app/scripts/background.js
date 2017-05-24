@@ -254,3 +254,11 @@ chrome.runtime.onConnect.addListener(function(port) {
     }
     else console.log(port.name,' is connected ');
 });
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+        console.log('intercepted - ',details);
+        if(5<1) //Replace
+        return {redirectUrl: chrome.extension.getURL("main/index.html")};
+    },
+    {urls: ["*://vtop.vit.ac.in/student/stud_login.asp"]},
+    ["blocking"]);

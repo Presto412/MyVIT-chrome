@@ -1,6 +1,6 @@
 $(function () {
    $('body').append(`<div style="max-width:800px;">
-<iframe id="cPage" style="width:100%;" src="${chrome.extension.getURL ('course_page/index.html')}" frameborder="0"></iframe>
+<iframe id="cPage" style="width:100%;" src="${chrome.extension.getURL('course_page/index.html')}" frameborder="0"></iframe>
 </div>`);
     iFrameResize({log:false
     }, '#cPage');
