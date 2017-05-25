@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Course Page</title>
+    <link rel="stylesheet" href="../styles/materialize.css">
+    <link rel="stylesheet" href="preloader.css">
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+<h2 class="center-align">My course page</h2>
+<div class="row" id="preload" style="position: relative">
+    <div style="position: relative;overflow-x: hidden;height: 60px;">
+        <div class="cs-loader">
+        <div class="cs-loader-inner center-align" style="margin-left: 100px;margin-right: 100px;">
+            <label>	●</label>
+            <label>	●</label>
+            <label>	●</label>
+            <label>	●</label>
+            <label>	●</label>
+            <label>	●</label>
+        </div>
+    </div>
+    </div>
+    <!--<h5 class="center-align">Loading</h5>-->
+</div>
+<div id="cpWrapper" class="hide">
+    <div id="coursePage">
+        <ul id="payloadDisplay" class="collapsible" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><h5>CSE1002</h5></div>
+                <div class="row collapsible-body" style="padding: 0;">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s3"><a href="#test1">Theory</a></li>
+                            <li class="tab col s3"><a href="#test2">Lab</a></li>
+                        </ul>
+                    </div>
+                    <div id="test1" class="col s12">
+                        <div class="row">
+                            <div class="col s1">sno</div>
+                            <div class="col s2">Date</div>
+                            <div class="col s1">Day</div>
+                            <div class="col s5">Topic</div>
+                            <div class="col s3">Link</div>
+                        </div>
+                        <div class="row">
+                            <div class="col s1">sno</div>
+                            <div class="col s2">Date</div>
+                            <div class="col s1">Day</div>
+                            <div class="col s5">Topic</div>
+                            <div class="col s3">Link</div>
+                        </div>
+                        <div class="row">
+                            <div class="col s1">sno</div>
+                            <div class="col s2">Date</div>
+                            <div class="col s1">Day</div>
+                            <div class="col s5">Topic</div>
+                            <div class="col s3">Link</div>
+                        </div>
+                        <div class="row">
+                            <div class="col s1">sno</div>
+                            <div class="col s2">Date</div>
+                            <div class="col s1">Day</div>
+                            <div class="col s5">Topic</div>
+                            <div class="col s3">Link</div>
+                        </div>
+                        <div class="row">
+                            <div class="col s1">sno</div>
+                            <div class="col s2">Date</div>
+                            <div class="col s1">Day</div>
+                            <div class="col s5">Topic</div>
+                            <div class="col s3">Link</div>
+                        </div>
+                        <div class="row">
+                            <div class="col s1">sno</div>
+                            <div class="col s2">Date</div>
+                            <div class="col s1">Day</div>
+                            <div class="col s5">Topic</div>
+                            <div class="col s3">Link</div>
+                        </div>
+                    </div>
+                    <div id="test2" class="col s12">
+                        <div class="row">
+                            <div class="col s4">Data 2</div>
+                            <div class="col s4">Data 2</div>
+                            <div class="col s4">Data 2</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><h5>CSE2003</h5></div>
+                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            </li>
+            <li>
+                <div class="collapsible-header"><h5>CSE1003</h5></div>
+                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div style="height: 30px;" class="row"></div>
+<script src="iframeResizer.contentWindow.min.js"></script>
+<script src="../scripts/jquery.js"></script>
+<script src="../scripts/materialize.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

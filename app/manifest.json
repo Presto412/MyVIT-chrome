@@ -1,14 +1,13 @@
 {
   "name": "My VIT",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "manifest_version": 2,
   "description": "Minimalistic port of the My VIT app for the web",
   "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
+    "16": "assets/images/icon-16.png",
+    "128": "assets/images/icon-128.png"
   },
   "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/; object-src 'self'",
-  "default_locale": "en",
   "background": {
     "scripts": [
       "scripts/jquery.js",
@@ -16,16 +15,45 @@
       "scripts/background.js"
     ]
   },
+  "content_scripts": [
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_view.asp*"],
+      "css": ["styles/course_inject.css"],
+      "js": ["scripts/jquery.js","scripts/iframeResizer.min.js","scripts/coursePage.js"]
+
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/stud_menu.asp*"],
+      "js": ["scripts/jquery.js"]
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/home.asp*"],
+      "js": ["scripts/jquery.js","scripts/injectWorker.js"]
+    },
+    {
+      "all_frames":true,
+      "run_at":"document_start",
+      "matches": ["*://vtop.vit.ac.in/student/home.asp*"],
+      "js": ["main/home.js"]
+    }
+  ],
+  "web_accessible_resources": ["course_page/index.html","main/index.html"],
   "permissions": [
     "storage",
     "notifications",
     "https://myffcs.in:10443/campus/vellore/",
-    "<all_urls>"
+    "<all_urls>",
+    "webRequestBlocking",
+    "webRequest",
+    "*://*/*"
   ],
   "browser_action": {
     "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
+      "19": "assets/images/icon-19.png",
+      "38": "assets/images/icon-38.png"
     },
     "default_title": "My VIT",
     "default_popup": "popup.html"
