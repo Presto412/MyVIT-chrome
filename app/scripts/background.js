@@ -196,28 +196,31 @@ let parse=function (x) {
     let cPages=[],data=[],temp,isp,details=[],index,tempcp,cpDetails=[];
     for(let i=0;i<courses.length;i++)
     {
-        details[0]=courses[i].attendance.total_classes;
-        details[1]=courses[i].attendance.attended_classes;
-        details[2]=courses[i].attendance.attendance_percentage;
-        details[3]=courses[i].attendance.details;
-
-        cpDetails[0]=courses[i].slot;
-        cpDetails[1]=courses[i].faculty;
-
-        isp=ispresent(data,courses[i].course_code);
-        if(isp==-1)
+        if(courses[i].faculty!="")
         {
-            temp=new course(courses[i].course_code,courses[i].course_title);
-            data.push(temp);
-            tempcp=new cPage(courses[i].course_code);
-            cPages.push(tempcp);
-            index=(data.length-1);
+            details[0]=courses[i].attendance.total_classes;
+            details[1]=courses[i].attendance.attended_classes;
+            details[2]=courses[i].attendance.attendance_percentage;
+            details[3]=courses[i].attendance.details;
+
+            cpDetails[0]=courses[i].slot;
+            cpDetails[1]=courses[i].faculty;
+
+            isp=ispresent(data,courses[i].course_code);
+            if(isp==-1)
+            {
+                temp=new course(courses[i].course_code,courses[i].course_title);
+                data.push(temp);
+                tempcp=new cPage(courses[i].course_code);
+                cPages.push(tempcp);
+                index=(data.length-1);
+            }
+            else {
+                index=isp;
+            }
+            update(data,details,islab(courses[i]),index,0);
+            update(cPages,cpDetails,islab(courses[i]),index,1);
         }
-        else {
-            index=isp;
-        }
-        update(data,details,islab(courses[i]),index,0);
-        update(cPages,cpDetails,islab(courses[i]),index,1);
     }
     let sort=function (d) {
       let temp;

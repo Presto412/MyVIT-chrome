@@ -37,7 +37,11 @@
       "all_frames":true,
       "run_at":"document_start",
       "matches": ["*://vtop.vit.ac.in/student/home.asp*"],
-      "js": ["main/home.js"]
+      "js": ["main/script.js"]
+    },
+    {
+      "matches": ["*://vtop.vit.ac.in/student/stud_login.asp"],
+      "js": ["scripts/captcha.js"]
     }
   ],
   "web_accessible_resources": ["course_page/index.html","main/index.html"],
