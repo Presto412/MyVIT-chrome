@@ -1,3 +1,16 @@
-#content{
-    height: 150px;
+.list,.wbg{
+    background-color: white !important;
+}
+tr.list{
+    cursor:pointer;
+}
+.list:hover{
+    background-color: #eeeeee !important;
+}
+.listHead{
+    background-color: #00695c !important;
+}
+.listHead,.listHead td,.list,.list td{
+    border: none;
+    border-radius:0;
 }

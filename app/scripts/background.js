@@ -142,6 +142,7 @@ let parse=function (x) {
             success:function (result) {
                 // console.log('executed ajax');
                 fac=JSON.parse(result);
+                console.log(fac.length+' faculties');
                 truncFac();
                 replace();
                 chrome.storage.local.set({'cpMeta':cp});
@@ -257,11 +258,42 @@ chrome.runtime.onConnect.addListener(function(port) {
     }
     else console.log(port.name,' is connected ');
 });
+let initialized=false;
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         console.log('intercepted - ',details);
+        if(details.type=='sub_frame'&&initialized)
+            chrome.tabs.executeScript(null, {file: "preloader/preload.js"});
+        else if(details.type=='main_frame')
+            initialized=false;
         if(5<1) //Replace
-        return {redirectUrl: chrome.extension.getURL("main/index.html")};
+        return {redirectUrl: chrome.extension.getURL("home/index.html")};
+        else if(details.url=='https://vtop.vit.ac.in/student/style2.css')
+        {
+            return {redirectUrl: chrome.extension.getURL("styles/commons.css")};
+        }
+        else if(details.url.search("https://vtop.vit.ac.in/fonts/")!=-1)
+        {
+            return {redirectUrl: chrome.extension.getURL(details.url.replace("https://vtop.vit.ac.in/",""))};
+        }
     },
-    {urls: ["*://vtop.vit.ac.in/student/stud_login.asp"]},
+    {urls: ["*://vtop.vit.ac.in/*"]},
     ["blocking"]);
+let unblock=true;
+chrome.runtime.onMessage.addListener(
+    function(message) {
+        console.log('requested !');
+        if (message.request== "preload")
+        {
+            chrome.tabs.executeScript(null, {file: "scripts/jquery.js"});
+            chrome.tabs.executeScript(null, {file: "preloader/preload.js"});
+        }
+        else if (message.request== "unload"&&unblock)
+            chrome.tabs.executeScript(null, {file: "preloader/unload.js"});
+        else if (message.request== "initialize")
+            initialized=true;
+        else if (message.request== "block-unload")
+            initialized=true;
+        else if (message.request== "allow-unload")
+            unblock=true;
+    });

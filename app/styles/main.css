@@ -41,7 +41,7 @@ html,body{
   width: 400px;
 }
 #heading{
-  margin-bottom: 0;
+  margin:15px 0;
 }
 h1{
   font-size: 20pt;
