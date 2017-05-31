@@ -258,13 +258,22 @@ chrome.runtime.onConnect.addListener(function(port) {
     }
     else console.log(port.name,' is connected ');
 });
-let initialized=false;
+let initialized=false,isloaded=0,stack=[];
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
-        console.log('intercepted - ',details);
+        if((details.type=='sub_frame'||details.type=='main_frame')&&details.url!="https://vtop.vit.ac.in/student/stud_login_submit.asp")
+        {
+            if(details.url=="https://vtop.vit.ac.in/student/content.asp") isloaded=0;
+            let l1=stack.length;
+            stack.push(details.frameId);
+            stack=_(stack).uniq();
+            let l2=stack.length;
+            if(l1!=l2)isloaded++;
+            console.log('stack - ',isloaded,' intercepted - ',details);
+        }
         if(details.type=='sub_frame'&&initialized)
             chrome.tabs.executeScript(null, {file: "preloader/preload.js"});
-        else if(details.type=='main_frame')
+        else if(details.type=='main_frame'&&details.url=="https://vtop.vit.ac.in/student/home.asp")
             initialized=false;
         if(5<1) //Replace
         return {redirectUrl: chrome.extension.getURL("home/index.html")};
@@ -281,15 +290,33 @@ chrome.webRequest.onBeforeRequest.addListener(
     ["blocking"]);
 let unblock=true;
 chrome.runtime.onMessage.addListener(
-    function(message) {
-        console.log('requested !');
+    function(message,sender, sendResponse) {
+        console.log(message.request + ' requested.');
+        console.log(sender);
+        // console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
         if (message.request== "preload")
         {
             chrome.tabs.executeScript(null, {file: "scripts/jquery.js"});
             chrome.tabs.executeScript(null, {file: "preloader/preload.js"});
         }
-        else if (message.request== "unload"&&unblock)
-            chrome.tabs.executeScript(null, {file: "preloader/unload.js"});
+        else if (message.request== "unload")
+        {
+            if(isloaded>0)
+            {
+                isloaded--;
+            }
+            console.log('stack - ',isloaded,' unblock - ',unblock,' initialize - ',initialized);
+            if(isloaded==0&&unblock&&initialized)
+            {
+                stack=[];
+                chrome.tabs.executeScript(null, {file: "preloader/unload.js"});
+            }
+            else if(isloaded==0&&unblock){
+                $( '.preload-contain,#preLoader,#preBody' ).fadeOut( 500, function() {
+                    $('#preLoader').parent().remove();
+                });
+            }
+        }
         else if (message.request== "initialize")
             initialized=true;
         else if (message.request== "block-unload")

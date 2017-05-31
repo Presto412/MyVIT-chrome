@@ -14,3 +14,6 @@ tr.list{
     border: none;
     border-radius:0;
 }
+label[for="selectAll"]::after{
+    border-color: white !important;
+}

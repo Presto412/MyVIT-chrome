@@ -3,4 +3,5 @@
  */
 (function (){
     chrome.runtime.sendMessage({request:'unload'});
+    // chrome.runtime.sendMessage({request:'Auto-unloaded'});
 })();

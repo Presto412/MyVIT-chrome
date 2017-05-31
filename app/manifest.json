@@ -75,6 +75,8 @@
     "fonts/*"
   ],
   "permissions": [
+    "activeTab",
+    "tabs",
     "storage",
     "notifications",
     "https://myffcs.in:10443/campus/vellore/",

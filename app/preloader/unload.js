@@ -3,6 +3,8 @@
  */
 
 (function loaded(){
-    $('#preLoader').remove();
+    $( '.preload-contain,#preLoader,#preBody' ).fadeOut( 500, function() {
+        $('#preLoader,#preBody').remove();
+    });
 })();
 

@@ -37,7 +37,7 @@ $(function () {
         $('input[type="submit"]').click(function (e) {
             e.stopPropagation();
         });
-        $list.wrap('<div class="row"><div class="col s10 push-s1"></div></div>');
+        $list.wrap('<div class="row"><div class="col s10 push-s1 card-panel" style="padding:0"></div></div>');
         let $l=$list.parents('.row').detach();
         $root.parent().after($l[0]);
     }
