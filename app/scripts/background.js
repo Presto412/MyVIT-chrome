@@ -261,7 +261,7 @@ chrome.runtime.onConnect.addListener(function(port) {
 let initialized=false,isloaded=0,stack=[];
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
-        if((details.type=='sub_frame'||details.type=='main_frame')&&details.url!="https://vtop.vit.ac.in/student/stud_login_submit.asp")
+        if((details.type=='sub_frame'||details.type=='main_frame'))
         {
             if(details.url=="https://vtop.vit.ac.in/student/content.asp") isloaded=0;
             let l1=stack.length;
@@ -273,8 +273,14 @@ chrome.webRequest.onBeforeRequest.addListener(
         }
         if(details.type=='sub_frame'&&initialized)
             chrome.tabs.executeScript(null, {file: "preloader/preload.js"});
-        else if(details.type=='main_frame'&&details.url=="https://vtop.vit.ac.in/student/home.asp")
-            initialized=false;
+        else if(details.type=='main_frame')
+        {
+            if (details.url=="https://vtop.vit.ac.in/student/home.asp")
+                initialized=false;
+            else
+                stack.pop();
+                isloaded--;
+        }
         if(5<1) //Replace
         return {redirectUrl: chrome.extension.getURL("home/index.html")};
         else if(details.url=='https://vtop.vit.ac.in/student/style2.css')

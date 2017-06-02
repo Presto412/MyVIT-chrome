@@ -43,12 +43,16 @@ $(function () {
    $('.tooltipped').tooltip({delay: 50});
    function handleButton(){
        if ($('.link input:checked').length) {
-           if ($('#download').hasClass('scale-out')){
+           $('#download').removeClass('scale-out').addClass('pulse');
+           setTimeout(function () {
+               $('#download').removeClass('pulse');
+           },1000);
+           /*if ($('#download').hasClass('scale-out')){
                $('#download').removeClass('scale-out').addClass('pulse');
                setTimeout(function () {
                    $('#download').removeClass('pulse');
                },2000);
-           }
+           }*/
        }
        else {
            $('#download').addClass('scale-out');
@@ -62,6 +66,7 @@ $(function () {
            $('.link input:checkbox').prop('checked',false);
        handleButton();
    });
+   let blobs=[],requests=[];
     $('#download').click(function () {
         let links=[];
         $('.link input:checked').each(function () {
@@ -71,6 +76,97 @@ $(function () {
         });
         $('.link input:checkbox').prop('checked',false);
         handleButton();
+        downloadView();
+        for(let i=0;i<links.length;i++)
+        {
+            requests.push(downloadController(links[i],i))
+        }
+        $.when.apply(this,requests).then(function () {
+            requests=[];
+            // $('.downWrap').addClass('animated slideOutRight');
+            setTimeout(function () {
+                $('.downWrap').fadeOut(500,function () {
+                    $(this).remove();
+                })
+            },2000);
+            console.log('download completed !')
+        });
         console.log(links);
-    })
+    });
+
+
+    function downloadView() {
+        if($('#downloads').length)
+            return;
+        let $d=`
+<div class="downWrap" style="width:365px;position: fixed;bottom: 50px;right: 25px;z-index: 10;">
+    <ul class="collapsible animated slideInRight" style="border: none;" data-collapsible="accordion">
+        <li>
+            <div class="collapsible-header white-text active" style="background-color: rgba(0, 0, 0, 0.87);border: none;">Downloading files<i class="fa fa-times right downBtn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cancel Downloads" aria-hidden="true"></i></div>
+            <div id="downloads" class="collapsible-body" style="background-color: white;border: none;max-height: 40vh;overflow-y: scroll;">
+            </div>
+        </li>
+    </ul>
+</div>
+        `;
+        $('body').append($($d));
+        $('.collapsible').collapsible();
+        $('.tooltipped').tooltip({delay: 50});
+    }
+    function viewInject(i) {
+        let str=`<div class="pWrap" id='loader_${i}' style="background-color: rgba(0,0,0,0.1);">
+                    <div class="progress">
+                        <div class="determinate" style="width:0%"></div>
+                    </div>
+                    <div class="details hide">
+                        <p style="font-size: 10px;margin: 0;">File : <span class="name"></span></p>
+                        <p style="font-size: 10px;margin: 0;">Size : <span class="size"></span></p>
+                    </div>
+                </div>`;
+        $('#downloads').append($(str));
+        $('.pwrap').hover(function () {
+            $(this).children('.details').removeClass('hide');
+        },function () {
+            $(this).children('.details').addClass('hide');
+        })
+    }
+    function downloadController(url,i) {
+        function getExt(x) {
+            return x.substr(x.lastIndexOf('.'));
+        }
+        function progressUpdate(e) {
+            if (e.lengthComputable) {
+                let percentComplete = e.loaded / e.total;
+                $(`#loader_${i}`).find(`.determinate`).css('width',Math.round(percentComplete * 100) + "%");
+            }
+        }
+        viewInject(i);
+        return new Promise(function(resolve, reject) {
+
+            // $('#root').append($('<div class="progress"><div id="dbar" class="determinate" style="width: 0%"></div></div><a id="dInit" class="hide"></a>'));
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET',url,true);
+            xhr.responseType = "blob";
+            xhr.onprogress=progressUpdate;
+            xhr.onreadystatechange = function() {
+                if(this.readyState == this.HEADERS_RECEIVED) {
+                    console.log('size - ',filesize(xhr.getResponseHeader("Content-Length")));
+                    console.log('Type - ',getExt(xhr.getResponseHeader("Content-Disposition")));
+                }
+            };
+            xhr.onload = () => {
+                resolve(true);
+                // let url = window.URL.createObjectURL(xhr.response);
+                // console.log('url is - ',url);
+                download(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`);
+                console.log('headers - ',xhr.getAllResponseHeaders());
+            };
+            xhr.onerror = () => {
+                reject('Download failed !');
+            };
+            xhr.send();
+            console.log('request sent !');
+        });
+
+    }
 });

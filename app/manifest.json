@@ -35,8 +35,8 @@
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_display.asp*"],
-      "css": ["styles/course_inject.css","/styles/materialize.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","course_page/display.js"]
+      "css": ["styles/course_inject.css","/styles/materialize.css","/styles/animate.css"],
+      "js": ["scripts/jquery.js","scripts/materialize.min.js","scripts/filesize.min.js","scripts/download.js","course_page/display.js"]
     },
     {
       "all_frames":true,
