@@ -39,4 +39,6 @@ label[for="selectAll"]::after{
 }
 .pWrap{
     cursor: pointer;
+    -webkit-animation-duration: 0.1s;
+    -webkit-animation-delay: 0.5s;
 }

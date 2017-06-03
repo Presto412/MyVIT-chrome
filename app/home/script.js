@@ -47,7 +47,7 @@ window.onload=function () {
         <li><a class="dropdown-button" href="#!" data-activates="other">Other<i style="margin-left: 10px;" class="fa fa-caret-down"></i></a></li>
         <li><a href="badges.html"><i class="fa fa-search" style="margin-right: 10px;" aria-hidden="true"></i>Search Faculty</a></li>
         <li><a class="dropdown-button" href="#!" data-activates="hosteller">Hosteller<i style="margin-left: 10px;" class="fa fa-caret-down"></i></a></li>
-        <li><a class="tooltipped" href="stud_logout.asp" target="_self" data-position="left" data-delay="50" data-tooltip="Logout"><i class="fa fa-2x fa-sign-out" aria-hidden="true"></i></li>
+        <li><a class="tooltipped" href="stud_logout.asp" target="_self" data-position="left" data-delay="50" data-tooltip="Logout"><i class="material-icons">input</i></li>
       </ul>
     </div>
   </nav>`;

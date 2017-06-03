@@ -2,7 +2,8 @@
  * Created by Vineeth on 29-05-2017.
  */
 $(function () {
-    $('body').prepend('<div id="root" class="container" style="width:85%"></div><a id="download" style="position: fixed;bottom: 5px;right: 5px;" class="btn-floating btn-large waves-effect waves-light teal scale-transition scale-out tooltipped" data-position="left" data-delay="50" data-tooltip="Download Selected"><i class="fa fa-download"></i></a>');
+    zip.useWebWorkers=false;
+    $('body').prepend(`<div id="root" class="container" style="width:85%"></div> <div class="fixed-action-btn scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;"> <a id="download" class="btn-floating btn-large waves-effect waves-light teal tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected"><i class="material-icons">file_download</i></a> <ul> <li><a id="zip" class="btn-floating waves-effect waves-light blue tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected as zip"><i class="fa fa-file-archive-o"></i></a></li> </ul> `);
     let $root=$('#root');
    $('#content table').each(function () {
        $(this).wrap('<div class="row"></div>');
@@ -31,31 +32,31 @@ $(function () {
    $t3.find('tr').eq(0).addClass('listHead').children('td:nth-child(5)').attr('width','230').append('<p class="right tooltipped" data-position="left" data-delay="50" data-tooltip="Select All" style="margin:0;"> <input type="checkbox" class="filled-in" id="selectAll"/> <label for="selectAll"></label> </p>').end().children('td:nth-child(2)').attr('width','130');
    $t3.find('tr[bgcolor="#EDEADE"]').addClass('list').css('cursor','default').each(function () {
        $(this).children('td').eq(-1).addClass('rm').find('a').wrap('<div class="link" style="margin: 15px 0;"></div>').end().find('br').remove().end();
+       let t=$(this).find('.link');
+       t.each(function () {
+           console.log($(this).find('font').text());
+           if(($(this).find('font').text()).search("Reference")==-1)
+               $(this).removeClass('link').addClass('noLink');
+       });
    });
    let i=0;
    $('.link').each(function () {
        $(this).append(`<p class="right" style="margin:0;"><input type="checkbox" id="item${i}" /><label for="item${i++}"></label></p>`);
    });
    $('.rm').each(function () {
-       let $l=$(this).find('.link').detach();
+       let $l=$(this).find('.link,.noLink').detach();
        $(this).empty().append($l);
    });
    $('.tooltipped').tooltip({delay: 50});
    function handleButton(){
        if ($('.link input:checked').length) {
-           $('#download').removeClass('scale-out').addClass('pulse');
+           $('#download').addClass('pulse').parent().removeClass('scale-out');
            setTimeout(function () {
                $('#download').removeClass('pulse');
            },1000);
-           /*if ($('#download').hasClass('scale-out')){
-               $('#download').removeClass('scale-out').addClass('pulse');
-               setTimeout(function () {
-                   $('#download').removeClass('pulse');
-               },2000);
-           }*/
        }
        else {
-           $('#download').addClass('scale-out');
+           $('#download').parent().addClass('scale-out');
        }
    }
    $('.link input:checkbox').change(handleButton);
@@ -66,35 +67,90 @@ $(function () {
            $('.link input:checkbox').prop('checked',false);
        handleButton();
    });
-   let blobs=[],requests=[];
-    $('#download').click(function () {
-        let links=[];
+   let requests=[],links=[],zipfile,count=0;
+    function collectLinks() {
         $('.link input:checked').each(function () {
             console.log($(this));
             let $a=$(this).parent().siblings('a');
             links.push($a.attr('href'));
         });
-        $('.link input:checkbox').prop('checked',false);
+        $('.link input:checkbox,#selectAll').prop('checked',false);
         handleButton();
         downloadView();
+    }
+    $('#download').click(function () {
+        collectLinks();
         for(let i=0;i<links.length;i++)
         {
-            requests.push(downloadController(links[i],i))
+            requests.push(downloadController(links[i],i,0))
         }
         $.when.apply(this,requests).then(function () {
             requests=[];
-            // $('.downWrap').addClass('animated slideOutRight');
+            links=[];
             setTimeout(function () {
                 $('.downWrap').fadeOut(500,function () {
                     $(this).remove();
                 })
-            },2000);
+            },5000);
             console.log('download completed !')
         });
         console.log(links);
     });
-
-
+    $('#zip').click(function () {
+        zipfile=undefined;
+        zip.createWriter(new zip.BlobWriter("application/zip"), function(writer) {
+           zipfile=writer;
+            collectLinks();
+            for(let i=0;i<links.length;i++)
+                requests.push(downloadController(links[i],i,1));
+            $.when.apply(this,requests).then(function () {
+                console.log('appended !!');
+                zipfile.close(function(blob) {
+                    $('#dwnStatusIcon').removeClass('fa-cog fa-spin').addClass('fa-download');
+                    $('#dwnStatus').text('Your download is ready !').css('font-size','1.4rem');
+                    download(blob,`File.zip`);
+                    requests=[];
+                    links=[];
+                    setTimeout(function () {
+                        $('.downWrap').fadeOut(500,function () {
+                            $(this).remove();
+                        })
+                    },5000);
+                    console.log('download completed !');
+                });
+            });
+        });
+    });
+    let zipStatus=false,zipJob=[];
+    function zipHandler(b,n,r)
+    {
+        if(zipStatus==false&&zipJob.length==0)
+        {
+            addToZip(b,n,r);
+        }
+        else
+        {
+            let t=[b,n,r];
+            zipJob.push(t);
+        }
+    }
+    function addToZip(blob,name,resolve){
+        zipStatus=true;
+        console.log('zip job started !');
+        zipfile.add(name, new zip.BlobReader(blob), function() {
+            console.log('file added !');
+            resolve(true);
+            if(zipJob.length>0)
+            {
+                let t=zipJob.pop();
+                addToZip(t[0],t[1],t[2]);
+            }
+            else
+            {
+                zipStatus=false;
+            }
+        });
+    }
     function downloadView() {
         if($('#downloads').length)
             return;
@@ -102,8 +158,8 @@ $(function () {
 <div class="downWrap" style="width:365px;position: fixed;bottom: 50px;right: 25px;z-index: 10;">
     <ul class="collapsible animated slideInRight" style="border: none;" data-collapsible="accordion">
         <li>
-            <div class="collapsible-header white-text active" style="background-color: rgba(0, 0, 0, 0.87);border: none;">Downloading files<i class="fa fa-times right downBtn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cancel Downloads" aria-hidden="true"></i></div>
-            <div id="downloads" class="collapsible-body" style="background-color: white;border: none;max-height: 40vh;overflow-y: scroll;">
+            <div class="collapsible-header white-text active" style="background-color: rgba(0, 0, 0, 0.87);border: none;">Downloading files - (<span id="count">1</span>/${links.length})<i id="dwnCancel" class="material-icons tooltipped right" data-position="bottom" data-delay="50" data-tooltip="Cancel downloads" aria-hidden="true">close</i></div>
+            <div id="downloads" class="collapsible-body" style="background-color: white;border: none;max-height: 40vh;overflow-y: scroll;overflow-x: hidden;">
             </div>
         </li>
     </ul>
@@ -130,7 +186,7 @@ $(function () {
             $(this).children('.details').addClass('hide');
         })
     }
-    function downloadController(url,i) {
+    function downloadController(url,i,mode) {
         function getExt(x) {
             return x.substr(x.lastIndexOf('.'));
         }
@@ -155,18 +211,34 @@ $(function () {
                 }
             };
             xhr.onload = () => {
-                resolve(true);
-                // let url = window.URL.createObjectURL(xhr.response);
-                // console.log('url is - ',url);
-                download(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`);
+                // count++;
+                $('#count').text(++count);
+                $(`#loader_${i}`).fadeOut(500,function () {
+                    $(this).remove();
+                });
+                if(mode==1)
+                {
+                    if(count==links.length)
+                        $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-cog fa-spin left" aria-hidden="true"></i><span style="margin-left: 15px;" id="dwnStatus" class="left">Zipping ...</span></h4> </div>`));
+                    zipHandler(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`,resolve);
+                }
+                else
+                {
+                    if(count==links.length)
+                        $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-download left" aria-hidden="true"></i><span id="dwnStatus" style="margin-left: 15px;font-size: 1.4rem;" class="left">Your download is ready !</span></h4> </div>`));
+                    resolve(true);
+                    download(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`);
+                }
+
+                if(count==links.length)
+                    count = 0;
                 console.log('headers - ',xhr.getAllResponseHeaders());
             };
             xhr.onerror = () => {
                 reject('Download failed !');
             };
             xhr.send();
-            console.log('request sent !');
+            console.log(`request ${i} sent !`);
         });
-
     }
 });
