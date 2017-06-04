@@ -5,7 +5,7 @@ Minimalistic port of the My VIT app for the web
 
 ## Downloads :
 ### -> Release [(V 1.1.0)](https://chrome.google.com/webstore/detail/my-vit/mlfcodpjdcbjmmadjhegigifalklgbnm?hl=en-US)
-### -> Beta -(crx file)- [(V 2.0.0)](https://github.com/technophilic/MyVIT-chrome/blob/master/app.crx?raw=true)
+### -> Beta -(crx file)- [(V 2.0.0)](https://github.com/technophilic/MyVIT-chrome/blob/develop/app.crx?raw=true)
 
 ## Features :
 ### Check your attendance from any page. It is literally one click away !
