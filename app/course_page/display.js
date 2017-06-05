@@ -2,8 +2,7 @@
  * Created by Vineeth on 29-05-2017.
  */
 $(function () {
-    zip.useWebWorkers=false;
-    $('body').prepend(`<div id="root" class="container" style="width:85%"></div> <div class="fixed-action-btn scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;"> <a id="download" class="btn-floating btn-large waves-effect waves-light teal tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected"><i class="material-icons">file_download</i></a> <ul> <li><a id="zip" class="btn-floating waves-effect waves-light blue tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected as zip"><i class="fa fa-file-archive-o"></i></a></li> </ul> `);
+    $('body').prepend(`<div id="root" class="container" style="width:85%"></div> <div class="fixed-action-btn scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;"> <a id="download" class="btn-floating btn-large waves-effect waves-light teal tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected"><i style="font-size: 2.0rem" class="material-icons">file_download</i></a> <ul> <li><a id="zip" class="btn-floating waves-effect waves-light blue tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected as zip"><i class="fa fa-file-archive-o"></i></a></li> </ul> `);
     let $root=$('#root');
    $('#content table').each(function () {
        $(this).wrap('<div class="row"></div>');
@@ -34,7 +33,7 @@ $(function () {
        $(this).children('td').eq(-1).addClass('rm').find('a').wrap('<div class="link" style="margin: 15px 0;"></div>').end().find('br').remove().end();
        let t=$(this).find('.link');
        t.each(function () {
-           console.log($(this).find('font').text());
+           // console.log($(this).find('font').text());
            if(($(this).find('font').text()).search("Reference")==-1)
                $(this).removeClass('link').addClass('noLink');
        });
@@ -67,16 +66,33 @@ $(function () {
            $('.link input:checkbox').prop('checked',false);
        handleButton();
    });
-   let requests=[],links=[],zipfile,count=0;
+   let requests=[],xhrs=[],links=[],zipfile,count=0,errormsg=false;
     function collectLinks() {
         $('.link input:checked').each(function () {
-            console.log($(this));
+            // console.log($(this));
             let $a=$(this).parent().siblings('a');
             links.push($a.attr('href'));
         });
         $('.link input:checkbox,#selectAll').prop('checked',false);
         handleButton();
         downloadView();
+    }
+    function reset() {
+        $('#dwnCancel').remove();
+        requests=[];
+        links=[];
+        xhrs=[];
+        count=0;
+        setTimeout(function () {
+            $('.downWrap').fadeOut(500,function () {
+                $(this).remove();
+            })
+        },5000);
+        if(errormsg){
+            Materialize.toast($(`<h6><i class="fa fa-times" style="margin-right: 10px;"></i>Some files couldn't be downloaded and are marked in red color.</h6>`),5000,"red darken-1")
+            errormsg=false;
+        }
+        console.log('download completed !');
     }
     $('#download').click(function () {
         collectLinks();
@@ -85,39 +101,30 @@ $(function () {
             requests.push(downloadController(links[i],i,0))
         }
         $.when.apply(this,requests).then(function () {
-            requests=[];
-            links=[];
-            setTimeout(function () {
-                $('.downWrap').fadeOut(500,function () {
-                    $(this).remove();
-                })
-            },5000);
-            console.log('download completed !')
+            reset();
+            console.log('xhrs -',xhrs);
+        }).catch(function () {
+            reset();
         });
-        console.log(links);
+        // console.log(links);
     });
     $('#zip').click(function () {
-        zipfile=undefined;
+        zip.useWebWorkers=false;
         zip.createWriter(new zip.BlobWriter("application/zip"), function(writer) {
            zipfile=writer;
             collectLinks();
             for(let i=0;i<links.length;i++)
                 requests.push(downloadController(links[i],i,1));
             $.when.apply(this,requests).then(function () {
-                console.log('appended !!');
+                // console.log('appended !!');
                 zipfile.close(function(blob) {
                     $('#dwnStatusIcon').removeClass('fa-cog fa-spin').addClass('fa-download');
-                    $('#dwnStatus').text('Your download is ready !').css('font-size','1.4rem');
+                    $('#dwnStatus').text('Download completed !').css('font-size','1.4rem');
                     download(blob,`File.zip`);
-                    requests=[];
-                    links=[];
-                    setTimeout(function () {
-                        $('.downWrap').fadeOut(500,function () {
-                            $(this).remove();
-                        })
-                    },5000);
-                    console.log('download completed !');
+                    reset();
                 });
+            }).catch(function () {
+                reset();
             });
         });
     });
@@ -136,9 +143,9 @@ $(function () {
     }
     function addToZip(blob,name,resolve){
         zipStatus=true;
-        console.log('zip job started !');
+        // console.log('zip job started !');
         zipfile.add(name, new zip.BlobReader(blob), function() {
-            console.log('file added !');
+            // console.log('file added !');
             resolve(true);
             if(zipJob.length>0)
             {
@@ -168,6 +175,11 @@ $(function () {
         $('body').append($($d));
         $('.collapsible').collapsible();
         $('.tooltipped').tooltip({delay: 50});
+        $('#dwnCancel').click(function (e) {
+            e.stopPropagation();
+            $(this).tooltip('remove');
+            for(xmlhttp of xhrs)xmlhttp.abort();
+        });
     }
     function viewInject(i) {
         let str=`<div class="pWrap" id='loader_${i}' style="background-color: rgba(0,0,0,0.1);">
@@ -190,26 +202,32 @@ $(function () {
         function getExt(x) {
             return x.substr(x.lastIndexOf('.'));
         }
-        function progressUpdate(e) {
-            if (e.lengthComputable) {
-                let percentComplete = e.loaded / e.total;
-                $(`#loader_${i}`).find(`.determinate`).css('width',Math.round(percentComplete * 100) + "%");
-            }
-        }
         viewInject(i);
         return new Promise(function(resolve, reject) {
 
             // $('#root').append($('<div class="progress"><div id="dbar" class="determinate" style="width: 0%"></div></div><a id="dInit" class="hide"></a>'));
+            function skipFile(){
+                $('#count').text(++count);
+                if(count==links.length)
+                    $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-download left" aria-hidden="true"></i><span id="dwnStatus" style="margin-left: 15px;font-size: 1.4rem;" class="left">Download completed !</span></h4> </div>`));
+                $(`#loader_${i}`).fadeOut(500,function () {
+                    $(this).remove();
+                });
+                $(`a[href="${url}"]`).find('font').attr('color','red');
+                errormsg=true;
+                resolve('Download failed !');
+                xhrs = xhrs.filter(e => e !==xhr);
+            }
+            function progressUpdate(e) {
+                if (e.lengthComputable) {
+                    let percentComplete = e.loaded / e.total;
+                    $(`#loader_${i}`).find(`.determinate`).css('width',Math.round(percentComplete * 100) + "%");
+                }
+            }
             let xhr = new XMLHttpRequest();
             xhr.open('GET',url,true);
             xhr.responseType = "blob";
             xhr.onprogress=progressUpdate;
-            xhr.onreadystatechange = function() {
-                if(this.readyState == this.HEADERS_RECEIVED) {
-                    console.log('size - ',filesize(xhr.getResponseHeader("Content-Length")));
-                    console.log('Type - ',getExt(xhr.getResponseHeader("Content-Disposition")));
-                }
-            };
             xhr.onload = () => {
                 // count++;
                 $('#count').text(++count);
@@ -225,20 +243,22 @@ $(function () {
                 else
                 {
                     if(count==links.length)
-                        $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-download left" aria-hidden="true"></i><span id="dwnStatus" style="margin-left: 15px;font-size: 1.4rem;" class="left">Your download is ready !</span></h4> </div>`));
+                        $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-download left" aria-hidden="true"></i><span id="dwnStatus" style="margin-left: 15px;font-size: 1.4rem;" class="left">Download completed !</span></h4> </div>`));
                     resolve(true);
                     download(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`);
                 }
-
+                console.log('xhrs -',xhrs);
+                xhrs = xhrs.filter(e => e !==xhr);
                 if(count==links.length)
                     count = 0;
-                console.log('headers - ',xhr.getAllResponseHeaders());
+                // console.log('headers - ',xhr.getAllResponseHeaders());
             };
-            xhr.onerror = () => {
-                reject('Download failed !');
-            };
+
+            xhr.onerror =skipFile;
+            xhr.onabort=skipFile;
+            xhrs.push(xhr);
             xhr.send();
-            console.log(`request ${i} sent !`);
+            // console.log(`request ${i} sent !`);
         });
     }
 });

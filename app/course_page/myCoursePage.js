@@ -1,18 +1,15 @@
 $(function () {
-   $('body').append(`<div class="container" style="max-width:800px;">
-<iframe id="cPage" style="width:100%;" src="${chrome.extension.getURL('course_page/index.html')}" frameborder="0"></iframe>
-</div>`);
-    iFrameResize({log:false
-    }, '#cPage');
+   $('head').append($(`<script src="${chrome.extension.getURL('scripts/jquery.js')}"></script>`));
+   $('body').append($(`<script src="${chrome.extension.getURL('course_page/script.js')}"></script>`));
 });
 //min-height:60vh;max-width:800px;
-let Port=undefined;
-let portStat=undefined;
+/*let Port=undefined;
+let portStat=undefined;*/
 
 let fetchCP=function () {
     chrome.storage.local.get(function(result){
         isdata=!$.isEmptyObject(result);
-        $.ajax({
+        /*$.ajax({
             url:'https://myffcs.in:10443/campus/vellore/login',
             type: 'POST',
             processData:false,
@@ -24,11 +21,11 @@ let fetchCP=function () {
             error: function(){
                 console.log('unable to connect !')
             }
-        });
+        });*/
     });
 }();
-let cPage=[],cPromise=[];
-let myCoursePage=function(r,p,cpMeta) {
+// let cPage=[],cPromise=[];
+/*let myCoursePage=function(r,p,cpMeta) {
    cPage=cpMeta;
    console.log(cPage);
    let $t=undefined,$l=undefined;
@@ -102,9 +99,9 @@ let myCoursePage=function(r,p,cpMeta) {
     });
     // alert('wait !');
     // console.log(cPromise);
-};
+};*/
 chrome.runtime.onConnect.addListener(function(port) {
-    console.log('Port connected !');
+    alert('Port connected !');
     if(port.name == "MyVIT_coursePage")
     {
         Port=port;

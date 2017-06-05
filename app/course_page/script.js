@@ -1,14 +1,7 @@
 
-chrome.tabs.query({currentWindow: true, active: true }, function (tabArray){
-        let port=chrome.tabs.connect(tabArray[0].id,{name: "MyVIT_coursePage"});
-        port.onMessage.addListener(function(msg){
-            let payLoad=msg.Course_page;
-            console.log('Payload recieved !');
-            console.log(payLoad);
-            populate(payLoad);
-            handleui();
-        });
-});
+(function () {
+    // alert('injected');
+})();
 
 let populate=function (payLoad) {
     let cpString='';
@@ -106,15 +99,6 @@ let handleui=function () {
     $('#preload').addClass('hide');
     $('#cpWrapper').removeClass('hide');
 };
-$(function () {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register(chrome.extension.getURL("scripts/sw.js")).then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ',    registration.scope);
-        }).catch(function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-        })
-    }
-});
 //
 // <div class="row hist">
 //     <div class="col s4">EXTERNAL_FRAGMENT</div>
