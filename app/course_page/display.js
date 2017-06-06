@@ -11,7 +11,7 @@ $(function () {
    });
    $('#content').remove();
    $root.find('table').eq(0).find('tr').eq(0).addClass('listHead');
-   $root.find('table').eq(0).find('tr').eq(1).addClass('wbg');
+   $root.find('table').eq(0).find('tr').eq(1).addClass('wbg').children('td').eq(0).addClass('courseCode').end().eq(1).addClass('courseName').end().eq(2).addClass('courseType').end().eq(4).addClass('courseSlot').end().eq(5).addClass('courseFaculty');
    $root.find('table').wrap('<div class="card-panel" style="padding: 0;"></div>');
    let $t2=$root.find('table').eq(1);
    $t2.find('td[bgcolor="#5A768D"]').addClass('listHead');
@@ -32,10 +32,16 @@ $(function () {
    $t3.find('tr[bgcolor="#EDEADE"]').addClass('list').css('cursor','default').each(function () {
        $(this).children('td').eq(-1).addClass('rm').find('a').wrap('<div class="link" style="margin: 15px 0;"></div>').end().find('br').remove().end();
        let t=$(this).find('.link');
+       let cl=0,slno=$(this).children('td').eq(0).text();
        t.each(function () {
            // console.log($(this).find('font').text());
            if(($(this).find('font').text()).search("Reference")==-1)
                $(this).removeClass('link').addClass('noLink');
+           else {
+               $(this).attr('data-fileName',`slno.${slno}.File.${cl+1}`);
+               cl++;
+           }
+
        });
    });
    let i=0;
@@ -70,8 +76,9 @@ $(function () {
     function collectLinks() {
         $('.link input:checked').each(function () {
             // console.log($(this));
-            let $a=$(this).parent().siblings('a');
-            links.push($a.attr('href'));
+            // let $a=$(this).parent().siblings('a');
+            // links.push($a.attr('href'));
+            links.push($(this).parent().parent());
         });
         $('.link input:checkbox,#selectAll').prop('checked',false);
         handleButton();
@@ -98,11 +105,11 @@ $(function () {
         collectLinks();
         for(let i=0;i<links.length;i++)
         {
-            requests.push(downloadController(links[i],i,0))
+            requests.push(downloadController((links[i]).find('a').attr('href'),i,0,(links[i]).attr('data-fileName')))
         }
         $.when.apply(this,requests).then(function () {
             reset();
-            console.log('xhrs -',xhrs);
+            // console.log('xhrs -',xhrs);
         }).catch(function () {
             reset();
         });
@@ -114,13 +121,13 @@ $(function () {
            zipfile=writer;
             collectLinks();
             for(let i=0;i<links.length;i++)
-                requests.push(downloadController(links[i],i,1));
+                requests.push(downloadController((links[i]).find('a').attr('href'),i,1,(links[i]).attr('data-fileName')));
             $.when.apply(this,requests).then(function () {
                 // console.log('appended !!');
                 zipfile.close(function(blob) {
                     $('#dwnStatusIcon').removeClass('fa-cog fa-spin').addClass('fa-download');
                     $('#dwnStatus').text('Download completed !').css('font-size','1.4rem');
-                    download(blob,`File.zip`);
+                    download(blob,`${$('.courseCode').text()}.MyVit-${new Date().getTime()}.zip`);
                     reset();
                 });
             }).catch(function () {
@@ -198,7 +205,7 @@ $(function () {
             $(this).children('.details').addClass('hide');
         })
     }
-    function downloadController(url,i,mode) {
+    function downloadController(url,i,mode,name) {
         function getExt(x) {
             return x.substr(x.lastIndexOf('.'));
         }
@@ -238,16 +245,16 @@ $(function () {
                 {
                     if(count==links.length)
                         $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-cog fa-spin left" aria-hidden="true"></i><span style="margin-left: 15px;" id="dwnStatus" class="left">Zipping ...</span></h4> </div>`));
-                    zipHandler(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`,resolve);
+                    zipHandler(xhr.response,`${$('.courseCode').text()}.${name+getExt(xhr.getResponseHeader("Content-Disposition"))}`,resolve);
                 }
                 else
                 {
                     if(count==links.length)
                         $('#downloads').empty().append($(`<div style="pointer-events: none; opacity: 0.4;"><h4 class="center-align"><i id="dwnStatusIcon" class="fa fa-download left" aria-hidden="true"></i><span id="dwnStatus" style="margin-left: 15px;font-size: 1.4rem;" class="left">Download completed !</span></h4> </div>`));
                     resolve(true);
-                    download(xhr.response,`File.${i}${getExt(xhr.getResponseHeader("Content-Disposition"))}`);
+                    download(xhr.response,`${$('.courseCode').text()}.${name+getExt(xhr.getResponseHeader("Content-Disposition"))}`);
                 }
-                console.log('xhrs -',xhrs);
+                // console.log('xhrs -',xhrs);
                 xhrs = xhrs.filter(e => e !==xhr);
                 if(count==links.length)
                     count = 0;
