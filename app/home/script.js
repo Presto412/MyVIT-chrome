@@ -52,19 +52,15 @@ window.onload=function () {
     </div>
   </nav>`;
     // console.log($('body'));
-    let $body=$('body');
-    let $iframe=$('iframe');
-    $body.eq(-1).prepend($(nav));
+    $('body').eq(-1).prepend($(nav));
     $(".dropdown-button").dropdown({ constrainWidth: false});
     $('.tooltipped').tooltip({delay: 50});
     $(window).on('blur',function(){$('.dropdown-button').dropdown('close');});
-
-    // $('nav').after($iframe);
-    for(let k=0;k<4;k++)
-    {
-        $iframe.siblings().remove().end().unwrap();
-    }
+    let $iframe=$('iframe').detach();
+    // $iframe.removeAttr('src');
+    $('nav').after($iframe);
     $iframe.removeAttr('height').css({'border': 'none','flex-grow':'1'}).parent().css({'display': 'flex','flex-direction': 'column','background-image':'none'});
-    // $('table').remove();
+    $('table').remove();
     chrome.runtime.sendMessage({request:'initialize'});
+    chrome.runtime.sendMessage({request:'unload'});
 };
