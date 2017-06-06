@@ -3,8 +3,8 @@
  */
 
 $(function () {
-    chrome.runtime.sendMessage({request:'block-unload'});
-    console.log('view.js ready !');
+    // chrome.runtime.sendMessage({request:'block-unload'});
+    // console.log('view.js ready !');
     let $root=$('#content');
     let $form=$root.find('form[name="coursepage_plan_view"]');
     $root.wrap('<div class="container"></div>');
@@ -22,7 +22,6 @@ $(function () {
     let $list=$root.find('table');
     let t=true;
     if($list.length){
-        let $display;
         $list.find('tr').each(function(){
             $(this).children('td').eq(-1).addClass('hide');
             $(this).children('td').eq(-2).addClass('hide');
@@ -42,6 +41,6 @@ $(function () {
         $root.parent().after($l[0]);
     }
     $root.remove();
-    chrome.runtime.sendMessage({request:'allow-unload'});
-    chrome.runtime.sendMessage({request:'unload'});
+    // chrome.runtime.sendMessage({request:'allow-unload'});
+    // chrome.runtime.sendMessage({request:'unload'});
 });

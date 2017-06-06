@@ -42,3 +42,7 @@ label[for="selectAll"]::after{
     -webkit-animation-duration: 0.1s;
     -webkit-animation-delay: 0.5s;
 }
+.sum{
+    border: black solid;
+    border-width: 1px 0 0;
+}
