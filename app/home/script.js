@@ -62,5 +62,4 @@ window.onload=function () {
     $iframe.removeAttr('height').css({'border': 'none','flex-grow':'1'}).parent().css({'display': 'flex','flex-direction': 'column','background-image':'none'});
     $('table').remove();
     chrome.runtime.sendMessage({request:'initialize'});
-    chrome.runtime.sendMessage({request:'unload'});
 };

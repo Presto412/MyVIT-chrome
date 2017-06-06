@@ -18,16 +18,19 @@ $(function () {
         columns=[2,5];
     else
         columns=[2,6];
-    let $iter=$t.eq(-1).find('tr');
-    let $l=$iter.eq(-1);
-    let $sum=$l.clone(),sum=[0,0];
-    $sum.find('td').html("").siblings().not('td').remove();
-    $l.after($sum);
-    for (let j=2;j<$iter.length;j++)
+    if ($t.length>1)
     {
-        sum[0]+=+$iter.eq(j).find('td').eq(columns[0]).text();
-        sum[1]+=+$iter.eq(j).find('td').eq(columns[1]).text();
+        let $iter=$t.eq(-1).find('tr');
+        let $l=$iter.eq(-1);
+        let $sum=$l.clone(),sum=[0,0];
+        $sum.find('td').html("").siblings().not('td').remove();
+        $l.after($sum);
+        for (let j=2;j<$iter.length;j++)
+        {
+            sum[0]+=+$iter.eq(j).find('td').eq(columns[0]).text();
+            sum[1]+=+$iter.eq(j).find('td').eq(columns[1]).text();
+        }
+        $sum.find('td').eq(1).html('<b>Total :</b>').end().eq(columns[0]).addClass('sum').html(sum[0]).end().eq(columns[1]).addClass('sum').html(sum[1]);
+        // $('font[color="white"]').attr('color','black');
     }
-    $sum.find('td').eq(1).html('<b>Total :</b>').end().eq(columns[0]).addClass('sum').html(sum[0]).end().eq(columns[1]).addClass('sum').html(sum[1]);
-    // $('font[color="white"]').attr('color','black');
 });

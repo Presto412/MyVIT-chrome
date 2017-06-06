@@ -297,15 +297,20 @@ chrome.webRequest.onBeforeRequest.addListener(
 let unblock=true;
 chrome.webRequest.onHeadersReceived.addListener(
     function (details) {
-        console.log('Response Headers',details);
+        // console.log('Response Headers',details);
         let headers=details.responseHeaders;
         for(let i=0;i<headers.length;i++)
             if(headers[i].name==="Content-Type")
-            {
-                console.log('File intercepted');
                 if (headers[i].value.search("application")!==-1)
-                chrome.tabs.executeScript(null, {file: "preloader/unload.js"});
-            }
+                {
+
+                    if(headers[i].value!=="application/x-javascript")
+                    {
+                        console.log('File intercepted');
+                        console.log('Response Headers',details);
+                        chrome.tabs.executeScript(null, {file: "preloader/unload.js"});
+                    }
+                }
     },
     {urls: ["*://vtop.vit.ac.in/*"]},
     ["responseHeaders"]);
@@ -333,7 +338,7 @@ chrome.runtime.onMessage.addListener(
             }
             else if(isloaded==0&&unblock){
                 $( '.preload-contain,#preLoader,#preBody' ).fadeOut( 500, function() {
-                    // console.log('executed !');
+                    console.log('executed !');
                     $('#preLoader').parent().remove();
                 });
             }
