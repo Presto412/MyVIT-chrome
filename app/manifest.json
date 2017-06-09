@@ -62,9 +62,21 @@
     },
     {
       "all_frames":true,
-      "matches": ["*://vtop.vit.ac.in/student/marks_da_process.asp*","*://vtop.vit.ac.in/student/marks_pjt_process.asp*","*://vtop.vit.ac.in/student/marks_da_details.asp*"],
+      "matches": ["*://vtop.vit.ac.in/student/leave_request.asp*"],
+      "css": ["/styles/materialize.css","hosteller/leave_request.css"],
+      "js": ["scripts/jquery.js","scripts/materialize.min.js","hosteller/leave_request.js"]
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/marks_da_process.asp*","*://vtop.vit.ac.in/student/marks_pjt_process.asp*","*://vtop.vit.ac.in/student/marks_da_details.asp*","*://vtop.vit.ac.in/student/exam_schedule.asp*"],
       "css": ["/styles/materialize.css","course_page/course_inject.css"],
       "js": ["scripts/jquery.js","scripts/materialize.min.js","cal/marks_da_process.js"]
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtop.vit.ac.in/student/marks.asp*"],
+      "css": ["/styles/materialize.css","course_page/course_inject.css"],
+      "js": ["scripts/jquery.js","scripts/materialize.min.js","marks/script.js"]
     },
     {
       "all_frames":true,

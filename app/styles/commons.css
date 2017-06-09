@@ -2416,3 +2416,21 @@ body::-webkit-scrollbar-thumb
     background-color: #424242;
     border: 2px solid rgba(255, 255, 255, 0);
 }
+
+.list,.wbg{
+    background-color: white !important;
+}
+tr.list{
+    cursor:pointer;
+}
+.list:hover,.hoverBg:hover{
+    background-color: #eeeeee !important;
+}
+.listHead{
+    background-color: #00695c !important;
+    color: white !important;
+}
+.listHead,.listHead td,.list,.list td{
+    border: none;
+    border-radius:0;
+}

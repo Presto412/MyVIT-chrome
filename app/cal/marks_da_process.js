@@ -9,7 +9,7 @@ $(function () {
                 $th.eq(-1).remove();
         $('input[type="submit"]').addClass('btn');
         $th.addClass('listHead');
-        $('tr[bgcolor!="#5A768D"],td[bgcolor="#EDEADE"]').not('tr[bgcolor="#616D7E"]').addClass('wbg');
+        $('tr[bgcolor!="#5A768D"],td[bgcolor="#EDEADE"]').not('tr[bgcolor="#616D7E"]').addClass('wbg hoverBg');
     });
     $('td').addClass('center-align');
     if($t.eq(0).find('tr').eq(-1).find('td').eq(3).text().search("Theory")!==-1)
@@ -23,7 +23,7 @@ $(function () {
         let $iter=$t.eq(-1).find('tr');
         let $l=$iter.eq(-1);
         let $sum=$l.clone(),sum=[0,0];
-        $sum.find('td').html("").siblings().not('td').remove();
+        $sum.removeClass('hoverBg').find('td').html("").siblings().not('td').remove();
         $l.after($sum);
         for (let j=2;j<$iter.length;j++)
         {
@@ -31,6 +31,6 @@ $(function () {
             sum[1]+=+$iter.eq(j).find('td').eq(columns[1]).text();
         }
         $sum.find('td').eq(1).html('<b>Total :</b>').end().eq(columns[0]).addClass('sum').html(sum[0]).end().eq(columns[1]).addClass('sum').html(sum[1]);
-        // $('font[color="white"]').attr('color','black');
     }
+    $t.find('tr.wbg[height="25"]').removeClass('hoverBg').find('b').wrap('<h4></h4>')
 });
