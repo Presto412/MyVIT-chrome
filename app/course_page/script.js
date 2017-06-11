@@ -1,7 +1,16 @@
+/*
 
-(function () {
-    // alert('injected');
-})();
+chrome.tabs.query({currentWindow: true, active: true }, function (tabArray){
+        let port=chrome.tabs.connect(tabArray[0].id,{name: "MyVIT_coursePage"});
+        port.onMessage.addListener(function(msg){
+            let payLoad=msg.Course_page;
+            console.log('Payload recieved !');
+            console.log(payLoad);
+            populate(payLoad);
+            handleui();
+        });
+});
+*/
 
 let populate=function (payLoad) {
     let cpString='';

@@ -41,7 +41,7 @@
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/stud_menu.asp*"],
-      "js": ["scripts/jquery.js","menu/inject.js"]
+      "js": ["scripts/jquery.js","menu/navigator.js"]
     },
     {
       "all_frames":true,
@@ -50,9 +50,15 @@
     },
     {
       "all_frames":true,
+      "run_at":"document_start",
+      "matches": ["*://vtop.vit.ac.in/student/home.asp"],
+      "js": ["home/script.js"]
+    },
+    {
+      "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/home.asp*"],
       "css": ["/styles/materialize.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js"]
+      "js": ["scripts/jquery.js","scripts/materialize.min.js","home/navigation.js"]
     },
     {
       "all_frames":true,
@@ -86,12 +92,6 @@
     },
     {
       "all_frames":true,
-      "run_at":"document_start",
-      "matches": ["*://vtop.vit.ac.in/student/home.asp"],
-      "js": ["home/script.js"]
-    },
-    {
-      "all_frames":true,
       "run_at":"document_idle",
       "matches": ["*://vtop.vit.ac.in/student/*"],
       "js": ["scripts/jquery.js","preloader/autoUnload.js"]
@@ -99,7 +99,9 @@
   ],
   "web_accessible_resources": [
     "scripts/jquery.js",
-    "course_page/script.js",
+    "home/script.js",
+    "home/side-menu.js",
+    "menu/inject.js",
     "main/index.html",
     "assets/images/*",
     "assets/fac.min.json",

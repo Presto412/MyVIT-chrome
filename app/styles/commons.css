@@ -2402,21 +2402,34 @@
 *{
     font-family: "Roboto", sans-serif;
 }
-body:hover::-webkit-scrollbar-track
+body:hover::-webkit-scrollbar-track,.scroll1::-webkit-scrollbar-track
 {
     background-color: rgba(149, 149, 149, 0.2);
 }
-body::-webkit-scrollbar
+body::-webkit-scrollbar,.scroll1::-webkit-scrollbar
 {
     width: 10px;
     background-color: rgba(255, 255, 255, 0);
 }
-body::-webkit-scrollbar-thumb
+body::-webkit-scrollbar-thumb,.scroll1::-webkit-scrollbar-thumb
 {
     background-color: #424242;
     border: 2px solid rgba(255, 255, 255, 0);
 }
-
+.scroll2::-webkit-scrollbar-track
+{
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.scroll2::-webkit-scrollbar
+{
+    width: 4px;
+    background-color: transparent;
+}
+.scroll2::-webkit-scrollbar-thumb
+{
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0);
+}
 .list,.wbg{
     background-color: white !important;
 }

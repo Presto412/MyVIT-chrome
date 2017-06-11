@@ -3,7 +3,10 @@
 let portStat=false;
 let Port;
 chrome.browserAction.setBadgeText({ text: 'MyVIT' });
-
+/*let navPort;
+chrome.tabs.query({currentWindow: true, active: true }, function (tabArray){
+    navPort=chrome.tabs.connect(tabArray[0].id,{name: "Navigator"});
+});*/
 let isdata,Data,History;
 let getData=function () {
     chrome.storage.local.get(function(result){
@@ -25,7 +28,7 @@ $(function () {
     getData();
 });
 let rqst=function (ch,reg,pass) {
-    let type=['login','refresh'];
+    let type=['login','refresh','menu'];
     $.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
@@ -46,10 +49,14 @@ let rqst=function (ch,reg,pass) {
                     rqst(1,reg,pass);
                 }
             }
-           else
+           else if (ch==1)
             {
-
                 parse(result);
+                rqst(2,reg,pass);
+            }
+            else if(ch==2)
+            {
+                chrome.storage.local.set({'menu':result});
             }
         },
         error: function(){
@@ -254,6 +261,14 @@ chrome.runtime.onConnect.addListener(function(port) {
                clearData();
                port.postMessage({isData:false,reason:'logout'});
             }
+        });
+    }
+    else if(port.name == "MyVIT-Navigator")
+    {
+        port.onMessage.addListener(function(msg) {
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {url:msg.url});
+            });
         });
     }
     else console.log(port.name,' is connected ');
