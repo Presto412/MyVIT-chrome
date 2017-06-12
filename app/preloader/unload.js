@@ -3,7 +3,12 @@
  */
 (function loaded(){
     $( '.preload-contain,#preLoader,#preBody' ).fadeOut( 500, function() {
-        $('#preLoader,#preBody').remove();
+        $('#preLoader').remove();
+        if ($('#preBody').length)
+        {
+            $('#preBody').remove();
+            $('#messageBtn').removeClass('scale-out');
+        }
     });
 })();
 

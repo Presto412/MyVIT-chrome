@@ -28,7 +28,7 @@ $(function () {
     getData();
 });
 let rqst=function (ch,reg,pass) {
-    let type=['login','refresh','menu'];
+    let type=['login','refresh','menu','calCourses','messages'];
     $.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
@@ -52,11 +52,13 @@ let rqst=function (ch,reg,pass) {
            else if (ch==1)
             {
                 parse(result);
-                rqst(2,reg,pass);
+                for (let i=2;i<type.length;i++)
+                rqst(i,reg,pass);
             }
-            else if(ch==2)
+            else
             {
-                chrome.storage.local.set({'menu':result});
+                console.log('reached');
+                chrome.storage.local.set({[(type[ch])]:result});
             }
         },
         error: function(){

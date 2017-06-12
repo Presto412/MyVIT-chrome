@@ -36,20 +36,29 @@ $(function () {
       </ul>
     </div>
   </nav>
-<!--<div id="messageBtn" style="position: fixed;bottom: 15px;right: 15px;">-->
-    <!--<a class="btn-floating btn-large red tooltipped" data-tooltip="Faculty Messages" data-delay="50" data-position="left">-->
-        <!--<i class="fa fa-2x fa-comment"></i>-->
-    <!--</a>-->
-    <!--<ul>
-        <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-    </ul>-->
-<!--</div>-->
+<div id="messageBtn" class="scale-transition scale-out" style="position: fixed;bottom: 15px;right: 15px;">
+    <a id="msgFab" class="btn-floating btn-large red tooltipped" data-activates="msgNav" data-tooltip="Faculty Messages" data-delay="50" data-position="left">
+        <i class="fa fa-2x fa-comment"></i>
+    </a>
+    
+</div>
+<ul id="msgNav" class="side-nav">
+    <div class="row">
+    <div id="messages" class="col s12">
+</div>
+</div>
+  </ul>
+
 `;
     // console.log($('body'));
     $('body').eq(-1).prepend($(nav));
     $(".dropdown-button").dropdown({ constrainWidth: false});
     $('.tooltipped').tooltip({delay: 50});
     $("#sideBtn").sideNav();
+    $("#msgFab").sideNav({
+        menuWidth: 400, // Default is 300
+        edge: 'right', // Choose the horizontal origin
+    });
     $(window).on('blur',function(){$('.dropdown-button').dropdown('close');});
     let $iframe=$('iframe').detach();
     // $iframe.removeAttr('src');
@@ -59,6 +68,10 @@ $(function () {
     $iframe.attr('id','general').before($dashboard);
     $('table').remove();
     addNav();
+    chrome.storage.local.get(function(result){
+        addMsg(result.messages);
+    });
+
 });
 function addNav() {
     chrome.storage.local.get('menu',function(result){
@@ -96,6 +109,7 @@ function addNav() {
         $('.collapsible').collapsible();
         $('a.navigation').click(function (e) {
             e.preventDefault();
+            $('#messageBtn').addClass('scale-out');
             if($(this).attr('href')==='https://vtop.vit.ac.in/student/stud_home.asp')
             {
                 chrome.runtime.sendMessage({request:'preload'});
@@ -104,6 +118,9 @@ function addNav() {
                     $('#dash').removeClass('hide');
                     chrome.runtime.sendMessage({request:'unload'});
                 },300);
+                setTimeout(function () {
+                    $('#messageBtn').removeClass('scale-out');
+                },800);
             }
             else
             {
@@ -115,5 +132,20 @@ function addNav() {
             }
         });
         chrome.runtime.sendMessage({request:'initialize'});
+        // setTimeout(function () {
+        //     $('#messageBtn').removeClass('hide');
+        // },500);
     });
+}
+function addMsg(x){
+    for(let i of x.faculty_messages)
+    {
+        let t=`<div class="card-panel" style="min-height: 150px;">
+        <h6 style="font-size: large">${i.from}</h6>
+        <p style="font-size: medium">On : ${i.posted}</p>
+        <p>${i.message}</p> </div>
+        `;
+        $('#messages').append($(t));
+    }
+
 }
