@@ -2,30 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyVIT1</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="../styles/materialize.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../styles/commons.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div>
 
-<ul id="slide-out" class="side-nav fixed">
-    <li><div class="userView">
-        <div class="background">
-            <img src="../assets/images/office.jpg">
+    <div class="row">
+        <div class="col s7">
+            <h5 class="center-align">Attendance</h5>
+            <div class="chartWrap">
+                <div class="LegendWrap disabledGraph"><div class="legend"><span id="thWrap"><span id="theory" class="lgnd"></span> Theory</span> <span id="LabWrap"><span id="lab" class="lgnd"></span> Lab</span></div></div>
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
-        <a href="#!user"><img class="circle" src="../assets/images/icon-128.png"></a>
-        <a href="#!name"><span class="white-text name">John Doe</span></a>
-        <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a href="#!">Second Link</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-</ul>
-</ul>
-<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        <div class="col s5">
+            <div class="row">
+                <div class="col s8 push-s2">
+                    <h5 class="center-align">Upcoming assignments</h5>
+                    <div class="row card-panel" style="height: 150px;"></div>
+                    <div class="row card-panel" style="height: 150px;"></div>
+                    <div class="row card-panel" style="height: 150px;"></div>
+                    <div class="row card-panel" style="height: 150px;"></div>
+                    <div class="row card-panel" style="height: 150px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../scripts/jquery.js"></script>
+<script src="../scripts/Chart.js"></script>
 <script src="../scripts/materialize.min.js"></script>
 <script src="script.js"></script>
+</body>
+</html>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
 </body>
 </html>

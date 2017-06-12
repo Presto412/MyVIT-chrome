@@ -1,7 +1,7 @@
-$(function () {
+/*$(function () {
    $('head').append($(`<script src="${chrome.extension.getURL('scripts/jquery.js')}"></script>`));
    $('body').append($(`<script src="${chrome.extension.getURL('course_page/script.js')}"></script>`));
-});
+});*/
 //min-height:60vh;max-width:800px;
 /*let Port=undefined;
 let portStat=undefined;*/

@@ -22,31 +22,25 @@
     },
     {
       "all_frames":true,
-      "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_view.asp?sem*"],
-      "js": ["scripts/jquery.js","course_page/myCoursePage.js"]
-
+      "matches": ["*://vtop.vit.ac.in/*"],
+      "js": ["scripts/jquery.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_view.asp*"],
       "css": ["course_page/course_inject.css","/styles/materialize.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","course_page/view.js"]
+      "js": ["scripts/materialize.min.js","course_page/view.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/coursepage_plan_display.asp*"],
       "css": ["course_page/course_inject.css","/styles/materialize.css","/styles/animate.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","scripts/filesize.min.js","scripts/download.js","scripts/zip.js","scripts/deflate.js","course_page/display.js"]
+      "js": ["scripts/materialize.min.js","scripts/filesize.min.js","scripts/download.js","scripts/zip.js","scripts/deflate.js","course_page/display.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/stud_menu.asp*"],
-      "js": ["scripts/jquery.js","menu/navigator.js"]
-    },
-    {
-      "all_frames":true,
-      "matches": ["*://vtop.vit.ac.in/student/content.asp*"],
-      "js": ["scripts/jquery.js"]
+      "js": ["menu/navigator.js"]
     },
     {
       "all_frames":true,
@@ -58,51 +52,48 @@
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/home.asp*"],
       "css": ["/styles/materialize.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","home/navigation.js"]
+      "js": ["scripts/materialize.min.js","home/navigation.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/marks_da.asp*"],
       "css": ["/styles/materialize.css","course_page/course_inject.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","cal/marks_da.js"]
+      "js": ["scripts/materialize.min.js","cal/marks_da.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/leave_request.asp*"],
       "css": ["/styles/materialize.css","hosteller/leave_request.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","hosteller/leave_request.js"]
+      "js": ["scripts/materialize.min.js","hosteller/leave_request.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/marks_da_process.asp*","*://vtop.vit.ac.in/student/marks_pjt_process.asp*","*://vtop.vit.ac.in/student/marks_da_details.asp*","*://vtop.vit.ac.in/student/exam_schedule.asp*"],
       "css": ["/styles/materialize.css","course_page/course_inject.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","cal/marks_da_process.js"]
+      "js": ["scripts/materialize.min.js","cal/marks_da_process.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/marks.asp*"],
       "css": ["/styles/materialize.css","course_page/course_inject.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","marks/script.js"]
+      "js": ["scripts/materialize.min.js","marks/script.js"]
     },
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/fac_profile.asp"],
       "css": ["/styles/materialize.css","/styles/animate.css"],
-      "js": ["scripts/jquery.js","scripts/materialize.min.js","faculty_search/script.js"]
+      "js": ["scripts/materialize.min.js","faculty_search/script.js"]
     },
     {
       "all_frames":true,
       "run_at":"document_idle",
       "matches": ["*://vtop.vit.ac.in/student/*"],
-      "js": ["scripts/jquery.js","preloader/autoUnload.js"]
+      "js": ["preloader/autoUnload.js"]
     }
   ],
   "web_accessible_resources": [
     "scripts/jquery.js",
-    "home/script.js",
-    "home/side-menu.js",
-    "menu/inject.js",
-    "main/index.html",
+    "dashboard/index.html",
     "assets/images/*",
     "assets/fac.min.json",
     "styles/commons.css",

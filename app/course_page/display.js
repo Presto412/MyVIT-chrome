@@ -2,7 +2,7 @@
  * Created by Vineeth on 29-05-2017.
  */
 $(function () {
-    $('body').prepend(`<div id="root" class="container" style="width:85%"></div> <div class="fixed-action-btn scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;"> <a id="download" class="btn-floating btn-large waves-effect waves-light teal tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected"><i style="font-size: 2.0rem" class="material-icons">file_download</i></a> <ul> <li><a id="zip" class="btn-floating waves-effect waves-light blue tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected as zip"><i class="fa fa-file-archive-o"></i></a></li> </ul> `);
+    $('body').prepend(`<div id="root" class="container" style="width:85%"></div> <div class="fixed-action-btn scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;"><a id="download" class="btn-floating btn-large waves-effect waves-light teal tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected"><i style="font-size: 2.0rem" class="material-icons">file_download</i></a> <ul> <li><a id="zip" class="btn-floating waves-effect waves-light blue tooltipped" data-position="left" data-delay="50" data-tooltip="Download selected as zip"><i class="fa fa-file-archive-o"></i></a></li> </ul> </div>`);
     let $root=$('#root');
    $('#content table').each(function () {
        $(this).wrap('<div class="row"></div>');
