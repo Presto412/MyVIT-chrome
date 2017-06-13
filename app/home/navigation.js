@@ -11,16 +11,16 @@ $(function () {
     document.getElementsByTagName('table')[0].style.height='100%';
     let nav=`
   <ul id="hosteller" class="dropdown-content">
-  <li><a class="navigation" href="https://vtop.vit.ac.in/student/leave_request.asp"><i style="margin-right: 10px;" class="fa fa-plane" aria-hidden="true"></i>Leave/Outing Request</a></li>
-  <li><a class="navigation" href="https://vtop.vit.ac.in/student/Hostel_LAB_Permission.asp"><i style="margin-right: 10px;" class="fa fa-moon-o" aria-hidden="true"></i>Late Hours Permission</a></li>
+  <li><a class="navigation" href="https://vtop.vit.ac.in/student/leave_request.asp"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">train</i>Leave/Outing Request</a></li>
+  <li><a class="navigation" href="https://vtop.vit.ac.in/student/Hostel_LAB_Permission.asp"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">hourglass_empty</i>Late Hours Permission</a></li>
   <li class="divider"></li>
-  <li><a class="navigation" href="https://vtop.vit.ac.in/student/faculty_advisor_view.asp"><i style="margin-right: 10px;" class="fa fa-user-o" aria-hidden="true"></i>My Proctor</a></li>
+  <li><a class="navigation" href="https://vtop.vit.ac.in/student/faculty_advisor_view.asp"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">person</i>My Proctor</a></li>
   </ul> 
   <ul id="other" class="dropdown-content">
-  <li><a class="navigation" href="https://vtop.vit.ac.in/student/course_regular.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-calendar-o" aria-hidden="true"></i>Time Table</a></li>
+  <li><a class="navigation" href="https://vtop.vit.ac.in/student/course_regular.asp?sem=WS"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">date_range</i>Time Table</a></li>
   <li class="divider"></li>
-  <li><a class="navigation" href="https://vtop.vit.ac.in/student/exam_schedule.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-clock-o" aria-hidden="true"></i>Exam Schedule</a></li>
-  <li><a class="navigation" href="https://vtop.vit.ac.in/student/marks.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-sticky-note-o" aria-hidden="true"></i>Marks</a></li>
+  <li><a class="navigation" href="https://vtop.vit.ac.in/student/exam_schedule.asp?sem=WS"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">access_time</i>Exam Schedule</a></li>
+  <li><a class="navigation" href="https://vtop.vit.ac.in/student/marks.asp?sem=WS"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">assignment</i>Marks</a></li>
   </ul>  
   <nav style="margin-bottom: 5px;">
     <div class="nav-wrapper">
@@ -43,13 +43,7 @@ $(function () {
     </a>
     
 </div>
-<ul id="msgNav" class="side-nav">
-    <div class="row">
-    <div id="messages" class="col s12">
-</div>
-</div>
-  </ul>
-
+<ul id="msgNav" class="side-nav scroll1"> <div class="row"> <div id="messages" class="col s12"> </div> </div> </ul>
 `;
     // console.log($('body'));
     $('body').eq(-1).prepend($(nav));
