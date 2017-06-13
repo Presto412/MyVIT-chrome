@@ -51,7 +51,7 @@
     {
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/home.asp*"],
-      "css": ["/styles/materialize.css"],
+      "css": ["/styles/materialize.css","styles/animate.css","home/styles.css"],
       "js": ["scripts/materialize.min.js","home/navigation.js"]
     },
     {

@@ -25,7 +25,8 @@ $(function () {
   <nav style="margin-bottom: 5px;">
     <div class="nav-wrapper">
       <span class="brand-logo" style="margin-left: 90px;"><a class="navigation" href="https://vtop.vit.ac.in/student/stud_home.asp">My VIT</a><span style="margin: 0 10px;">|</span><span style="font-size: 16px;">Fall Semester 2017~18</span></span>
-      <a id="sideBtn" href="#" data-activates="full-nav" class="left"><i class="material-icons btn btn-flat">menu</i></a>
+      <a id="sideBtn" href="#" data-activates="full-nav" class="left"><i class="material-icons btn btn-flat" style="font-size: 35px;padding: 0 25.5px;">menu</i></a>
+      <a id="collapseBtn" href="#" data-activates="full-nav" class="left btn btn-flat hide"><div class="animated-icon menu-arrow-l anim"> <div class="ani"></div> </div></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a class="navigation" href="https://vtop.vit.ac.in/student/coursepage_plan_view.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-file-text" aria-hidden="true"></i>Course Page</a></li>
         <li><a class="navigation" href="https://vtop.vit.ac.in/student/marks_da.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-cloud-upload" aria-hidden="true"></i>Upload Assignments</a></li>
@@ -71,14 +72,25 @@ $(function () {
     chrome.storage.local.get(function(result){
         addMsg(result.messages);
     });
-
+    $('#collapseBtn').click(function () {
+        $(this).blur();
+        let $animate=$(this).find('.animated-icon'); //animated slideOutLeft .toggleClass('anim');
+        if($animate.hasClass('anim'))
+        {
+            $('#full-nav').removeClass('slideInLeft').addClass('animated slideOutLeft');
+        }
+        else {
+            $('#full-nav').removeClass('slideOutLeft').addClass('animated slideInLeft');
+        }
+        $animate.toggleClass('anim');
+    })
 });
 function addNav() {
     chrome.storage.local.get('menu',function(result){
         let isdata=!$.isEmptyObject(result);
         if(isdata)
         {
-            let $side=$(` <ul id="full-nav" class="side-nav scroll1"> </ul> `);
+            let $side=$(` <ul id="full-nav" class="side-nav scroll1"></ul> `);
             $('nav').before($side);
             let menu=result.menu.menu;
             // console.log(menu);
@@ -96,7 +108,7 @@ function addNav() {
                     let t=`<li><a style="padding-left: 32px;" class="collapsible-header  waves-effect waves-teal">${item.name}<i style="margin-right: 0;" class="fa fa-caret-down right"></i></a> <div class="collapsible-body grey lighten-5"> <ul> `;
                     for(let subMenu of item.content)
                         t+=`<li><a class="navigation" style="padding-left: 48px;" href="${subMenu.link}">${subMenu.name}</a></li>`;
-                    t+=`</ul> </div> </li>`;
+                    t+=`</ul></div> </li>`;
                     $('#dropDown').append($(t));
                 }
             }
@@ -114,8 +126,12 @@ function addNav() {
             {
                 chrome.runtime.sendMessage({request:'preload'});
                 setTimeout(function () {
-                    $('#general').addClass('hide');
+                    $('#general,#collapseBtn').addClass('hide');
+                    $('#collapseBtn').find('.animated-icon').addClass('anim');
                     $('#dash').removeClass('hide');
+                    $("#sideBtn").removeClass('hide').sideNav('destroy');
+                    $('#full-nav').css('margin-top','0').removeClass('fixed slideInLeft animated slideOutLeft');
+                    $("#sideBtn").sideNav();
                     chrome.runtime.sendMessage({request:'unload'});
                 },300);
                 setTimeout(function () {
@@ -124,10 +140,14 @@ function addNav() {
             }
             else
             {
+                let marginTop=$('nav').height()+5;
                 navPort.postMessage({url:$(this).attr('href')});
                 setTimeout(function () {
-                    $('#general').removeClass('hide');
+                    $('#general,#collapseBtn').removeClass('hide');
                     $('#dash').addClass('hide');
+                    $("#sideBtn").sideNav('destroy');
+                    $('#full-nav').css('margin-top',marginTop).addClass('fixed');
+                    $("#sideBtn").addClass('hide').sideNav();
                 },300);
             }
         });

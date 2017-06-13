@@ -9,6 +9,9 @@
             $('#preBody').remove();
             $('#messageBtn').removeClass('scale-out');
         }
+        else {
+            $('#full-nav').removeClass('hide');
+        }
     });
 })();
 

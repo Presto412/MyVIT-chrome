@@ -238,6 +238,7 @@ let parse=function (x) {
       return temp;
     };
     Data=sort(data);
+    chrome.storage.local.set({'Graph':Data});
     repFac(sort(cPages));
     if(portStat)Port.postMessage({isData:isdata,data:Data}); //Send the data to display.
 };  // Function to filter out the required data.

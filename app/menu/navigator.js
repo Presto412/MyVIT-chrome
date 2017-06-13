@@ -4,3 +4,6 @@
 chrome.runtime.onMessage.addListener(function(message) {
     $(window.parent.frames[1].document.location).attr("href",message.url);
 });
+(function () {
+    $('html').css('display','none');
+})();
