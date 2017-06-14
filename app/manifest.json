@@ -12,6 +12,7 @@
     "scripts": [
       "scripts/jquery.js",
       "scripts/underscore-min.js",
+      "scripts/moment.js",
       "scripts/background.js"
     ]
   },
@@ -104,6 +105,8 @@
     "tabs",
     "storage",
     "notifications",
+    "alarms",
+    "background",
     "https://myffcs.in:10443/campus/vellore/",
     "<all_urls>",
     "webRequestBlocking",

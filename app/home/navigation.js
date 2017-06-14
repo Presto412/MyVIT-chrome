@@ -26,7 +26,7 @@ $(function () {
     <div class="nav-wrapper">
       <span class="brand-logo" style="margin-left: 90px;"><a class="navigation" href="https://vtop.vit.ac.in/student/stud_home.asp">My VIT</a><span style="margin: 0 10px;">|</span><span style="font-size: 16px;">Fall Semester 2017~18</span></span>
       <a id="sideBtn" href="#" data-activates="full-nav" class="left"><i class="material-icons btn btn-flat" style="font-size: 35px;padding: 0 25.5px;">menu</i></a>
-      <a id="collapseBtn" href="#" data-activates="full-nav" class="left btn btn-flat hide"><div class="animated-icon menu-arrow-l anim"> <div class="ani"></div> </div></a>
+      <a id="collapseBtn" href="#" data-activates="full-nav" class="left btn btn-flat hide tooltipped" data-tooltip="Toggle menu" data-position="right" data-delay="50"><div class="animated-icon menu-arrow-l anim"> <div class="ani"></div> </div></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a class="navigation" href="https://vtop.vit.ac.in/student/coursepage_plan_view.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-file-text" aria-hidden="true"></i>Course Page</a></li>
         <li><a class="navigation" href="https://vtop.vit.ac.in/student/marks_da.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-cloud-upload" aria-hidden="true"></i>Upload Assignments</a></li>
@@ -125,6 +125,7 @@ function addNav() {
                     $('#dash').removeClass('hide');
                     $("#sideBtn").removeClass('hide').sideNav('destroy');
                     $('#full-nav').css('margin-top','0').removeClass('fixed slideInLeft animated slideOutLeft');
+                    // $("#sideBtn").sideNav('hide');
                     $("#sideBtn").sideNav();
                     chrome.runtime.sendMessage({request:'unload'});
                 },300);
@@ -161,5 +162,4 @@ function addMsg(x){
         `;
         $('#messages').append($(t));
     }
-
 }
