@@ -13,6 +13,7 @@
       "scripts/jquery.js",
       "scripts/underscore-min.js",
       "scripts/moment.js",
+      "scripts/OneSignal.js",
       "scripts/background.js"
     ]
   },
@@ -106,6 +107,8 @@
     "storage",
     "notifications",
     "alarms",
+    "gcm",
+    "identity",
     "background",
     "https://myffcs.in:10443/campus/vellore/",
     "<all_urls>",

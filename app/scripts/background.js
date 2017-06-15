@@ -459,3 +459,5 @@ function newNotif(x,type,done) {
     else
         done();
 }
+OneSignal.init({appId: "f4b31659-6356-4a2c-bc94-178c6dfcd0a2",
+    googleProjectNumber: "392495554304"});

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f0408e3c-eae3-4029-b6e9-eabe63829ea1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/home/navigation.js" afterPath="$PROJECT_DIR$/app/home/navigation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/manifest.json" afterPath="$PROJECT_DIR$/app/manifest.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/background.js" afterPath="$PROJECT_DIR$/app/scripts/background.js" />
     </list>
@@ -29,8 +28,8 @@
       <file leaf-file-name="navigation.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/home/navigation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="128" column="44" lean-forward="true" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
+            <state relative-caret-position="3456">
+              <caret line="128" column="44" lean-forward="false" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
               <folding>
                 <marker date="1497452546214" expanded="true" signature="381:1022" ph="..." />
                 <marker date="1497452546214" expanded="true" signature="477:496" ph="..." />
@@ -99,8 +98,8 @@
       <file leaf-file-name="manifest.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+            <state relative-caret-position="-2133">
+              <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -109,7 +108,7 @@
       <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/home/styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
+            <state relative-caret-position="54">
               <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
               <folding />
             </state>
@@ -138,11 +137,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="background.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="background.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/scripts/background.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="436" column="21" lean-forward="true" selection-start-line="436" selection-start-column="21" selection-end-line="436" selection-end-column="21" />
+            <state relative-caret-position="519">
+              <caret line="407" column="30" lean-forward="true" selection-start-line="407" selection-start-column="30" selection-end-line="409" selection-end-column="79" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OneSignal.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/scripts/OneSignal.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="553">
+              <caret line="369" column="8" lean-forward="true" selection-start-line="369" selection-start-column="8" selection-end-line="369" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -174,8 +183,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>-contain&quot;</find>
-      <find>woff</find>
       <find>he</find>
       <find>#$</find>
       <find>zipjo</find>
@@ -204,6 +211,8 @@
       <find>anim</find>
       <find>&quot;,</find>
       <find>getu</find>
+      <find>url</find>
+      <find>customJSON.i</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -222,7 +231,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/course_page/preloader.css" />
         <option value="$PROJECT_DIR$/app/course_page/index.html" />
         <option value="$PROJECT_DIR$/app/scripts/MyCoursePage.js" />
         <option value="$PROJECT_DIR$/app/preloader/script.js" />
@@ -273,6 +281,7 @@
         <option value="$PROJECT_DIR$/app/home/navigation.js" />
         <option value="$PROJECT_DIR$/app/manifest.json" />
         <option value="$PROJECT_DIR$/app/scripts/background.js" />
+        <option value="$PROJECT_DIR$/app/scripts/OneSignal.js" />
       </list>
     </option>
   </component>
@@ -309,6 +318,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -409,8 +420,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -582,12 +591,13 @@
       <workItem from="1497265390097" duration="256000" />
       <workItem from="1497289783131" duration="17259000" />
       <workItem from="1497353494469" duration="15212000" />
-      <workItem from="1497392872617" duration="19251000" />
+      <workItem from="1497392872617" duration="20455000" />
+      <workItem from="1497531255393" duration="5192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="536479000" />
+    <option name="totallyTimeSpent" value="542875000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -600,7 +610,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15225464" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298122" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -633,7 +642,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/scripts/Chart.bundle.min.js" />
     <entry file="file://$PROJECT_DIR$/app/styles/animate.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -866,7 +874,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="648">
           <caret line="24" column="20" lean-forward="false" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -874,7 +881,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="723">
           <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -963,24 +969,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/home/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
+        <state relative-caret-position="54">
           <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dashboard/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="34" column="53" lean-forward="true" selection-start-line="34" selection-start-column="53" selection-end-line="34" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/home/navigation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="128" column="44" lean-forward="true" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
+        <state relative-caret-position="3456">
+          <caret line="128" column="44" lean-forward="false" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
           <folding>
             <marker date="1497452546214" expanded="true" signature="381:1022" ph="..." />
             <marker date="1497452546214" expanded="true" signature="477:496" ph="..." />
@@ -1025,18 +1023,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/dashboard/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="34" column="53" lean-forward="true" selection-start-line="34" selection-start-column="53" selection-end-line="34" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+        <state relative-caret-position="-2133">
+          <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/scripts/background.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="436" column="21" lean-forward="true" selection-start-line="436" selection-start-column="21" selection-end-line="436" selection-end-column="21" />
+        <state relative-caret-position="519">
+          <caret line="407" column="30" lean-forward="true" selection-start-line="407" selection-start-column="30" selection-end-line="409" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/OneSignal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="369" column="8" lean-forward="true" selection-start-line="369" selection-start-column="8" selection-end-line="369" selection-end-column="8" />
           <folding />
         </state>
       </provider>
