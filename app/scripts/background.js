@@ -437,24 +437,28 @@ function notifTemplate(x,type) {
 function newNotif(x,type,done) {
     if (type==='messages')
         chrome.storage.local.get(function(o){
-            let oMsg=o.messages.faculty_messages;
-            let nMsg=x.faculty_messages;
-            if(!(_.isEqual(oMsg[0],nMsg[0])))
-            {
-                let msgs=[];
-                for(let i=0;(!(_.isEqual(oMsg[0],nMsg[i])));i++)
+            if(o.messages===undefined)
+                done();
+            else {
+                let oMsg=o.messages.faculty_messages;
+                let nMsg=x.faculty_messages;
+                if(!(_.isEqual(oMsg[0],nMsg[0])))
                 {
-                    console.log('original',oMsg[0],'new ',nMsg[i]);
-                    msgs.push(nMsg[i]);
+                    let msgs=[];
+                    for(let i=0;(!(_.isEqual(oMsg[0],nMsg[i])));i++)
+                    {
+                        console.log('original',oMsg[0],'new ',nMsg[i]);
+                        msgs.push(nMsg[i]);
+                    }
+                    console.log(msgs);
+                    generateNotif(notifTemplate(msgs,'message'));
                 }
-                console.log(msgs);
-                generateNotif(notifTemplate(msgs,'message'));
+                else
+                {
+                    console.log('No new messages recieved !');
+                }
+                done();
             }
-            else
-            {
-                console.log('No new messages recieved !');
-            }
-            done();
         });
     else
         done();
