@@ -10,7 +10,7 @@
 <body>
 <div>
 
-    <div class="row">
+    <div class="row" style="min-height: 100vh;display: flex;">
         <div class="col s7">
             <h5 class="center-align">Attendance</h5>
             <div class="chartWrap">
@@ -18,7 +18,14 @@
                 <canvas id="myChart"></canvas>
             </div>
         </div>
-        <div class="col s5">
+        <div class="col s5" style="align-self: stretch;position: relative;">
+            <div id="loaderAssign" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" class="cssload-container">
+                <ul class="cssload-flex-container">
+                    <li>
+                        <span class="cssload-loading"></span>
+                    </li>
+                </ul>
+            </div>
             <div class="row">
                 <div class="col s8 push-s2">
                     <h5 class="center-align">Upcoming assignments</h5>
@@ -28,6 +35,8 @@
         </div>
     </div>
 </div>
+<!--<a class="hide" href="#initialize">Modal</a>-->
+
 <script src="../scripts/jquery.js"></script>
 <script src="../scripts/Chart.js"></script>
 <script src="../scripts/underscore-min.js"></script>

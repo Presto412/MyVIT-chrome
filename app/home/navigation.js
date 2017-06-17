@@ -22,11 +22,19 @@ $(function () {
   <li><a class="navigation" href="https://vtop.vit.ac.in/student/exam_schedule.asp?sem=WS"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">access_time</i>Exam Schedule</a></li>
   <li><a class="navigation" href="https://vtop.vit.ac.in/student/marks.asp?sem=WS"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">assignment</i>Marks</a></li>
   </ul>  
+  <ul id="full-nav" class="side-nav scroll1"></ul>
   <nav style="margin-bottom: 5px;">
     <div class="nav-wrapper">
       <span class="brand-logo" style="margin-left: 90px;"><a class="navigation" href="https://vtop.vit.ac.in/student/stud_home.asp">My VIT</a><span style="margin: 0 10px;">|</span><span style="font-size: 16px;">Fall Semester 2017~18</span></span>
       <a id="sideBtn" href="#" data-activates="full-nav" class="left"><i class="material-icons btn btn-flat" style="font-size: 35px;padding: 0 25.5px;">menu</i></a>
       <a id="collapseBtn" href="#" data-activates="full-nav" class="left btn btn-flat hide tooltipped" data-tooltip="Toggle menu" data-position="right" data-delay="50"><div class="animated-icon menu-arrow-l anim"> <div class="ani"></div> </div></a>
+      <!--<a id="loadBtn" href="#" class="left btn btn-flat tooltipped" data-tooltip="Menu is loading ..." data-position="right" data-delay="50"><div class="cssload-content">-->
+          <!--<div>-->
+              <!--<div class="cssload-l1"></div>-->
+              <!--<div class="cssload-l2"></div>-->
+              <!--<div class="cssload-l3"></div>-->
+          <!--</div>-->
+      <!--</div></a>-->
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a class="navigation" href="https://vtop.vit.ac.in/student/coursepage_plan_view.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-file-text" aria-hidden="true"></i>Course Page</a></li>
         <li><a class="navigation" href="https://vtop.vit.ac.in/student/marks_da.asp?sem=WS"><i style="margin-right: 10px;" class="fa fa-cloud-upload" aria-hidden="true"></i>Upload Assignments</a></li>
@@ -43,7 +51,13 @@ $(function () {
     </a>
     
 </div>
-<ul id="msgNav" class="side-nav scroll1"> <div class="row"> <div id="messages" class="col s12"> </div> </div> </ul>
+<ul id="msgNav" class="side-nav scroll1"><div id="loaderMsg" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" class="cssload-container">
+	<ul class="cssload-flex-container">
+		<li>
+			<span class="cssload-loading"></span>
+		</li>
+		</ul>
+	</div> <div class="row"> <div id="messages" class="col s12"> </div> </div> </ul>
 `;
     // console.log($('body'));
     $('body').eq(-1).prepend($(nav));
@@ -62,12 +76,17 @@ $(function () {
     let $dashboard=$iframe.clone().attr('id','dash').attr('src',chrome.extension.getURL('dashboard/index.html')).removeClass('hide');
     $iframe.attr('id','general').before($dashboard);
     $('table').remove();
-    addNav();
-    chrome.storage.local.get(function(result){
-        addMsg(result.messages);
+    // addNav();
+    $('#sideBtn .btn').click(function () {
+        // alert('function executed !');
+        $('#full-nav').removeClass('hide');
+        $('#sidenav-overlay').click(function () {
+            alert('overlay clicked!');
+        });
     });
     $('#collapseBtn').click(function () {
         $(this).blur();
+        $(this).mouseover();
         let $animate=$(this).find('.animated-icon'); //animated slideOutLeft .toggleClass('anim');
         if($animate.hasClass('anim'))
         {
@@ -77,15 +96,20 @@ $(function () {
             $('#full-nav').removeClass('slideOutLeft').addClass('animated slideInLeft');
         }
         $animate.toggleClass('anim');
-    })
+    });
+    $(window).resize(function(){        //fixes viewport bug
+        if(!($('#full-nav').hasClass('fixed')))
+            $('#full-nav').addClass('hide');
+    });
+    chrome.runtime.sendMessage({request:'initialize'});
 });
 function addNav() {
     chrome.storage.local.get('menu',function(result){
         let isdata=!$.isEmptyObject(result);
         if(isdata)
         {
-            let $side=$(` <ul id="full-nav" class="side-nav scroll1"></ul> `);
-            $('nav').before($side);
+            // let $side=$(` <ul id="full-nav" class="side-nav scroll1"></ul> `);
+            // $('nav').before($side);
             let menu=result.menu.menu;
             // console.log(menu);
             for (let item of menu)
@@ -106,24 +130,28 @@ function addNav() {
                     $('#dropDown').append($(t));
                 }
             }
+            // $('#sideBtn').removeClass('hide');
         }
         // else --implement if not logged in--
+
         $("#sideBtn").sideNav({
             menuWidth: ($(window).width()/100)*21,
             closeOnClick: true
         });
+        // $('#loadBtn').addClass('hide');
         $('.collapsible').collapsible();
         $('a.navigation').click(function (e) {
             e.preventDefault();
             $('#messageBtn').addClass('scale-out');
             if($(this).attr('href')==='https://vtop.vit.ac.in/student/stud_home.asp')
             {
+                // $('#full-nav').addClass('hide');
                 chrome.runtime.sendMessage({request:'preload'});
                 setTimeout(function () {
                     $('#general,#collapseBtn').addClass('hide');
                     $('#collapseBtn').find('.animated-icon').addClass('anim');
                     $('#dash').removeClass('hide');
-                    $("#sideBtn").removeClass('hide').sideNav('destroy');
+                    $("#sideBtn").removeClass('hide').sideNav('destroy');        //Possible bug
                     $('#full-nav').css('margin-top','0').removeClass('fixed slideInLeft animated slideOutLeft');
                     // $("#sideBtn").sideNav('hide');
                     $("#sideBtn").sideNav();
@@ -146,13 +174,18 @@ function addNav() {
                 },300);
             }
         });
-        chrome.runtime.sendMessage({request:'initialize'});
         // setTimeout(function () {
         //     $('#messageBtn').removeClass('hide');
         // },500);
     });
 }
+function facMsgInit() {
+    chrome.storage.local.get(function(result){
+        addMsg(result.messages);
+    });
+}
 function addMsg(x){
+    $('#loaderMsg').addClass('hide');
     for(let i of x.faculty_messages)
     {
         let t=`<div class="card-panel" style="min-height: 150px;">

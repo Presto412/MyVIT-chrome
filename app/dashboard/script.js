@@ -1,12 +1,30 @@
-$(function () {
+let port = chrome.runtime.connect({name: "MyVIT-Dashboard"});
+port.onMessage.addListener(function (message) {
+    console.log(message.request,' - requested !');
+    if(message.request==='initAll'||message.request==='initAttend')
+    {
+        fetchAttend();
+    }
+    if(message.request==='initAll'||message.request==='initcalCourses')
+    {
+        fetchUpcoming();
+    }
+});
+function fetchAttend() {
     chrome.storage.local.get(function(result){
         console.log(result);
         initAttend(result.Graph);
+    });
+}
+function fetchUpcoming() {
+    chrome.storage.local.get(function(result){
+        console.log(result);
         populateUpcoming(result.calCourses.course);
     });
-});
+}
 function populateUpcoming(x) {
     // console.log('entered',x);
+    $('#loaderAssign').remove();
     let toSort=[];
     function isLab(str) {
         if (str==='ELA'||str==='LO')return true;

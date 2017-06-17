@@ -7,7 +7,7 @@ chrome.browserAction.setBadgeText({ text: 'MyVIT' });
 chrome.tabs.query({currentWindow: true, active: true }, function (tabArray){
     navPort=chrome.tabs.connect(tabArray[0].id,{name: "Navigator"});
 });*/
-let isdata,Data,History;
+let isdata,Data,requests=[],allFetched=false;
 let getData=function () {
     chrome.storage.local.get(function(result){
         isdata=!$.isEmptyObject(result);
@@ -22,14 +22,20 @@ let setData=function (r,p) {
 let clearData=function() {
     chrome.storage.local.clear();
     Data=undefined;
-    isdata=undefined;
+    isdata=false;
+    homeStat=false;
+    homePort=undefined;
+    dashStat=false;
+    dashPort=undefined;
+    requests=[];
+    allFetched=false;
 };
 $(function () {
     getData();
 });
 let rqst=function (ch,reg,pass) {
     let type=['login','refresh','menu','calCourses','messages'];
-    $.ajax({
+    let $t=$.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
         processData:false,
@@ -53,14 +59,27 @@ let rqst=function (ch,reg,pass) {
             {
                 parse(result);
                 for (let i=2;i<type.length;i++)
-                rqst(i,reg,pass);
+                {
+                    requests.push(rqst(i,reg,pass));
+                }
+                $.when.apply(this,requests).then(function (x) {
+                    allFetched=true;
+                    console.log('all requests done');
+                });
             }
             else
             {
-                // console.log('reached');
+                console.log('reached for',type[ch]);
                 newNotif(result,type[ch],function () {
+                    if(dashStat)
+                    {
+                        dashPort.postMessage({request:`init${type[ch]}`,data:Data});
+                        homePort.postMessage({request:`init${type[ch]}`,data:Data});
+                        console.log('reached for',type[ch]);
+                    }
                     chrome.storage.local.set({[(type[ch])]:result});
                 });
+                console.log(type[ch],' fetched !');
             }
         },
         error: function(){
@@ -71,6 +90,7 @@ let rqst=function (ch,reg,pass) {
             }
         }
     });
+    return $t;
 };  // Function to fetch data from API
 let parse=function (x) {
     let course=function (c,n) {
@@ -242,9 +262,11 @@ let parse=function (x) {
     Data=sort(data);
     chrome.storage.local.set({'Graph':Data});
     repFac(sort(cPages));
+    if(homeStat)homePort.postMessage({status:isdata}); //Send the data to display.
+    if(dashStat)dashPort.postMessage({request:'initAttend'}); //Send the data to display.
     if(portStat)Port.postMessage({isData:isdata,data:Data}); //Send the data to display.
 };  // Function to filter out the required data.
-
+let homeStat=false,homePort=undefined,dashStat=false,dashPort=undefined;
 chrome.runtime.onConnect.addListener(function(port) {
     if(port.name == "MyVIT")
     {
@@ -267,6 +289,10 @@ chrome.runtime.onConnect.addListener(function(port) {
                port.postMessage({isData:false,reason:'logout'});
             }
         });
+        port.onDisconnect.addListener(function() {
+            Port=undefined;
+            portStat=false;
+        });
     }
     else if(port.name == "MyVIT-Navigator")
     {
@@ -275,6 +301,23 @@ chrome.runtime.onConnect.addListener(function(port) {
                 chrome.tabs.sendMessage(tabs[0].id, {url:msg.url});
             });
         });
+    }
+    else if(port.name == "MyVIT-Home")
+    {
+        homeStat=true;
+        homePort=port;
+        homePort.postMessage({status:isdata});
+        if(allFetched)
+            homePort.postMessage({request:'initAll'});
+    }
+    else if(port.name == "MyVIT-Dashboard")
+    {
+        dashStat=true;
+        dashPort=port;
+        if(allFetched)
+            dashPort.postMessage({request:'initAll'});
+        else if(isdata)
+            dashPort.postMessage({request:'initAttend'});
     }
     else console.log(port.name,' is connected ');
 });

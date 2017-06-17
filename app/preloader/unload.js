@@ -10,7 +10,10 @@
             $('#messageBtn').removeClass('scale-out');
         }
         else {
-            $('#full-nav').removeClass('hide');
+            if($('#full-nav').hasClass('fixed'))
+                $('#full-nav').removeClass('hide');
+            /*else
+                $('#full-nav').addClass('hide');*/
         }
     });
 })();
