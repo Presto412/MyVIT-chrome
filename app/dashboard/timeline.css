@@ -1,0 +1,88 @@
+/*
+Copyright (c) 2017 by Andres (http://codepen.io/Fahrek/pen/zNdmjd)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+.vtime ul {
+  margin: 30px 0 0;
+  list-style: none;
+  position: relative;
+  padding: 1px 100px;
+  color: black;
+  font-size: 13px;
+}
+.vtime ul:before {
+  content: "";
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  border-left: 2px dashed #bdbdbd;
+}
+.vtime ul li {
+  position: relative;
+  margin-left: 30px;
+  background-color: white;
+  padding: 14px;
+  border-radius: 2px;
+  width: 350px;
+  transition: box-shadow .25s;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+}
+.vtime ul li:not(:first-child) {
+  margin-top: 60px;
+}
+.vtime ul li > span {
+  width: 2px;
+  height: 100%;
+  left: -30px;
+  top: 0;
+  position: absolute;
+}
+.vtime ul li.theory > span,.vtime ul li.theory > span:before, .vtime ul li.theory > span:after{
+    background: #4db6ac;
+}
+.vtime ul li.lab > span,.vtime ul li.lab > span:before, .vtime ul li.lab > span:after{
+    background: #ffb74d;
+}
+.vtime ul li > span:before, .vtime ul li > span:after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  position: absolute;
+  left: -5px;
+  top: 0;
+}
+.vtime ul li span:after {
+  top: 100%;
+}
+.vtime ul li > div {
+  margin-left: 10px;
+}
+.vtime div .title, .vtime div .type {
+  font-weight: 600;
+  font-size: 12px;
+}
+.vtime div .info {
+  font-weight: 300;
+}
+.vtime div > div {
+  margin-top: 5px;
+}
+.vtime span.number {
+  height: 100%;
+}
+.vtime span.number span {
+  position: absolute;
+  font-size: 10px;
+  left: -50px;
+  font-weight: bold;
+}
+.vtime span.number span:first-child {
+  top: 0;
+}
+.vtime span.number span:last-child {
+  top: 100%;
+}

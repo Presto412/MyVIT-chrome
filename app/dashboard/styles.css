@@ -28,6 +28,28 @@
     right: 5px;
     bottom: 5px;
 }
+.slick-dots{
+    display:flex;
+    justify-content: center;
+}
+.slick-dots li{
+    display: inline-block;
+}
+.dayBtn{
+    font-size: small;
+    color: black;
+    background-color: white;
+}
+.dayBtn:hover{
+    background-color: white;
+}
+.dayBtn.active{
+    color: white;
+    background-color: #ab47bc;
+}
+.dayBtn.active:hover{
+    background-color: #ab47bc;
+}
 /*
 #thWrap{
     position: absolute;

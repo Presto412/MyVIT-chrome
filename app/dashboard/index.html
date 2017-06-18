@@ -5,6 +5,8 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="../styles/materialize.css">
     <link rel="stylesheet" href="../styles/commons.css">
+    <link rel="stylesheet" href="timeline.css">
+    <link rel="stylesheet" href="../styles/slick.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,10 +14,27 @@
 
     <div class="row" style="min-height: 100vh;display: flex;">
         <div class="col s7">
-            <h5 class="center-align">Attendance</h5>
-            <div class="chartWrap">
-                <div class="LegendWrap disabledGraph"><div class="legend"><span id="thWrap"><span id="theory" class="lgnd"></span> Theory</span> <span id="LabWrap"><span id="lab" class="lgnd"></span> Lab</span></div></div>
-                <canvas id="myChart"></canvas>
+            <div class="row" style="padding: 0">
+                <h5 class="center-align">Attendance</h5>
+                <div class="chartWrap">
+                    <div class="LegendWrap disabledGraph"><div class="legend"><span id="thWrap"><span id="theory" class="lgnd"></span> Theory</span> <span id="LabWrap"><span id="lab" class="lgnd"></span> Lab</span></div></div>
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <!--<div class="your-class">-->
+                <!--<div>your content</div>-->
+                <!--<div>your content</div>-->
+                <!--<div>your content</div>-->
+            <!--</div>-->
+            <div id="scheduleWrap" class="row">
+                <div class="schedule" style="margin: 0 auto;">
+                    <div>
+                        <h5 class="center-align">Schedule</h5>
+                        <div class="scheduleDays"></div>
+                        <div class="scheduleSlider" style="pointer-events: none;">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col s5" style="align-self: stretch;position: relative;">
@@ -42,6 +61,7 @@
 <script src="../scripts/underscore-min.js"></script>
 <script src="../scripts/moment.js"></script>
 <script src="../scripts/materialize.min.js"></script>
+<script src="../scripts/slick.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

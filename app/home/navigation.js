@@ -9,6 +9,7 @@ $(function () {
     x[3].remove();
     $('#head').siblings('head').remove();
     document.getElementsByTagName('table')[0].style.height='100%';
+    //language=HTML
     let nav=`
   <ul id="hosteller" class="dropdown-content">
   <li><a class="navigation" href="https://vtop.vit.ac.in/student/leave_request.asp"><i style="margin-right: 10px;" class="material-icons" aria-hidden="true">train</i>Leave/Outing Request</a></li>

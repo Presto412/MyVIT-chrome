@@ -34,7 +34,7 @@ $(function () {
     getData();
 });
 let rqst=function (ch,reg,pass) {
-    let type=['login','refresh','menu','calCourses','messages'];
+    let type=['login','refresh','menu','calCourses','messages','timetable2'];
     let $t=$.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
