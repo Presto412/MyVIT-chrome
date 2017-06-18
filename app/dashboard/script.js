@@ -59,6 +59,7 @@ function fetchSchedule(){
                 if(x[i].data.code===x[i+1].data.code&&x[i].data.type===x[i+1].data.type&&x[i].data.venue===x[i+1].data.venue) //x[i].data.end===x[i+1].data.start&&
                 {
                     x[i].data.slot+='+'+x[i+1].data.slot;
+                    x[i].data.end=x[i+1].data.end;
                     x[i+1]=undefined;
                 }
             }
