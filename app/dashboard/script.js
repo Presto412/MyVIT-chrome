@@ -90,7 +90,7 @@ function fetchSchedule(){
 }
 function initSchedule() {
     let days=['MON','TUE','WED','THU','FRI','SAT','SUN'];
-    let day=(moment().day()===0)?6:(moment.day()-1);
+    let day=(moment().day()===0)?6:(moment().day()-1);
     $('.scheduleSlider').slick({
         dots: true,
         arrows:false,
@@ -122,10 +122,12 @@ function populateUpcoming(x) {
     }
     for(let i of x)
     {
+        console.log(i);
 
-        if ((!isLab(i.crstp))&&((i.assignment.length))!==0)
+        if (i.assignments!==null)
+        if ((!isLab(i.crstp))&&((i.assignments.length))!==0)
         {
-            for (let assignment of i.assignment)
+            for (let assignment of i.assignments)
             {
                 //------Condition to check if assignment is already uploaded------------------TODO:wrap all the content inside the if statement.
                 // if (assignment.answer!=='Blocked'||assignment.assignStatus!=='Uploaded') {}

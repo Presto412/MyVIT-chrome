@@ -7,7 +7,7 @@
     "16": "assets/images/icon-16.png",
     "128": "assets/images/icon-128.png"
   },
-  "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/ https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.0.4/rollbar.min.js; object-src 'self'",
   "background": {
     "scripts": [
       "scripts/jquery.js",
@@ -66,7 +66,7 @@
       "all_frames":true,
       "matches": ["*://vtop.vit.ac.in/student/leave_request.asp*"],
       "css": ["/styles/materialize.css","hosteller/leave_request.css"],
-      "js": ["scripts/materialize.min.js","hosteller/leave_request.js"]
+      "js": ["scripts/materialize.min.js","scripts/jquery.shave.js","hosteller/leave_request.js"]
     },
     {
       "all_frames":true,
@@ -102,6 +102,7 @@
     "fonts/*"
   ],
   "permissions": [
+    "unlimitedStorage",
     "activeTab",
     "tabs",
     "storage",

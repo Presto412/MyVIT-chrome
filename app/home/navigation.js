@@ -3,7 +3,7 @@
  */
 let navStat=false,navPort=chrome.runtime.connect({name: "MyVIT-Navigator"});
 $(function () {
-    x=$('table');
+    let x=$('table');
     x[0].remove();
     x[1].remove();
     x[3].remove();
@@ -101,9 +101,18 @@ $(function () {
     $(window).resize(function(){        //fixes viewport bug
         if(!($('#full-nav').hasClass('fixed')))
             $('#full-nav').addClass('hide');
+        navInit();
     });
     chrome.runtime.sendMessage({request:'initialize'});
 });
+function navInit() {
+    let width=($(window).width()/100)*21;
+    $("#sideBtn").sideNav({
+        menuWidth:(width>322)?width:322,
+        closeOnClick: true
+    });
+    
+}
 function addNav() {
     chrome.storage.local.get('menu',function(result){
         let isdata=!$.isEmptyObject(result);
@@ -126,7 +135,7 @@ function addNav() {
                         $('#full-nav').append($(`<li><ul id="dropDown" class="collapsible collapsible-accordion"></ul></li>`));
                     let t=`<li><a style="padding-left: 32px;" class="collapsible-header  waves-effect waves-teal">${item.name}<i style="margin-right: 0;" class="fa fa-caret-down right"></i></a> <div class="collapsible-body grey lighten-5"> <ul> `;
                     for(let subMenu of item.content)
-                        t+=`<li><a class="navigation" style="padding-left: 48px;" href="${subMenu.link}">${subMenu.name}</a></li>`;
+                        t+=`<li><a class="navigation" style="padding-left: 32px;" href="${subMenu.link}"><i style="margin-right: 0;opacity: 0.5;" class="material-icons">keyboard_arrow_right</i>${subMenu.name}</a></li>`;
                     t+=`</ul></div> </li>`;
                     $('#dropDown').append($(t));
                 }
@@ -134,11 +143,7 @@ function addNav() {
             // $('#sideBtn').removeClass('hide');
         }
         // else --implement if not logged in--
-
-        $("#sideBtn").sideNav({
-            menuWidth: ($(window).width()/100)*21,
-            closeOnClick: true
-        });
+        navInit();
         // $('#loadBtn').addClass('hide');
         $('.collapsible').collapsible();
         $('a.navigation').click(function (e) {
