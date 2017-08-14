@@ -98,7 +98,7 @@ $(function () {
         }
         $animate.toggleClass('anim');
     });
-    $(window).resize(function(){        //fixes viewport bug
+    $(window).resize(function(e){        //fixes viewport bug
         if(!($('#full-nav').hasClass('fixed')))
             $('#full-nav').addClass('hide');
         navInit();
@@ -111,7 +111,6 @@ function navInit() {
         menuWidth:(width>322)?width:322,
         closeOnClick: true
     });
-    
 }
 function addNav() {
     chrome.storage.local.get('menu',function(result){

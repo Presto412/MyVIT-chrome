@@ -24,7 +24,7 @@
     },
     {
       "all_frames":true,
-      "matches": ["*://vtop.vit.ac.in/*"],
+      "matches": ["*://vtop.vit.ac.in/*","*://vtopbeta.vit.ac.in/vtop/*"],
       "js": ["scripts/jquery.js"]
     },
     {
@@ -91,6 +91,11 @@
       "run_at":"document_idle",
       "matches": ["*://vtop.vit.ac.in/student/*"],
       "js": ["preloader/autoUnload.js"]
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtopbeta.vit.ac.in/vtop/*"],
+      "js": ["beta/autocaptcha.js"]
     }
   ],
   "web_accessible_resources": [

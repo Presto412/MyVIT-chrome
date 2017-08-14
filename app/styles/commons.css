@@ -2548,8 +2548,14 @@ tr.list{
     background-color: #eeeeee !important;
 }
 .listHead{
-    background-color: #00695c !important;
+    background-color: #00ADB5 !important;
     color: white !important;
+}
+nav{
+    background-color: #222831;
+}
+.dropdown-content .navigation{
+    color: #393E46;
 }
 .listHead,.listHead td,.list,.list td{
     border: none;
