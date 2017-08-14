@@ -16,4 +16,11 @@ Minimalistic port of the My VIT app for the web
 <img src="snips/Capture3.PNG">.
 
 ## Developers :
-### [Vineeth](https://github.com/technophilic)
+### Frontend
+* **[Vineeth](https://github.com/technophilic)** (Lead Developer)
+
+### Backend
+* **Ujjwal Ayyangar**
+
+## Credits :
+* Priyansh Jain - AutoCaptcha
