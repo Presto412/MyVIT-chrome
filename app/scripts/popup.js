@@ -302,4 +302,8 @@ $('#subAttend').click(function () {
 // })(jQuery); // end of jQuery name space
 $(function () {
     $('.modal').modal();
+    $('.login_wrapper').on('keyup',function (e) {
+        if(e.key==='Enter')
+            $('#lbutton').click();
+    })
 });
