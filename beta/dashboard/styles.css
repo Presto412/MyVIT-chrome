@@ -1,0 +1,61 @@
+.lgnd{
+    height: 12px;
+    width: 40px;
+    display: inline-block;
+}
+#theory{
+    background-color: #4db6ac;
+}
+#lab{
+    background-color: #ffb74d;
+}
+.legend{
+    font-size: 12px;
+    color: #616161;
+    /*position: relative;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.legend span{
+    margin: 0 10px;
+}
+.LegendWrap{
+    padding: 15px;
+}
+#messageBtn{
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+}
+.slick-dots{
+    display:flex;
+    justify-content: center;
+}
+.slick-dots li{
+    display: inline-block;
+}
+.dayBtn{
+    font-size: small;
+    color: black;
+    background-color: white;
+}
+.dayBtn:hover{
+    background-color: white;
+}
+.dayBtn.active{
+    color: white;
+    background-color: #ab47bc;
+}
+.dayBtn.active:hover{
+    background-color: #ab47bc;
+}
+/*
+#thWrap{
+    position: absolute;
+    left:114px;
+}
+#LabWrap{
+    position: absolute;
+    left: 208px;
+}*/
