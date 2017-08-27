@@ -34,7 +34,7 @@ $(function () {
     getData();
 });
 let rqst=function (ch,reg,pass) {
-    let type=['login','refresh','menu','calCourses','messages','timetable2'];
+    let type=['login','attendance'];
     let $t=$.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
@@ -57,15 +57,16 @@ let rqst=function (ch,reg,pass) {
             }
            else if (ch==1)
             {
+                console.log(result);
                 parse(result);
-                for (let i=2;i<type.length;i++)
+                /*for (let i=2;i<type.length;i++)
                 {
                     requests.push(rqst(i,reg,pass));
                 }
                 $.when.apply(this,requests).then(function (x) {
                     allFetched=true;
                     console.log('all requests done');
-                });
+                });*/
             }
             else
             {
@@ -93,6 +94,7 @@ let rqst=function (ch,reg,pass) {
     return $t;
 };  // Function to fetch data from API
 let parse=function (x) {
+    console.log(x);
     let course=function (c,n) {
         return {
             title:n,
@@ -219,21 +221,22 @@ let parse=function (x) {
         }
     };
     let islab=function (course) {
-        if(course.subject_type=='Embedded Lab'||course.subject_type=='Lab Only')
+        if(course.subject_type=='ELA'||course.subject_type=='LO')
             return 1;
         else return 0;
     };
-    let courses=x.courses;
+    let courses=x.attendance;
     console.log(x);
     let cPages=[],data=[],temp,isp,details=[],index,tempcp,cpDetails=[];
-    for(let i=0;i<courses.length;i++)
+    for(let i in courses)
     {
+        console.log(courses[i]);
         if(courses[i].faculty!="")
         {
-            details[0]=courses[i].attendance.total_classes;
-            details[1]=courses[i].attendance.attended_classes;
-            details[2]=courses[i].attendance.attendance_percentage;
-            details[3]=courses[i].attendance.details;
+            details[0]=courses[i].totalClasses;
+            details[1]=courses[i].attended;
+            details[2]=courses[i].attendPer;
+            // details[3]=courses[i].attendance.details;
 
             cpDetails[0]=courses[i].slot;
             cpDetails[1]=courses[i].faculty;
@@ -251,7 +254,7 @@ let parse=function (x) {
                 index=isp;
             }
             update(data,details,islab(courses[i]),index,0);
-            update(cPages,cpDetails,islab(courses[i]),index,1);
+            // update(cPages,cpDetails,islab(courses[i]),index,1);
         }
     }
     let sort=function (d) {
@@ -260,6 +263,7 @@ let parse=function (x) {
       return temp;
     };
     Data=sort(data);
+    console.log(Data);
     chrome.storage.local.set({'Graph':Data});
     repFac(sort(cPages));
     if(homeStat)homePort.postMessage({status:isdata}); //Send the data to display.
