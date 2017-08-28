@@ -1,0 +1,78 @@
+{
+  "name": "My VIT",
+  "version": "2.0.0",
+  "manifest_version": 2,
+  "description": "Minimalistic port of the My VIT app for the web",
+  "icons": {
+    "16": "assets/images/icon-16.png",
+    "128": "assets/images/icon-128.png"
+  },
+  "content_security_policy": "script-src 'self' https://myffcs.in:10443/campus/vellore/ https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.0.4/rollbar.min.js; object-src 'self'",
+  "background": {
+    "scripts": [
+      "scripts/jquery.js",
+      "scripts/underscore-min.js",
+      "scripts/moment.js",
+      "scripts/OneSignal.js",
+      "scripts/background.js",
+      "scripts/notifications.js",
+      "beta/cache.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "all_frames":true,
+      "matches": ["*://vtopbeta.vit.ac.in/vtop/*"],
+      "js": ["scripts/jquery.js"]
+    },
+    {
+      "all_frames":true,
+      "matches": ["*://vtopbeta.vit.ac.in/vtop/","*://vtopbeta.vit.ac.in/vtop/#"],
+      "js": ["beta/multiTabFix.js","beta/autocaptcha.js"]
+    },
+    {
+      "all_frames":true,
+      "matches": ["https://vtopbeta.vit.ac.in/vtop/processLogout"],
+      "js": ["beta/multiTabFix.js"]
+    },
+    {
+      "all_frames":false,
+      "matches": ["https://vtopbeta.vit.ac.in/vtop/processLogin"],
+      "js": ["beta/inject.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "scripts/jquery.js",
+    "dashboard/index.html",
+    "assets/images/*",
+    "assets/fac.min.json",
+    "styles/commons.css",
+    "fonts/*",
+    "cache/*"
+  ],
+  "permissions": [
+    "unlimitedStorage",
+    "activeTab",
+    "cookies",
+    "tabs",
+    "storage",
+    "notifications",
+    "alarms",
+    "gcm",
+    "identity",
+    "background",
+    "https://myffcs.in:10443/campus/vellore/",
+    "<all_urls>",
+    "webRequestBlocking",
+    "webRequest",
+    "*://*/*"
+  ],
+  "browser_action": {
+    "default_icon": {
+      "19": "assets/images/icon-19.png",
+      "38": "assets/images/icon-38.png"
+    },
+    "default_title": "My VIT",
+    "default_popup": "popup.html"
+  }
+}
