@@ -7,9 +7,9 @@ port.onMessage.addListener(function (message) {
     }
     if(message.request==='initAll'||message.request==='initcalCourses')
     {
-        fetchUpcoming();
+        // fetchUpcoming();
     }
-    if(message.request==='initAll'||message.request==='initcalCourses')
+    if(message.request==='initAll'||message.request==='inittimetable2')
     {
         fetchSchedule();
     }
@@ -30,9 +30,11 @@ function fetchSchedule(){
     chrome.storage.local.get(function (result) {
         let sch=result.timetable2.timetable;
         console.log('schedule',sch);
+        $('#scheduleLoader').remove();
         function parseClass(a,x,type) {
             let name='';
-            let data=(a).split(' - ');
+            let data=(a).split('-');
+            console.log(data);
             let time=x.split('to');
             for(let i of result.Graph)
                 if(i.code===data[0])
@@ -47,8 +49,8 @@ function fetchSchedule(){
                     code:data[0],
                     type:type,
                     name:name,
-                    venue:data[2],
-                    slot:data[3]
+                    venue:data[3],
+                    slot:data[2]
                 }
             }
         }
@@ -152,11 +154,12 @@ function populateUpcoming(x) {
     $('.tooltipped').tooltip({delay: 50});
 }
 let initAttend=function (x) {
+    $('#attendLoader').remove();
     let ctx = document.getElementById("myChart").getContext('2d');
-    let courses=[],manipI,manipDI,titles=[];
+    let courses=[],titles=[];
     let ethbg=[],elabg=[];
-    let eth=[],eth_orig;
-    let ela=[],ela_orig;
+    let eth=[];
+    let ela=[];
     for(let i=0;i<x.length;i++)
     {
         titles[i]=x[i].title;

@@ -15,6 +15,7 @@
       "scripts/moment.js",
       "scripts/OneSignal.js",
       "scripts/background.js",
+      "scripts/notifications.js",
       "beta/cache.js"
     ]
   },
@@ -33,6 +34,11 @@
       "all_frames":true,
       "matches": ["https://vtopbeta.vit.ac.in/vtop/processLogout"],
       "js": ["beta/multiTabFix.js"]
+    },
+    {
+      "all_frames":false,
+      "matches": ["https://vtopbeta.vit.ac.in/vtop/processLogin"],
+      "js": ["beta/inject.js"]
     }
   ],
   "web_accessible_resources": [

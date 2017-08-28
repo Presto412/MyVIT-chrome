@@ -3,6 +3,7 @@ let myChart;
 let manipulate;
 let port = chrome.runtime.connect({name: "MyVIT"});
 port.onMessage.addListener(function(msg) {
+    console.log(msg);
     let processFormStatus=function(d,type){
         return $('<p style="line-height: 15px;font-size: 15px;" class="center-align"><i style="line-height: 15px;font-size:18px;" class="material-icons">'+type+'</i>'+d+'</p>');
     };
