@@ -1,86 +1,85 @@
 /**
  * Created by Vineeth on 29-05-2017.
  */
-$(function () {
-    $('body').prepend(`<div id="root" class="container" style="width:85%"></div>
-<div class="fixed-action-btn scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;"><a
-        id="download" class="btn-floating btn-large waves-effect waves-light teal tooltipped" data-position="left"
-        data-delay="50" data-tooltip="Download selected"><i style="font-size: 2.0rem" class="material-icons">file_download</i></a>
-    <ul>
-        <li><a id="zip" class="btn-floating waves-effect waves-light blue tooltipped" data-position="left"
+let courseObserver;
+function detectCourse() {
+    courseObserver = new MutationObserver(function(e) {
+        console.log(e);
+        coursePage();
+        courseObserver.disconnect();
+    });
+    courseObserver.observe(document.getElementById('page-wrapper'),{childList:true});
+}
+let coursePort = chrome.runtime.connect({name: "MyVIT-coursePage"});
+coursePort.onMessage.addListener(function (message) {
+    if(message.request==="observe")
+    {
+        detectCourse();
+    }
+    console.log(message);
+});
+
+function coursePage() {
+    function handleButton(){
+        if ($('.link input:checked').length) {
+            $('#download').addClass('pulse').parent().removeClass('scale-out');
+            setTimeout(function () {
+                $('#download').removeClass('pulse');
+            },1000);
+        }
+        else {
+            $('#download').parent().addClass('scale-out');
+        }
+    }
+    function inject() {
+        let $t=$('table');
+        let $t1=$t.eq(0);
+        $t1.find('tr').eq(1).children('td').eq(0).addClass('courseCode').end().eq(1).addClass('courseName').end().eq(2).addClass('courseType').end().eq(4).addClass('courseSlot').end().eq(5).addClass('courseFaculty');
+        $('#page-wrapper').prepend(`<div class="fixed-action-button scale-transition scale-out" style="position: fixed;bottom: 5px;right: 5px;">
+    <ul style="margin-left:8px;">
+        <li><a id="zip" class="button-floating waves-effect waves-light blue tooltipped" data-position="left"
                data-delay="50" data-tooltip="Download selected as zip"><i class="fa fa-file-archive-o"></i></a></li>
     </ul>
+    <a
+        id="download" class="button-floating button-large waves-effect waves-light teal tooltipped" data-position="left"
+        data-delay="50" data-tooltip="Download selected"><i style="font-size: 2.0rem" class="material-icons">file_download</i></a>
+    
 </div>`);
-    let $root=$('#root');
-   $('#content table').each(function () {
-       $(this).wrap('<div class="row"></div>');
-       let $t= $(this).parent().detach();
-       $root.append($t);
-   });
-   $('#content').remove();
-   $root.find('table').eq(0).find('tr').eq(0).addClass('listHead');
-   $root.find('table').eq(0).find('tr').eq(1).addClass('wbg').children('td').eq(0).addClass('courseCode').end().eq(1).addClass('courseName').end().eq(2).addClass('courseType').end().eq(4).addClass('courseSlot').end().eq(5).addClass('courseFaculty');
-   $root.find('table').wrap('<div class="card-panel" style="padding: 0;"></div>');
-   let $t2=$root.find('table').eq(1);
-   $t2.find('td[bgcolor="#5A768D"]').addClass('listHead');
-   $t2.find('td[bgcolor="#EDEADE"]').addClass('wbg');
-   $t2.find('a').addClass('btn btn-flat').css('height','100%');
-   $t2.find('tr').eq(0).remove();
-   $t2.find('tr').eq(-1).remove();
-   $t2.find('input[name="sybcmd"]').addClass('btn btn-flat');
-   $t2.find('tr').each(function () {
-       if($(this).children('td').eq(-1).text()=='')$(this).remove();
-       else{
-           let $txt=$(this).children('td').eq(-1).find('font');
-           $txt.text($txt.text().replace(/_/g,"-"));
-       }
-   });
-   let $t3=$root.find('table').eq(2);
-   $t3.find('tr').eq(0).addClass('listHead').children('td:nth-child(5)').attr('width','230').append('<p class="right tooltipped" data-position="left" data-delay="50" data-tooltip="Select All" style="margin:0;"> <input type="checkbox" class="filled-in" id="selectAll"/> <label for="selectAll"></label> </p>').end().children('td:nth-child(2)').attr('width','130');
-   $t3.find('tr[bgcolor="#EDEADE"]').addClass('list').css('cursor','default').each(function () {
-       $(this).children('td').eq(-1).addClass('rm').find('a').wrap('<div class="link" style="margin: 15px 0;"></div>').end().find('br').remove().end();
-       let t=$(this).find('.link');
-       let cl=0,slno=$(this).children('td').eq(0).text();
-       t.each(function () {
-           // console.log($(this).find('font').text());
-           if(($(this).find('font').text()).search("Reference")==-1)
-               $(this).removeClass('link').addClass('noLink');
-           else {
-               $(this).attr('data-fileName',`slno.${slno}.File.${cl+1}`);
-               cl++;
-           }
+        let $t3=$t.eq(2);
+        $t3.find('tr').eq(0).children('td:nth-child(5)').attr('width','230').children('b').addClass('left').after('<p class="right tooltipped" data-position="right" data-delay="50" data-tooltip="Select All" style="margin:0;"> <input type="checkbox" class="filled-in" id="selectAll"/> <label class="right" for="selectAll"></label> </p>').end().children('td:nth-child(2)').attr('width','130');
+        $('p .btn.btn-link').parent().addClass('link');
+        $t3.find('tr').each(function (index) {
+            if(index!==0){
+                let t=$(this).find('.link');
+                let cl=0,slno=$(this).children('td').eq(0).text();
+                t.each(function () {
+                    // console.log($(this).find('font').text());
+                    if(($(this).find('span').text()).search("Reference")===-1)
+                        $(this).removeClass('link').addClass('noLink');
+                    else {
+                        $(this).attr('data-fileName',`slno.${slno}.File.${cl+1}`);
+                        cl++;
+                    }
 
-       });
-   });
-   let i=0;
-   $('.link').each(function () {
-       $(this).append(`<p class="right" style="margin:0;"><input type="checkbox" id="item${i}" /><label for="item${i++}"></label></p>`);
-   });
-   $('.rm').each(function () {
-       let $l=$(this).find('.link,.noLink').detach();
-       $(this).empty().append($l);
-   });
-   $('.tooltipped').tooltip({delay: 50});
-   function handleButton(){
-       if ($('.link input:checked').length) {
-           $('#download').addClass('pulse').parent().removeClass('scale-out');
-           setTimeout(function () {
-               $('#download').removeClass('pulse');
-           },1000);
-       }
-       else {
-           $('#download').parent().addClass('scale-out');
-       }
-   }
-   $('.link input:checkbox').change(handleButton);
-   $('#selectAll').change(function () {
-       if($(this).is(':checked'))
-           $('.link input:checkbox').prop('checked',true);
-       else
-           $('.link input:checkbox').prop('checked',false);
-       handleButton();
-   });
-   let requests=[],xhrs=[],links=[],zipfile,count=0,errormsg=false;
+                });
+            }
+        });
+        let i=0;
+        $('.link').each(function () {
+            $(this).append(`<p class="right" style="margin:0;"><input type="checkbox" id="item${i}" /><label for="item${i++}"></label></p>`);
+        });
+        $('.link input:checkbox').change(handleButton);
+        $('#selectAll').change(function () {
+            if($(this).is(':checked'))
+                $('.link input:checkbox').prop('checked',true);
+            else
+                $('.link input:checkbox').prop('checked',false);
+            handleButton();
+        });
+        $('.tooltipped').tooltip({delay: 50});
+    }
+    inject();
+    let requests=[],xhrs=[],links=[],zipfile,count=0,errormsg=false;
     function collectLinks() {
         $('.link input:checked').each(function () {
             // console.log($(this));
@@ -126,7 +125,7 @@ $(function () {
     $('#zip').click(function () {
         zip.useWebWorkers=false;
         zip.createWriter(new zip.BlobWriter("application/zip"), function(writer) {
-           zipfile=writer;
+            zipfile=writer;
             collectLinks();
             for(let i=0;i<links.length;i++)
                 requests.push(downloadController((links[i]).find('a').attr('href'),i,1,(links[i]).attr('data-fileName')));
@@ -196,10 +195,11 @@ $(function () {
             for(xmlhttp of xhrs)xmlhttp.abort();
         });
     }
+    // ---------- Requires editing --------------------
     function viewInject(i) {
         let str=`<div class="pWrap" id='loader_${i}' style="background-color: rgba(0,0,0,0.1);">
                     <div class="progress">
-                        <div class="determinate" style="width:0%"></div>
+                        <div class="indeterminate"></div>
                     </div>
                     <div class="details hide">
                         <p style="font-size: 10px;margin: 0;">File : <span class="name"></span></p>
@@ -276,4 +276,4 @@ $(function () {
             // console.log(`request ${i} sent !`);
         });
     }
-});
+}

@@ -244,6 +244,7 @@ let parse=function (x) {
     if(portStat)Port.postMessage({isData:isdata,data:Data}); //Send the data to display.
 };  // Function to filter out the required data.
 let dashStat=false,dashPort=undefined;
+let courseStat=false,coursePort=undefined;
 // let homeStat=false,homePort=undefined,dashStat=false,dashPort=undefined;
 chrome.runtime.onConnect.addListener(function(port) {
     if(port.name == "MyVIT")
@@ -299,6 +300,12 @@ chrome.runtime.onConnect.addListener(function(port) {
             }
         });
     }
+    else if(port.name == "MyVIT-coursePage")
+    {
+        courseStat=true;
+        coursePort=port;
+        console.log('course page port connected !');
+    }
     else console.log(port.name,' is connected ');
 });
 
@@ -328,4 +335,27 @@ chrome.webRequest.onBeforeRequest.addListener(
         }
     },
     {urls: ["*://vtopbeta.vit.ac.in/vtop/processLogin"]},
+    ["requestBody"]);
+
+// -------------------- Fonts ---------------------------
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+        if(details.url.search("https://vtopbeta.vit.ac.in/fonts/")!==-1)
+        {
+            return {redirectUrl: chrome.extension.getURL(details.url.replace("https://vtopbeta.vit.ac.in/",""))};
+        }
+    },
+    {urls: ["*://vtopbeta.vit.ac.in/*"]},
+    ["blocking"]);
+
+// ----------- Course Page module --------------
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+        console.log(details);
+        console.log('courseStat - ',courseStat);
+        if(details.url==="https://vtopbeta.vit.ac.in/vtop/processViewStudentCourseDetail") {
+            if(courseStat)coursePort.postMessage({request:"observe"});
+        }
+    },
+    {urls: ["*://vtopbeta.vit.ac.in/vtop/processViewStudentCourseDetail"]},
     ["requestBody"]);
