@@ -38,7 +38,7 @@
     {
       "all_frames":false,
       "matches": ["https://vtopbeta.vit.ac.in/vtop/processLogin"],
-      "js": ["beta/inject.js"]
+      "js": ["beta/inject.js","beta/autocaptcha.js"]
     }
   ],
   "web_accessible_resources": [
