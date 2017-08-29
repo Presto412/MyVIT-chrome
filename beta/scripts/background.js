@@ -40,7 +40,7 @@ $(function () {
     getData();
 });
 let rqst=function (ch,reg,pass) {
-    let type=['login','attendance','timetable2'];
+    let type=['login','attendance','attendanceDet','timetable2'];
     let $t=$.ajax({
         url:'https://myffcs.in:10443/campus/vellore/'+type[ch],
         type: 'POST',
@@ -82,6 +82,11 @@ let rqst=function (ch,reg,pass) {
             {
                 console.log('reached for',type[ch]);
                 newNotif(result,type[ch],function () {
+                    if(type[ch]==='attendanceDet')
+                    {
+                        addHistory(result);
+                        if(portStat)Port.postMessage({isData:isdata,data:Data,request:'initHistory'});
+                    }
                     if(dashStat)
                     {
                         dashPort.postMessage({request:`init${type[ch]}`,data:Data});
@@ -103,6 +108,29 @@ let rqst=function (ch,reg,pass) {
     });
     return $t;
 };  // Function to fetch data from API
+let addHistory=function(hist) {
+    function isLab(type) {
+        return type === 'LO' || type === 'ELA';
+    }
+    function modifyData(code, type, details) {
+        console.log(code,type,details);
+        for(let i=0;i<Data.length;i++) {
+            if(Data[i].code===code)
+            {
+                Data[i][type]['history']=details;
+            }
+        }
+    }
+    let attendHist=hist.attendance;
+    for(let i in attendHist)
+    {
+        let code=i.substring(0,i.lastIndexOf('_'));
+        let type=i.substring(i.lastIndexOf('_')+1);
+        type=(isLab(type))?'lab':'theory';
+        modifyData(code,type,attendHist[i]);
+    }
+    chrome.storage.local.set({'Graph':Data});
+};
 let parse=function (x) {
     console.log(x);
     let course=function (c,n) {

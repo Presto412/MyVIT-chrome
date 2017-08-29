@@ -2,6 +2,7 @@
 let myChart;
 let manipulate;
 let port = chrome.runtime.connect({name: "MyVIT"});
+let x;
 port.onMessage.addListener(function(msg) {
     console.log(msg);
     let processFormStatus=function(d,type){
@@ -15,7 +16,9 @@ port.onMessage.addListener(function(msg) {
         $('#graph').removeClass('hide');
         $('#status').text("Logging In");
         console.log(msg.data);
-        initAttend(msg.data);
+        x=msg.data;
+        if(msg.request!=='initHistory')
+            initAttend();
     }
     else if (msg.isData==false)
     {
@@ -37,7 +40,7 @@ port.onMessage.addListener(function(msg) {
     }
 
 });
-let initAttend=function (x) {
+let initAttend=function () {
     let ctx = document.getElementById("myChart").getContext('2d');
     let courses=[],manipI,manipDI,titles=[];
     let ethbg=[],elabg=[];
@@ -124,6 +127,8 @@ let initAttend=function (x) {
         {
             hist=x[manipI].theory.history;
         }
+        /*console.log(x,manipDI,manipI);
+        console.log(hist);*/
         for (let i=hist.length-1;i>=0;i--)
         {
             let t="";

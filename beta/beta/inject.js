@@ -14,11 +14,20 @@ port.onMessage.addListener(function (message) {
                 <h3 class="text-center">Login to MyVIT</h3>
                 <p class="text-center">This is a one time setup to unlock all awesome features of this app.</p>
                 <img style="max-width: 85%;" class="img-responsive center-block" src="${chrome.extension.getURL('assets/images/Prompt.PNG')}" alt="">
+                <h2 class="text-center">(or)</h2>
                 <!-- /.box-body -->
+                <div class="box-footer">
+            <div class="pull-right">
+                <button type="button" id="switch" class="btn">Auto-login to this account</button>
+                <button type="button" class="btn" data-widget="remove">Ignore</button></div>
+            </div>
             </div>
         </div>
     </div>
 </div>`);
+        $('#switch').click(function () {
+            port.postMessage({request:'switch'});
+        });
     }
     else if(message.status===1)
     {
