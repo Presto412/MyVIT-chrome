@@ -82,9 +82,6 @@ function coursePage() {
     let requests=[],xhrs=[],links=[],zipfile,count=0,errormsg=false;
     function collectLinks() {
         $('.link input:checked').each(function () {
-            // console.log($(this));
-            // let $a=$(this).parent().siblings('a');
-            // links.push($a.attr('href'));
             links.push($(this).parent().parent());
         });
         $('.link input:checkbox,#selectAll').prop('checked',false);
@@ -93,6 +90,8 @@ function coursePage() {
     }
     function reset() {
         $('#dwnCancel').remove();
+        totalBytes=[];
+        $sizeTotal=undefined;
         requests=[];
         links=[];
         xhrs=[];
@@ -179,7 +178,7 @@ function coursePage() {
 <div class="downWrap" style="width:365px;position: fixed;bottom: 50px;right: 25px;z-index: 10;">
     <ul class="collapsible animated slideInRight" style="border: none;" data-collapsible="accordion">
         <li>
-            <div class="collapsible-header white-text active" style="background-color: rgba(0, 0, 0, 0.87);border: none;">Downloading files - (<span id="count">1</span>/${links.length})<i id="dwnCancel" class="material-icons tooltipped right" data-position="bottom" data-delay="50" data-tooltip="Cancel downloads" aria-hidden="true">close</i></div>
+            <div class="collapsible-header white-text active" style="background-color: rgba(0, 0, 0, 0.87);border: none;position: relative;">Downloading files - (<span id="count">0</span>/${links.length}) { <span id="sizeTotal"></span> } <i id="dwnCancel" style="position: absolute;right: 5px;top:11px;" class="material-icons tooltipped pull-right" data-position="bottom" data-delay="50" data-tooltip="Cancel downloads" aria-hidden="true">close</i></div>
             <div id="downloads" class="collapsible-body" style="background-color: white;border: none;max-height: 40vh;overflow-y: scroll;overflow-x: hidden;">
             </div>
         </li>
@@ -189,20 +188,20 @@ function coursePage() {
         $('body').append($($d));
         $('.collapsible').collapsible();
         $('.tooltipped').tooltip({delay: 50});
+        $sizeTotal=$('#sizeTotal');
         $('#dwnCancel').click(function (e) {
             e.stopPropagation();
             $(this).tooltip('remove');
             for(xmlhttp of xhrs)xmlhttp.abort();
         });
     }
-    // ---------- Requires editing --------------------
-    function viewInject(i) {
+    function viewInject(i,name) {
         let str=`<div class="pWrap" id='loader_${i}' style="background-color: rgba(0,0,0,0.1);">
                     <div class="progress">
                         <div class="indeterminate"></div>
                     </div>
-                    <div class="details hide">
-                        <p style="font-size: 10px;margin: 0;">File : <span class="name"></span></p>
+                    <div class="details">
+                        <p style="font-size: 10px;margin: 0;">File : <span class="name">${name}</span></p>
                         <p style="font-size: 10px;margin: 0;">Size : <span class="size"></span></p>
                     </div>
                 </div>`;
@@ -213,14 +212,17 @@ function coursePage() {
             $(this).children('.details').addClass('hide');
         })
     }
+    let $sizeTotal,totalBytes=[];
+    function updateSize(i,x){
+        totalBytes[i]=x;
+        $sizeTotal.text(filesize(totalBytes.reduce((a,c)=>a+c)));
+    }
     function downloadController(url,i,mode,name) {
         function getExt(x) {
             return x.substr(x.lastIndexOf('.'));
         }
-        viewInject(i);
+        viewInject(i,name);
         return new Promise(function(resolve, reject) {
-
-            // $('#root').append($('<div class="progress"><div id="dbar" class="determinate" style="width: 0%"></div></div><a id="dInit" class="hide"></a>'));
             function skipFile(){
                 $('#count').text(++count);
                 if(count==links.length)
@@ -228,16 +230,14 @@ function coursePage() {
                 $(`#loader_${i}`).fadeOut(500,function () {
                     $(this).remove();
                 });
-                $(`a[href="${url}"]`).find('font').attr('color','red');
+                $(`a[href="${url}"]`).find('span').css('color','red');
                 errormsg=true;
                 resolve('Download failed !');
                 xhrs = xhrs.filter(e => e !==xhr);
             }
             function progressUpdate(e) {
-                if (e.lengthComputable) {
-                    let percentComplete = e.loaded / e.total;
-                    $(`#loader_${i}`).find(`.determinate`).css('width',Math.round(percentComplete * 100) + "%");
-                }
+                $(`#loader_${i}`).find(`.size`).text(filesize(e.loaded));
+                updateSize(i,e.loaded);
             }
             let xhr = new XMLHttpRequest();
             xhr.open('GET',url,true);

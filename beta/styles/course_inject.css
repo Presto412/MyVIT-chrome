@@ -2,7 +2,7 @@
     font-size: 15px;
 }
 .link,.noLink{
-    margin: 15px 0;
+    margin: 15px 0 !important;
 }
 label[for="selectAll"]::after{
     border-color: white !important;

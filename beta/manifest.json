@@ -2,7 +2,7 @@
   "name": "My VIT",
   "version": "2.0.0",
   "manifest_version": 2,
-  "description": "Minimalistic port of the My VIT app for the web",
+  "description": "The definitive web app to improve your experience in vtop",
   "icons": {
     "16": "assets/images/icon-16.png",
     "128": "assets/images/icon-128.png"
@@ -39,7 +39,7 @@
       "all_frames":false,
       "matches": ["https://vtopbeta.vit.ac.in/vtop/processLogin"],
       "css":["styles/commons.css","styles/material.custom.min.css","styles/course_inject.css"],
-      "js": ["beta/home.js","beta/autocaptcha.js","scripts/materialize.min.js","scripts/filesize.min.js","scripts/download.js","scripts/zip.js","scripts/deflate.js","beta/coursePage.js"]
+      "js": ["beta/home.js","beta/autocaptcha.js","scripts/materialize.custom.js","scripts/filesize.min.js","scripts/download.js","scripts/zip.js","scripts/deflate.js","beta/coursePage.js"]
     }
   ],
   "web_accessible_resources": [
