@@ -292,6 +292,9 @@ $('#subAttend').click(function () {
         manipulate();
     }
 });
+$('#historyBtn').click(function () {
+    $('#modal1').modal('open');
+});
 // (function ($) {
     // $(function () {
 
