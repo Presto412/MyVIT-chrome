@@ -63,3 +63,10 @@ port.onMessage.addListener(function (message) {
         });
     }
 });
+(function () {
+    $('#dbMenu').children('ul').prepend('<li><a id="home" href="#"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>')
+    $('#home').click(function (e) {
+        e.preventDefault();
+        $('#page-wrapper').css({'display':'flex','flex-basis':'column'}).html(`<iframe style="border: none;width: 100%;flex-grow: 1;" src=${chrome.extension.getURL('dashboard/index.html')}></iframe>`);
+    })
+})();
