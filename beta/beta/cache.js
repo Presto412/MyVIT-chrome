@@ -30,17 +30,23 @@ chrome.webRequest.onBeforeRequest.addListener(
     ["blocking"]);
 
 //---- Fixes for the broken website ----
+function removeCookie(x) {
+    chrome.cookies.getAll({domain: "vtopbeta.vit.ac.in"}, function(cookies) {
+        for(let i=0; i<cookies.length;i++) {
+            chrome.cookies.remove({url: "https://vtopbeta.vit.ac.in" + cookies[i].path, name: cookies[i].name},function (c) {
+                console.log('deleted cookie !',c);
+            });
+        }
+    });
+    if (x!==undefined){
+        x();
+    }
+}
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         if (details.url==="https://vtopbeta.vit.ac.in/vtop/"||details.url==="https://vtopbeta.vit.ac.in/vtop/#"||details.url==="https://vtopbeta.vit.ac.in/vtop/processLogout")
         {
-            chrome.cookies.getAll({domain: "vtopbeta.vit.ac.in"}, function(cookies) {
-                for(let i=0; i<cookies.length;i++) {
-                    chrome.cookies.remove({url: "https://vtopbeta.vit.ac.in" + cookies[i].path, name: cookies[i].name},function (c) {
-                        console.log('deleted cookie !',c);
-                    });
-                }
-            });
+            removeCookie();
         }
     },
     {urls: ["*://vtopbeta.vit.ac.in/*"]},

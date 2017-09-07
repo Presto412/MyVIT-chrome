@@ -306,6 +306,20 @@ chrome.runtime.onConnect.addListener(function(port) {
         coursePort=port;
         console.log('course page port connected !');
     }
+    else if(port.name == "MyVIT-sessionFix")
+    {
+        console.log('sessionFix port connected !');
+        port.onMessage.addListener(function(msg) {
+            if(msg.msg==='fix') {
+                removeCookie(function () {
+                    chrome.browsingData.removeCache({}, function(){
+                        console.log('cache cleared !');
+                        port.postMessage({msg:'fixed'});
+                    });
+                })
+            }
+        });
+    }
     else console.log(port.name,' is connected ');
 });
 
