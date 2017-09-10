@@ -49,10 +49,10 @@ function captchaParse(imgarr) {
                     }
                 }
             }
-            if(match/black >= 0.80){
-                let perc= match/black;
-                matches.push([perc,ch]);
-            }
+//             if(match/black >= 0.80){
+            let perc= match/black;
+            matches.push([perc,ch]);
+//             }
         }
         captcha += matches.reduce(function(a, b)  {
             return a[0] > b[0] ? a : b
